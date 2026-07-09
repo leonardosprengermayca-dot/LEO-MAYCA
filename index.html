@@ -2,652 +2,1975 @@
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Guia Visual de Redes para Automação Industrial</title>
-  <meta name="description" content="Guia visual de redes industriais com comparações, recomendador, detalhes técnicos e assistente de dúvidas." />
+  <meta name="description" content="Guia visual educativo sobre cabos industriais, topologias de rede e aplicações no chão de fábrica." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
   <style>
     :root{
-      --bg:#0b1118;
-      --bg-2:#101926;
-      --panel:#121d2b;
-      --panel-2:#162334;
-      --card:#162130;
-      --edge:#253549;
-      --text:#eaf2ff;
-      --muted:#9cb0c8;
-      --accent:#4fd1c5;
-      --accent-2:#69f0ae;
-      --warning:#ffcb6b;
-      --danger:#ff7b8b;
-      --shadow:0 16px 40px rgba(0,0,0,.32);
-      --radius:18px;
+      --bg:#0b0f14;
+      --bg-alt:#0f141b;
+      --panel:#121924;
+      --panel-2:#0e1620;
+      --card:#0f1924;
+      --muted:#9fb0c3;
+      --text:#e8eef6;
+      --accent:#14b87a;
+      --accent-2:#ff8a00;
+      --edge:#1d2a38;
+      --line:#1c2c3d;
+      --primary:#1a73e8;
+      --cyan:#00bcd4;
+      --danger:#ff6b6b;
+      --success:#46e89a;
+      --warning:#ffbf5f;
+      --shadow: 0 6px 18px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.02);
+      --radius:14px;
+      --radius-sm:10px;
+      --radius-lg:18px;
+      --gap:18px;
     }
+
     *{box-sizing:border-box}
+    html,body{height:100%}
     html{scroll-behavior:smooth}
     body{
-      margin:0;font-family:Inter,system-ui,sans-serif;color:var(--text);
+      margin:0;
+      font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
       background:
-        radial-gradient(1000px 700px at 100% -10%, rgba(79,209,197,.12), transparent 60%),
-        radial-gradient(900px 700px at -10% 110%, rgba(105,240,174,.10), transparent 60%),
-        linear-gradient(180deg,#0b1118,#0e1621 35%, #0a1118);
-      line-height:1.55;
+        radial-gradient(1200px 800px at 120% -10%, rgba(20,184,122,.10), transparent 60%),
+        radial-gradient(900px 700px at -10% 120%, rgba(26,115,232,.10), transparent 60%),
+        linear-gradient(180deg, #0a0e13 0%, #0b0f14 100%);
+      color:var(--text);
+      line-height:1.6;
     }
-    a{color:inherit;text-decoration:none}
-    .container{width:min(1200px,92%);margin:0 auto}
-    .topbar{
-      position:sticky;top:0;z-index:50;
-      backdrop-filter: blur(14px) saturate(140%);
-      background:rgba(11,17,24,.78);border-bottom:1px solid rgba(255,255,255,.06)
+    a{color:var(--accent)}
+    img,svg{display:block;max-width:100%}
+    .container{width:min(1220px, 92%); margin:0 auto}
+
+    /* Header */
+    header{
+      position:sticky; top:0; z-index:100;
+      backdrop-filter:saturate(140%) blur(10px);
+      background:linear-gradient(180deg, rgba(15,20,27,.90), rgba(15,20,27,.72));
+      border-bottom:1px solid var(--edge);
     }
-    .topbar .inner{display:flex;gap:16px;align-items:center;justify-content:space-between;padding:14px 0}
-    .brand{display:flex;align-items:center;gap:12px}
-    .logo{
-      width:42px;height:42px;border-radius:14px;
-      background:linear-gradient(135deg,var(--accent),#5da9ff);
-      box-shadow:var(--shadow)
+    .nav{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:12px; padding:12px 0;
     }
-    .brand h1{font-size:1rem;margin:0}
-    .brand p{margin:0;color:var(--muted);font-size:.9rem}
-    nav{display:flex;gap:10px;flex-wrap:wrap}
-    nav a,.lang select,.ghost,.btn{
-      border:1px solid rgba(255,255,255,.08);
-      background:rgba(255,255,255,.04);
-      color:var(--text);border-radius:999px;padding:10px 14px;font:inherit
+    .brand{
+      display:flex; align-items:center; gap:12px; text-decoration:none; color:var(--text)
     }
-    nav a:hover,.ghost:hover{background:rgba(255,255,255,.08)}
-    .lang{display:flex;align-items:center;gap:8px}
-    .hero{padding:48px 0 22px}
-    .hero-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:24px;align-items:center}
-    .badge{display:inline-flex;gap:8px;align-items:center;background:rgba(79,209,197,.12);color:#baf7ef;border:1px solid rgba(79,209,197,.25);padding:8px 12px;border-radius:999px;font-size:.9rem}
-    .hero h2{font-size:clamp(2rem,5vw,3.6rem);line-height:1.05;margin:16px 0}
-    .hero p{font-size:1.05rem;color:var(--muted);max-width:62ch}
-    .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}
-    .btn{
-      background:linear-gradient(135deg,var(--accent),#5da9ff);color:#041018;
-      border:none;font-weight:800;cursor:pointer
+    .brand-logo{
+      width:42px; height:42px; border-radius:12px;
+      background:
+        radial-gradient(100% 100% at 30% 20%, rgba(20,184,122,.5), transparent 40%),
+        linear-gradient(135deg, #0c1823, #102131);
+      border:1px solid var(--edge);
+      box-shadow:var(--shadow);
+      display:grid; place-items:center;
+      position:relative; overflow:hidden;
+      flex-shrink:0;
     }
-    .btn.secondary{background:rgba(255,255,255,.08);color:var(--text);border:1px solid rgba(255,255,255,.08)}
-    .hero-card,.panel,.card{background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.08);border-radius:var(--radius);box-shadow:var(--shadow)}
-    .hero-card{padding:18px}
-    .mini-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:12px}
-    .stat{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:14px}
-    .stat b{display:block;font-size:1.3rem}
-    .section{padding:26px 0}
-    .section h3{font-size:1.6rem;margin:0 0 10px}
-    .section .lead{color:var(--muted);max-width:72ch}
-    .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-    .grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
-    .card{padding:18px}
-    .chip{display:inline-flex;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,.06);color:#d5e4f7;font-size:.85rem}
-    .card h4{margin:12px 0 6px;font-size:1.1rem}
+    .brand-logo::after{
+      content:""; position:absolute; inset:0;
+      background:repeating-linear-gradient(135deg, rgba(255,255,255,.04) 0 2px, transparent 2px 6px);
+      mix-blend-mode:overlay; pointer-events:none;
+    }
+    .brand-title{font-weight:800; letter-spacing:.2px}
+    .tag{font-size:12px; color:var(--muted)}
+
+    .nav-links{
+      display:flex; flex-wrap:wrap; gap:8px;
+      align-items:center;
+    }
+    .nav-links a,
+    .nav-links button{
+      color:var(--text); text-decoration:none; font-weight:600; font-size:14px;
+      padding:10px 14px; border-radius:10px; border:1px solid var(--edge);
+      background:linear-gradient(180deg, #0f1721, #0b121a);
+      transition:.2s ease; box-shadow:var(--shadow);
+      cursor:pointer;
+    }
+    .nav-links a:hover,
+    .nav-links button:hover{
+      transform:translateY(-1px); border-color:#24405c; background:#0f1c28
+    }
+    .cta{
+      background:linear-gradient(135deg, var(--accent), #0fd192) !important;
+      color:#041310 !important;
+      border-color:transparent !important;
+      text-shadow:0 1px 0 rgba(255,255,255,.15)
+    }
+
+    /* Hero */
+    .hero{
+      padding:28px 0 18px;
+      display:grid; grid-template-columns:1.2fr .8fr; gap:18px;
+      align-items:start;
+    }
+    .hero h1{
+      margin:6px 0 0; font-size: clamp(28px, 4.4vw, 42px);
+      line-height:1.15; letter-spacing:.2px
+    }
+    .subtitle{
+      color:var(--muted); font-weight:500; margin-top:4px
+    }
+    .intro{
+      margin-top:14px; color:#d9e6f3
+    }
+    .hero-panel{
+      margin-top:18px; padding:18px; border:1px solid var(--edge); border-radius:var(--radius);
+      background:
+        linear-gradient(180deg, rgba(20,184,122,.06), transparent 30%),
+        linear-gradient(180deg, #0c1621, #0b121a);
+      box-shadow:var(--shadow); display:flex; gap:16px; align-items:center; flex-wrap:wrap
+    }
+    .chip{
+      display:flex; align-items:center; gap:8px; padding:8px 12px; border-radius:999px;
+      border:1px solid #1e3347; color:#cfe5f7; background:#0b1520;
+      font-size:13px; font-weight:600
+    }
+    .chip i{width:18px; height:18px; border-radius:6px; background:linear-gradient(135deg, #1a73e8, #00bcd4)}
+
+    .hero-side{
+      border:1px solid var(--edge);
+      border-radius:var(--radius-lg);
+      background:
+        linear-gradient(180deg, rgba(26,115,232,.08), transparent 28%),
+        linear-gradient(180deg, #0c141d, #0b121a);
+      box-shadow:var(--shadow);
+      padding:18px;
+      position:relative;
+      overflow:hidden;
+    }
+    .hero-side::before{
+      content:"";
+      position:absolute; inset:-30% auto auto -20%;
+      width:280px; height:280px; border-radius:50%;
+      background:radial-gradient(circle, rgba(20,184,122,.12), transparent 70%);
+      pointer-events:none;
+    }
+    .hero-side h3{margin:0 0 10px}
+    .hero-mini-grid{
+      display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:12px;
+    }
+    .hero-mini{
+      padding:14px; border:1px solid #1f3447; border-radius:12px; background:#0b1520;
+    }
+    .hero-mini strong{display:block; font-size:22px; margin-bottom:4px}
+    .note{
+      margin-top:10px; padding:10px 12px; border-left:3px solid var(--accent);
+      background:#0b1620; border-radius:10px; color:#d8ecff
+    }
+
+    /* Search bar */
+    .search-wrap{
+      margin-top:16px;
+      display:flex; gap:10px; flex-wrap:wrap;
+      align-items:center;
+    }
+    .search{
+      flex:1 1 320px;
+      display:flex; align-items:center; gap:10px;
+      border:1px solid var(--edge);
+      background:#0b1520;
+      border-radius:12px;
+      padding:10px 12px;
+      box-shadow:var(--shadow);
+    }
+    .search input{
+      flex:1;
+      background:transparent;
+      border:none;
+      outline:none;
+      color:var(--text);
+      font:inherit;
+    }
+    .search-results{
+      margin-top:10px;
+      display:none;
+      border:1px solid var(--edge);
+      border-radius:12px;
+      background:#0c141d;
+      overflow:hidden;
+      box-shadow:var(--shadow);
+    }
+    .search-results.show{display:block}
+    .search-item{
+      padding:12px 14px;
+      border-bottom:1px solid #162536;
+      cursor:pointer;
+    }
+    .search-item:last-child{border-bottom:none}
+    .search-item:hover{background:#0f1c29}
+    .search-item small{color:var(--muted)}
+
+    /* Section */
+    section{scroll-margin-top:90px; padding:28px 0}
+    .section-title{
+      font-size: clamp(22px, 3.2vw, 30px); margin:0 0 10px; letter-spacing:.3px
+    }
+    .section-lead{color:var(--muted); margin:0 0 18px}
+
+    /* Grid */
+    .grid{display:grid; gap:var(--gap)}
+    .grid-3{grid-template-columns:repeat(3,1fr)}
+    .grid-2{grid-template-columns:repeat(2,1fr)}
+    .grid-4{grid-template-columns:repeat(4,1fr)}
+    .app-grid{display:grid; gap:var(--gap); grid-template-columns:repeat(2,1fr)}
+
+    @media (max-width: 1100px){
+      .hero{grid-template-columns:1fr}
+    }
+    @media (max-width: 980px){
+      .grid-3{grid-template-columns:1fr 1fr}
+      .grid-4{grid-template-columns:1fr 1fr}
+    }
+    @media (max-width: 860px){
+      .app-grid{grid-template-columns:1fr}
+    }
+    @media (max-width: 680px){
+      .grid-3,.grid-2,.grid-4{grid-template-columns:1fr}
+      .nav{gap:8px}
+      .nav-links{overflow-x:auto; scrollbar-width:none}
+      .nav-links::-webkit-scrollbar{display:none}
+      .hero-mini-grid{grid-template-columns:1fr}
+    }
+
+    /* Cards */
+    .card{
+      border:1px solid var(--edge); border-radius:var(--radius);
+      background:
+        linear-gradient(180deg, rgba(26,115,232,.06), transparent 30%),
+        linear-gradient(180deg, #0c141d, #0b121a);
+      box-shadow:var(--shadow);
+      padding:16px; position:relative; overflow:hidden;
+      transition:.22s ease;
+    }
+    .card:hover{
+      transform:translateY(-3px);
+      border-color:#23415f;
+      box-shadow:0 10px 24px rgba(0,0,0,.38), inset 0 1px 0 rgba(255,255,255,.03);
+    }
+    .card .icon{
+      width:44px; height:44px; border-radius:12px; display:grid; place-items:center;
+      background:linear-gradient(135deg, #0d2131, #0a1824); border:1px solid #1f3447; color:#9bdcff;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.06)
+    }
+    .card h3{margin:12px 0 6px}
     .muted{color:var(--muted)}
-    .stack{display:flex;gap:10px;flex-wrap:wrap}
-    .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
-    .ghost{cursor:pointer}
-    .compare{overflow:auto}
-    table{width:100%;border-collapse:collapse;font-size:.95rem}
-    th,td{padding:12px 10px;border-bottom:1px solid rgba(255,255,255,.08);text-align:left;vertical-align:top}
-    th{color:#cfe1f6}
-    .wizard{padding:22px}
-    .wizard-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
-    label{display:block;font-weight:600;margin-bottom:8px}
-    select,input,textarea{
-      width:100%;background:#0f1824;color:var(--text);
-      border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:12px 14px;font:inherit
+
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center; gap:8px;
+      border:1px solid #244056; background:#0b1520; color:#cae7ff; text-decoration:none;
+      padding:10px 14px; border-radius:10px; font-weight:600; transition:.2s ease;
+      cursor:pointer;
+      font:inherit;
     }
-    textarea{min-height:120px;resize:vertical}
-    .result{margin-top:16px;padding:18px;border-radius:16px;background:rgba(79,209,197,.08);border:1px solid rgba(79,209,197,.18)}
-    .assistant{display:grid;grid-template-columns:1fr 340px;gap:18px}
-    .chatlog{max-height:460px;overflow:auto;padding:16px;border-radius:16px;background:#0f1824;border:1px solid rgba(255,255,255,.08)}
-    .msg{margin:0 0 14px}
-    .msg b{display:block;margin-bottom:4px}
-    .assistant-tools{padding:18px}
-    .faq li{margin:0 0 8px}
-    .modal{
-      position:fixed;inset:0;background:rgba(4,10,18,.68);display:none;place-items:center;padding:20px;z-index:100
+    .btn:hover{transform:translateY(-1px); border-color:#2b5677; background:#0e1b28}
+    .btn.accent{
+      background:linear-gradient(135deg, var(--primary), #00bcd4);
+      border-color:transparent; color:#07121a
     }
-    .modal.open{display:grid}
-    .modal-card{width:min(820px,100%);max-height:88vh;overflow:auto;background:#101926;border:1px solid rgba(255,255,255,.08);border-radius:22px;padding:24px;box-shadow:var(--shadow)}
-    .modal-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
-    .close{cursor:pointer;background:rgba(255,255,255,.08);border:none;color:var(--text);border-radius:999px;padding:10px 14px}
-    .footer{padding:40px 0 60px;color:var(--muted)}
-    @media (max-width:980px){
-      .hero-grid,.assistant,.grid-3,.grid-2,.wizard-grid{grid-template-columns:1fr}
-      nav{display:none}
+    .btn.success{
+      background:linear-gradient(135deg, var(--accent), #0fd192);
+      border-color:transparent; color:#07150f;
+    }
+    .btn.warn{
+      background:linear-gradient(135deg, #ff9d2e, #ffc266);
+      border-color:transparent; color:#201000;
+    }
+
+    /* Expand / details panels */
+    .details{
+      margin-top:12px; padding:14px; border-radius:12px; border:1px dashed #264157; background:#0c1722; display:none
+    }
+    .details.open{display:block; animation:fadeIn .24s ease}
+    @keyframes fadeIn{from{opacity:0; transform:translateY(-4px)} to{opacity:1; transform:translateY(0)}}
+    .list{margin:8px 0; padding-left:18px}
+    .list li{margin:6px 0}
+
+    .quick-compare{
+      display:flex; gap:10px; flex-wrap:wrap; margin-top:12px
+    }
+    .pill{
+      border:1px solid #254157; border-radius:999px; padding:8px 12px; color:#cfe5f7; background:#0b1520; font-size:13px; font-weight:600
+    }
+
+    /* Diagram */
+    .diagram{
+      margin-top:12px; background:#0b1520; border:1px solid #234058; border-radius:12px; padding:14px; position:relative; overflow:hidden
+    }
+    .diagram .node{
+      min-width:84px; padding:8px 10px; border-radius:10px; text-align:center; font-size:13px; font-weight:700;
+      background:linear-gradient(135deg, #132334, #0f1b28); border:1px solid #26445e; color:#e1f2ff; box-shadow:var(--shadow)
+    }
+    .diagram .center{background:linear-gradient(135deg, #15395a, #0f2840); border-color:#2a5b86}
+    .diagram .row{display:flex; gap:10px; align-items:center; justify-content:center; flex-wrap:wrap}
+    .wire{
+      height:2px; background:linear-gradient(90deg, #1e4567, #2693ff); position:relative
+    }
+    .wire::after{
+      content:""; position:absolute; inset:-6px -10px; background:radial-gradient(200px 2px at 10% 50%, rgba(38,147,255,.35), transparent 40%)
+    }
+
+    /* Tables */
+    .table-wrap{
+      overflow:auto; border:1px solid var(--edge); border-radius:var(--radius); background:linear-gradient(180deg, #0c1621, #0b121a); box-shadow:var(--shadow)
+    }
+    table{border-collapse:separate; border-spacing:0; width:100%; min-width:780px}
+    thead th{
+      text-align:left; position:sticky; top:0; background:#0e1a26; border-bottom:1px solid #22364a; padding:12px; font-weight:700; color:#d9ecff
+    }
+    tbody td{
+      border-bottom:1px solid #182a3a; padding:12px; color:#d9e6f3; vertical-align:top
+    }
+    tbody tr:nth-child(odd) td{background:#0b1420}
+    tbody tr:hover td{background:#0e1a27}
+
+    /* App cards */
+    .app-card{
+      border:1px solid var(--edge); border-radius:var(--radius); background:linear-gradient(180deg, #0c141d, #0b121a);
+      box-shadow:var(--shadow); padding:16px; position:relative; overflow:hidden
+    }
+    .app-card .badge{
+      position:absolute; right:12px; top:12px; font-size:12px; color:#052013; background:linear-gradient(135deg, var(--accent), #0fd192);
+      border-radius:999px; padding:6px 10px; font-weight:800
+    }
+    .app-card .badge.alt{background:linear-gradient(135deg, var(--accent-2), #ffb14a); color:#1b0b00}
+    .hint{color:#cfe5f7; font-size:13px; opacity:.9}
+
+    /* Recommendation */
+    .recommendation-layout{
+      display:grid;
+      grid-template-columns:1fr .95fr;
+      gap:18px;
+      align-items:start;
+    }
+    .form-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:14px;
+    }
+    .field{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+    .field label{
+      font-weight:700;
+      color:#dcecff;
+      font-size:14px;
+    }
+    .field select,
+    .field input,
+    .field textarea{
+      width:100%;
+      background:#0b1520;
+      color:var(--text);
+      border:1px solid #22384d;
+      border-radius:12px;
+      padding:12px 14px;
+      font:inherit;
+      outline:none;
+      transition:.18s ease;
+    }
+    .field select:focus,
+    .field input:focus,
+    .field textarea:focus{
+      border-color:#2d6ca4;
+      box-shadow:0 0 0 3px rgba(26,115,232,.15);
+    }
+    .form-actions{
+      margin-top:16px;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    .result-box{
+      min-height:100%;
+      border:1px solid var(--edge);
+      border-radius:var(--radius-lg);
+      background:
+        linear-gradient(180deg, rgba(20,184,122,.06), transparent 30%),
+        linear-gradient(180deg, #0c141d, #0b121a);
+      box-shadow:var(--shadow);
+      padding:18px;
+    }
+    .result-box h3{margin-top:0}
+    .result-placeholder{
+      color:var(--muted);
+      border:1px dashed #27445a;
+      border-radius:12px;
+      padding:16px;
+      background:#0b1520;
+    }
+    .rec-tags{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      margin:12px 0;
+    }
+    .rec-card{
+      margin-top:14px;
+      padding:14px;
+      border:1px solid #23415a;
+      border-radius:14px;
+      background:#0b1520;
+    }
+    .rec-card h4{margin:0 0 8px}
+    .score-row{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:10px;
+      margin-top:14px;
+    }
+    .score-box{
+      border:1px solid #1f3447;
+      border-radius:12px;
+      padding:12px;
+      background:#0d1722;
+    }
+    .score-box strong{
+      display:block;
+      font-size:22px;
+      margin-bottom:4px;
+    }
+
+    /* Assistant */
+    .assistant-shell{
+      display:grid;
+      grid-template-columns:1fr .95fr;
+      gap:18px;
+      align-items:start;
+    }
+    .assistant-panel,
+    .assistant-help{
+      border:1px solid var(--edge);
+      border-radius:var(--radius-lg);
+      background:
+        linear-gradient(180deg, rgba(26,115,232,.06), transparent 28%),
+        linear-gradient(180deg, #0c141d, #0b121a);
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+    .assistant-header{
+      padding:16px 18px;
+      border-bottom:1px solid #172737;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+    }
+    .assistant-header h3{
+      margin:0;
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    .assistant-status{
+      font-size:12px;
+      color:#b8d8ee;
+      border:1px solid #1e3347;
+      background:#0b1520;
+      border-radius:999px;
+      padding:6px 10px;
+      font-weight:700;
+    }
+    .assistant-messages{
+      height:420px;
+      overflow:auto;
+      padding:18px;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      background:
+        radial-gradient(600px 200px at 120% -10%, rgba(20,184,122,.06), transparent 55%),
+        #0a131d;
+    }
+    .msg{
+      max-width:min(86%, 760px);
+      padding:12px 14px;
+      border-radius:14px;
+      border:1px solid #1d3144;
+      background:#0c1823;
+      white-space:pre-wrap;
+    }
+    .msg.user{
+      align-self:flex-end;
+      background:linear-gradient(135deg, #10314a, #0f2436);
+      border-color:#2a5678;
+    }
+    .msg.assistant{
+      align-self:flex-start;
+      background:linear-gradient(135deg, #0f1b28, #0d1620);
+    }
+    .msg small{
+      display:block;
+      margin-top:6px;
+      color:var(--muted);
+      font-size:12px;
+    }
+    .assistant-input{
+      padding:16px 18px;
+      border-top:1px solid #172737;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      background:#0b121a;
+    }
+    .assistant-row{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .assistant-row textarea{
+      min-height:84px;
+      resize:vertical;
+    }
+    .suggestions{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+    .sugg{
+      border:1px solid #244056;
+      background:#0b1520;
+      color:#cae7ff;
+      border-radius:999px;
+      padding:8px 12px;
+      font-size:13px;
+      cursor:pointer;
+      transition:.18s ease;
+    }
+    .sugg:hover{
+      transform:translateY(-1px);
+      border-color:#2d5d82;
+      background:#0f1c28;
+    }
+
+    .assistant-help{
+      padding:18px;
+    }
+    .assistant-help h3{margin-top:0}
+    .help-topic{
+      border:1px solid #1e3347;
+      background:#0b1520;
+      border-radius:12px;
+      padding:12px 14px;
+      margin-bottom:12px;
+    }
+    .help-topic h4{margin:0 0 6px}
+    .help-topic p{margin:0; color:#cfe1f0}
+
+    /* Footer */
+    footer{
+      margin-top:30px; padding:22px 0; border-top:1px solid var(--edge);
+      background:linear-gradient(180deg, rgba(20,184,122,.05), transparent 40%), linear-gradient(180deg, #0b1118, #0a0f14)
+    }
+    .foot{display:flex; gap:16px; align-items:center; justify-content:space-between; flex-wrap:wrap}
+    .foot small{color:var(--muted)}
+
+    /* Utilities */
+    .ok{color:#5ce69f; font-weight:700}
+    .warn{color:#ffc266; font-weight:700}
+    .bad{color:#ff8181; font-weight:700}
+    .highlight{
+      outline:2px solid rgba(20,184,122,.45);
+      box-shadow:0 0 0 5px rgba(20,184,122,.08);
+      transition:.25s ease;
+    }
+    .empty{
+      color:var(--muted);
+      font-style:italic;
+    }
+
+    @media (max-width: 980px){
+      .recommendation-layout,
+      .assistant-shell{
+        grid-template-columns:1fr;
+      }
+      .form-grid{
+        grid-template-columns:1fr;
+      }
     }
   </style>
 </head>
 <body>
-  <header class="topbar">
-    <div class="container inner">
-      <div class="brand">
-        <div class="logo"></div>
-        <div>
-          <h1 data-i18n="brandTitle">Redes Industriais</h1>
-          <p data-i18n="brandSub">Guia visual + recomendador + assistente técnico</p>
+
+  <!-- Header / Nav -->
+  <header>
+    <div class="container nav">
+      <a class="brand" href="#inicio" aria-label="Ir para início">
+        <div class="brand-logo" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <circle cx="6" cy="6" r="3" stroke="#16d190" stroke-width="2"/>
+            <circle cx="18" cy="6" r="3" stroke="#4cc9f0" stroke-width="2"/>
+            <circle cx="12" cy="18" r="3" stroke="#1a73e8" stroke-width="2"/>
+            <path d="M8 7.5 L16 7.5" stroke="#21e2a8" stroke-width="2" stroke-linecap="round"/>
+            <path d="M7 8.5 L11 16.5" stroke="#43c3ff" stroke-width="2" stroke-linecap="round"/>
+            <path d="M17 8.5 L13 16.5" stroke="#43c3ff" stroke-width="2" stroke-linecap="round"/>
+          </svg>
         </div>
-      </div>
-      <nav>
-        <a href="#catalog" data-i18n="navCatalog">Tecnologias</a>
-        <a href="#compare" data-i18n="navCompare">Comparativo</a>
-        <a href="#recommend" data-i18n="navRecommend">Recomendação</a>
-        <a href="#assistant" data-i18n="navAssistant">Assistente</a>
+        <div>
+          <div class="brand-title">Guia Visual de Redes para Automação Industrial</div>
+          <div class="tag">Cabos, comunicação e topologias no chão de fábrica</div>
+        </div>
+      </a>
+
+      <nav class="nav-links" aria-label="Navegação principal">
+        <a href="#inicio">Início</a>
+        <a href="#cabos">Cabos</a>
+        <a href="#topologias">Topologias</a>
+        <a href="#comparativo">Comparativo</a>
+        <a href="#aplicacoes">Aplicações</a>
+        <a href="#recomendador">Gerar recomendação</a>
+        <a href="#assistente">IA Assistente</a>
+        <a class="cta" href="#resumo">Resumo Final</a>
       </nav>
-      <div class="lang">
-        <label for="langSelect" class="muted" data-i18n="lang">Idioma</label>
-        <select id="langSelect" aria-label="Idioma"></select>
-      </div>
     </div>
   </header>
 
-  <main class="container">
-    <section class="hero">
-      <div class="hero-grid">
-        <div>
-          <span class="badge" data-i18n="badge">Escolha melhor a rede do seu projeto</span>
-          <h2 data-i18n="heroTitle">Um guia visual, limpo e interativo para automação industrial.</h2>
-          <p data-i18n="heroText">Compare protocolos, entenda aplicações típicas e receba uma recomendação baseada em distância, criticidade, velocidade, orçamento e integração com CLPs, IHMs, drives e sensores.</p>
-          <div class="cta">
-            <a class="btn" href="#recommend" data-i18n="heroBtn1">Gerar recomendação</a>
-            <a class="btn secondary" href="#assistant" data-i18n="heroBtn2">Abrir assistente</a>
+  <!-- Hero -->
+  <section id="inicio" aria-labelledby="inicio-title">
+    <div class="container hero">
+      <div>
+        <h1 id="inicio-title">Guia Visual de Redes para Automação Industrial</h1>
+        <p class="subtitle">Cabos, comunicação, topologias e tomada de decisão no chão de fábrica</p>
+        <p class="intro">
+          Redes na automação industrial são os meios que permitem a troca de dados entre sensores, atuadores, CLPs,
+          IHMs, computadores e sistemas de supervisão. Esse guia foi melhorado para ser mais prático, interativo e útil:
+          além do conteúdo visual, agora ele traz um <b>recomendador técnico</b> e uma <b>IA assistente</b> para dúvidas específicas.
+        </p>
+
+        <div class="hero-panel" role="group" aria-label="Destaques">
+          <span class="chip"><i aria-hidden="true"></i> Linguagem clara e aplicada</span>
+          <span class="chip"><i aria-hidden="true"></i> Recomendações automáticas</span>
+          <span class="chip"><i aria-hidden="true"></i> IA assistente integrada</span>
+          <span class="chip"><i aria-hidden="true"></i> Visual moderno e responsivo</span>
+        </div>
+
+        <div class="search-wrap">
+          <div class="search" aria-label="Busca rápida no guia">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <circle cx="11" cy="11" r="7" stroke="#7bcfff" stroke-width="2"/>
+              <path d="M20 20 L16.65 16.65" stroke="#7bcfff" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <input id="quickSearch" type="text" placeholder="Buscar no guia: fibra, estrela, EMI, CLP..." />
+          </div>
+          <button class="btn" id="clearSearchBtn" type="button">Limpar busca</button>
+        </div>
+        <div id="searchResults" class="search-results" aria-live="polite"></div>
+
+        <p class="note">
+          A escolha correta do <b>cabo</b> e da <b>topologia</b> melhora desempenho, confiabilidade, manutenção e escalabilidade da rede industrial.
+        </p>
+      </div>
+
+      <aside class="hero-side" aria-label="Painel de visão geral">
+        <h3>Visão rápida</h3>
+        <p class="muted" style="margin-top:0">
+          Em muitos cenários, a solução ideal é uma combinação: <b>fibra no backbone</b>, <b>par trançado no painel</b> e <b>wireless</b> onde há mobilidade.
+        </p>
+
+        <div class="hero-mini-grid">
+          <div class="hero-mini">
+            <strong>3</strong>
+            meios físicos principais
+          </div>
+          <div class="hero-mini">
+            <strong>2</strong>
+            topologias explicadas
+          </div>
+          <div class="hero-mini">
+            <strong>1</strong>
+            recomendador automático
+          </div>
+          <div class="hero-mini">
+            <strong>IA</strong>
+            para dúvidas específicas
           </div>
         </div>
-        <aside class="hero-card">
-          <h3 style="margin:0 0 10px" data-i18n="heroCardTitle">O que você encontra aqui</h3>
-          <div class="mini-stats">
-            <div class="stat"><b>7</b><span data-i18n="stat1">tecnologias comparadas</span></div>
-            <div class="stat"><b>6</b><span data-i18n="stat2">idiomas</span></div>
-            <div class="stat"><b>1</b><span data-i18n="stat3">assistente técnico integrado</span></div>
-            <div class="stat"><b>100%</b><span data-i18n="stat4">rodando em um único index.html</span></div>
-          </div>
-        </aside>
-      </div>
-    </section>
 
-    <section id="catalog" class="section">
-      <h3 data-i18n="catalogTitle">Tecnologias de rede</h3>
-      <p class="lead" data-i18n="catalogLead">Cards mais limpos, com foco no que ajuda a decidir rápido: onde usar, pontos fortes, limitações e um painel de detalhes.</p>
-      <div id="cards" class="grid-3"></div>
-    </section>
-
-    <section id="compare" class="section">
-      <h3 data-i18n="compareTitle">Comparativo rápido</h3>
-      <p class="lead" data-i18n="compareLead">Use a tabela para ter uma visão geral antes de abrir os detalhes de cada tecnologia.</p>
-      <div class="panel compare">
-        <table id="compareTable"></table>
-      </div>
-    </section>
-
-    <section id="recommend" class="section">
-      <h3 data-i18n="recTitle">Gerar recomendação</h3>
-      <p class="lead" data-i18n="recLead">Preencha o cenário e o sistema sugere a tecnologia mais coerente, explicando o motivo.</p>
-      <div class="panel wizard">
-        <div class="wizard-grid">
-          <div>
-            <label for="distance" data-i18n="distance">Distância típica</label>
-            <select id="distance">
-              <option value="short">Até 30 m</option>
-              <option value="medium">30 a 120 m</option>
-              <option value="long">Acima de 120 m</option>
-            </select>
-          </div>
-          <div>
-            <label for="environment" data-i18n="environment">Ambiente</label>
-            <select id="environment">
-              <option value="clean">Painel / ambiente limpo</option>
-              <option value="industrial">Chão de fábrica</option>
-              <option value="harsh">Ruído, vibração ou ambiente severo</option>
-            </select>
-          </div>
-          <div>
-            <label for="speed" data-i18n="speed">Necessidade de velocidade</label>
-            <select id="speed">
-              <option value="low">Baixa</option>
-              <option value="medium">Média</option>
-              <option value="high">Alta / tempo real</option>
-            </select>
-          </div>
-          <div>
-            <label for="criticality" data-i18n="criticality">Criticidade do processo</label>
-            <select id="criticality">
-              <option value="normal">Normal</option>
-              <option value="important">Importante</option>
-              <option value="critical">Crítica</option>
-            </select>
-          </div>
-          <div>
-            <label for="budget" data-i18n="budget">Orçamento</label>
-            <select id="budget">
-              <option value="low">Enxuto</option>
-              <option value="medium">Intermediário</option>
-              <option value="high">Confortável</option>
-            </select>
-          </div>
-          <div>
-            <label for="integration" data-i18n="integration">Integração principal</label>
-            <select id="integration">
-              <option value="sensors">Sensores / atuadores simples</option>
-              <option value="drives">Drives / motion / sincronismo</option>
-              <option value="supervision">CLP + IHM + supervisório / SCADA</option>
-            </select>
-          </div>
-        </div>
-        <div class="actions">
-          <button id="recommendBtn" class="btn" data-i18n="recBtn">Gerar recomendação</button>
-          <button id="clearRecBtn" class="ghost" data-i18n="clear">Limpar</button>
-        </div>
-        <div id="recommendationResult" class="result" hidden></div>
-      </div>
-    </section>
-
-    <section id="assistant" class="section">
-      <h3 data-i18n="assistantTitle">IA assistente de dúvidas</h3>
-      <p class="lead" data-i18n="assistantLead">Faça perguntas específicas, como “quando usar fibra?”, “qual protocolo combina com inversores?” ou “o que muda entre Modbus RTU e TCP?”.</p>
-      <div class="assistant">
-        <div class="panel" style="padding:18px">
-          <div id="chatlog" class="chatlog"></div>
-          <div style="display:flex;gap:10px;margin-top:12px">
-            <input id="assistantInput" placeholder="Digite sua dúvida..." />
-            <button id="assistantSend" class="btn" data-i18n="send">Enviar</button>
-          </div>
-        </div>
-        <aside class="panel assistant-tools">
-          <h4 style="margin-top:0" data-i18n="quickQuestions">Perguntas rápidas</h4>
-          <ul class="faq">
-            <li><button class="ghost quick-q" data-q="Qual rede é melhor para longas distâncias?">Qual rede é melhor para longas distâncias?</button></li>
-            <li><button class="ghost quick-q" data-q="Quando vale usar Profinet?">Quando vale usar Profinet?</button></li>
-            <li><button class="ghost quick-q" data-q="Qual a diferença entre Modbus RTU e Modbus TCP?">Qual a diferença entre Modbus RTU e Modbus TCP?</button></li>
-            <li><button class="ghost quick-q" data-q="EtherCAT é bom para motion?">EtherCAT é bom para motion?</button></li>
-          </ul>
-          <p class="muted" data-i18n="assistantNote">A assistente usa a base do próprio guia. Para um projeto real, valide também com o manual do fabricante, topologia da planta e requisitos de segurança.</p>
-        </aside>
-      </div>
-    </section>
-
-    <footer class="footer">
-      <p data-i18n="footer">Feito para estudo e apoio em decisões iniciais de automação industrial.</p>
-    </footer>
-  </main>
-
-  <div id="modal" class="modal" aria-hidden="true">
-    <div class="modal-card">
-      <div class="modal-head">
-        <div>
-          <h3 id="modalTitle" style="margin:0 0 8px"></h3>
-          <p id="modalSubtitle" class="muted" style="margin:0"></p>
-        </div>
-        <button id="closeModal" class="close">Fechar</button>
-      </div>
-      <div id="modalBody" style="margin-top:18px"></div>
+        <p class="note">
+          Se você só quer uma orientação rápida, vá direto em <b>“Gerar recomendação”</b>. Se a dúvida for mais específica, use a <b>IA Assistente</b>.
+        </p>
+      </aside>
     </div>
-  </div>
+  </section>
 
-  <script>
-    const technologies = [
-      {
-        id:'profinet',
-        name:'PROFINET',
-        tag:'Industrial Ethernet',
-        summary:'Muito comum em CLPs, IHMs, remotas e drives. Boa integração e alto desempenho.',
-        best:['Linhas Siemens e ambientes com integração ampla','CLP + IHM + drives + remotas','Aplicações com diagnóstico e manutenção facilitados'],
-        limits:['Exige cuidado com topologia e switches em plantas maiores'],
-        speed:'Alta',
-        distance:'Até 100 m por trecho em cobre',
-        cost:'Médio',
-        detail:'PROFINET é um dos padrões Ethernet industriais mais usados. Entrega boa velocidade, diagnóstico e integração com dispositivos de automação. É uma escolha forte quando a planta já usa ecossistema Siemens ou quando você quer uma rede moderna com boa interoperabilidade.',
-        fit:['supervision','drives']
-      },
-      {
-        id:'ethercat',
-        name:'EtherCAT',
-        tag:'Ethernet em tempo real',
-        summary:'Excelente para motion, sincronismo e ciclos muito curtos.',
-        best:['Motion control','Máquinas com eixos sincronizados','Aplicações com resposta muito rápida'],
-        limits:['Pode ser mais especializado; integração depende do ecossistema'],
-        speed:'Muito alta',
-        distance:'Até 100 m por trecho em cobre',
-        cost:'Médio/alto',
-        detail:'EtherCAT se destaca em tempo real e sincronismo preciso. É muito usado em máquinas, servoacionamentos e aplicações de motion, onde latência e determinismo pesam mais do que flexibilidade genérica.',
-        fit:['drives']
-      },
-      {
-        id:'ethernetip',
-        name:'EtherNet/IP',
-        tag:'Industrial Ethernet',
-        summary:'Forte em ambientes Rockwell/Allen-Bradley e integração de dispositivos inteligentes.',
-        best:['Plantas com Rockwell','Integração com IO, drives e supervisão','Arquiteturas Ethernet industriais padronizadas'],
-        limits:['Em motion extremo, pode perder para protocolos mais determinísticos'],
-        speed:'Alta',
-        distance:'Até 100 m por trecho em cobre',
-        cost:'Médio',
-        detail:'EtherNet/IP usa CIP sobre Ethernet e aparece muito em ambientes Rockwell. É versátil para CLPs, IHMs, inversores, remotas e diagnóstico, principalmente quando o restante da arquitetura já conversa bem nesse padrão.',
-        fit:['supervision','drives']
-      },
-      {
-        id:'modbusrtu',
-        name:'Modbus RTU',
-        tag:'Serial RS-485',
-        summary:'Simples, barato e robusto para sensores, medidores e equipamentos legados.',
-        best:['Instrumentação simples','Longas redes seriais com baixo custo','Integração com dispositivos antigos'],
-        limits:['Baixa velocidade e menos recursos de diagnóstico'],
-        speed:'Baixa',
-        distance:'Longa em RS-485',
-        cost:'Baixo',
-        detail:'Modbus RTU continua útil quando a prioridade é simplicidade, custo e compatibilidade. É comum em medidores, inversores, sensores e gateways. Não é a melhor opção para grandes volumes de dados ou tempo real pesado.',
-        fit:['sensors']
-      },
-      {
-        id:'modbustcp',
-        name:'Modbus TCP',
-        tag:'Ethernet',
-        summary:'Versão Ethernet do Modbus, simples de integrar com supervisão e gateways.',
-        best:['CLP + supervisório','Projetos que já usam Ethernet mas querem simplicidade','Integração com equipamentos que falam Modbus'],
-        limits:['Menos determinístico do que protocolos de tempo real'],
-        speed:'Média/alta',
-        distance:'Até 100 m por trecho em cobre',
-        cost:'Baixo/médio',
-        detail:'Modbus TCP é um caminho simples para levar o Modbus à Ethernet. Funciona bem em integração, monitoramento, gateways e comunicação com dispositivos que já trazem suporte nativo a esse protocolo.',
-        fit:['supervision','sensors']
-      },
-      {
-        id:'profibusdp',
-        name:'PROFIBUS-DP',
-        tag:'Fieldbus',
-        summary:'Clássico em automação, ainda muito presente em plantas existentes.',
-        best:['Retrofit e manutenção de plantas antigas','Redes estáveis já consolidadas','Instrumentação e remotas em ambientes legados'],
-        limits:['Menos flexível que Ethernet industrial moderna'],
-        speed:'Média',
-        distance:'Boa distância com repetidores / fibra',
-        cost:'Médio',
-        detail:'PROFIBUS-DP marcou a automação por muitos anos e segue forte em manutenção e retrofit. Se a planta já é PROFIBUS, muitas vezes faz mais sentido expandir com cuidado do que trocar tudo de uma vez.',
-        fit:['sensors','supervision']
-      },
-      {
-        id:'fiber',
-        name:'Fibra óptica',
-        tag:'Meio físico',
-        summary:'Ideal para longas distâncias, imunidade a ruído e backbone entre áreas.',
-        best:['Backbone entre prédios ou áreas distantes','Ambientes com muito ruído eletromagnético','Alta disponibilidade e isolamento elétrico'],
-        limits:['Custo e instalação mais especializados'],
-        speed:'Alta',
-        distance:'Muito longa',
-        cost:'Médio/alto',
-        detail:'Fibra óptica não é um protocolo, e sim um meio físico extremamente útil em automação. Ela brilha quando a distância é grande, quando há ruído eletromagnético forte ou quando você precisa isolar eletricamente segmentos da rede.',
-        fit:['supervision','drives','sensors']
-      }
-    ];
+  <!-- Cabos -->
+  <section id="cabos" aria-labelledby="cabos-title">
+    <div class="container">
+      <h2 class="section-title" id="cabos-title">Cabos Industriais</h2>
+      <p class="section-lead">Explore os principais meios físicos de comunicação: Par Trançado, Fibra Óptica e Wireless.</p>
 
-    const i18n = {
-      pt: {
-        brandTitle:'Redes Industriais',brandSub:'Guia visual + recomendador + assistente técnico',
-        navCatalog:'Tecnologias',navCompare:'Comparativo',navRecommend:'Recomendação',navAssistant:'Assistente',
-        lang:'Idioma',badge:'Escolha melhor a rede do seu projeto',
-        heroTitle:'Um guia visual, limpo e interativo para automação industrial.',
-        heroText:'Compare protocolos, entenda aplicações típicas e receba uma recomendação baseada em distância, criticidade, velocidade, orçamento e integração com CLPs, IHMs, drives e sensores.',
-        heroBtn1:'Gerar recomendação',heroBtn2:'Abrir assistente',heroCardTitle:'O que você encontra aqui',
-        stat1:'tecnologias comparadas',stat2:'idiomas',stat3:'assistente técnico integrado',stat4:'rodando em um único index.html',
-        catalogTitle:'Tecnologias de rede',catalogLead:'Cards mais limpos, com foco no que ajuda a decidir rápido: onde usar, pontos fortes, limitações e um painel de detalhes.',
-        compareTitle:'Comparativo rápido',compareLead:'Use a tabela para ter uma visão geral antes de abrir os detalhes de cada tecnologia.',
-        recTitle:'Gerar recomendação',recLead:'Preencha o cenário e o sistema sugere a tecnologia mais coerente, explicando o motivo.',
-        distance:'Distância típica',environment:'Ambiente',speed:'Necessidade de velocidade',criticality:'Criticidade do processo',budget:'Orçamento',integration:'Integração principal',
-        recBtn:'Gerar recomendação',clear:'Limpar',assistantTitle:'IA assistente de dúvidas',
-        assistantLead:'Faça perguntas específicas, como “quando usar fibra?”, “qual protocolo combina com inversores?” ou “o que muda entre Modbus RTU e TCP?”.',
-        send:'Enviar',quickQuestions:'Perguntas rápidas',assistantNote:'A assistente usa a base do próprio guia. Para um projeto real, valide também com o manual do fabricante, topologia da planta e requisitos de segurança.',
-        footer:'Feito para estudo e apoio em decisões iniciais de automação industrial.',
-        details:'Ver detalhes',bestFor:'Melhor para',limits:'Limitações',recFor:'Recomendação sugerida',why:'Por que ela faz sentido',alt:'Alternativas',
-      },
-      en:{brandTitle:'Industrial Networks',brandSub:'Visual guide + recommender + technical assistant',navCatalog:'Technologies',navCompare:'Comparison',navRecommend:'Recommendation',navAssistant:'Assistant',lang:'Language',badge:'Choose the right network for your project',heroTitle:'A clean, interactive visual guide for industrial automation.',heroText:'Compare protocols, understand typical use cases and get a recommendation based on distance, criticality, speed, budget and integration with PLCs, HMIs, drives and sensors.',heroBtn1:'Generate recommendation',heroBtn2:'Open assistant',heroCardTitle:'What you will find here',stat1:'technologies compared',stat2:'languages',stat3:'built-in technical assistant',stat4:'running in a single index.html',catalogTitle:'Network technologies',catalogLead:'Cleaner cards focused on what helps you decide quickly: where to use, strengths, limits and a details panel.',compareTitle:'Quick comparison',compareLead:'Use the table for a fast overview before opening details.',recTitle:'Generate recommendation',recLead:'Fill in the scenario and the system suggests the most coherent technology, explaining why.',distance:'Typical distance',environment:'Environment',speed:'Speed requirement',criticality:'Process criticality',budget:'Budget',integration:'Main integration',recBtn:'Generate recommendation',clear:'Clear',assistantTitle:'AI question assistant',assistantLead:'Ask specific questions such as “when should I use fiber?”, “which protocol fits drives?” or “what changes between Modbus RTU and TCP?”',send:'Send',quickQuestions:'Quick questions',assistantNote:'The assistant uses the guide’s own knowledge base. For a real project, also validate with vendor manuals, plant topology and safety requirements.',footer:'Made for study and support in early industrial automation decisions.',details:'View details',bestFor:'Best for',limits:'Limits',recFor:'Suggested recommendation',why:'Why it fits',alt:'Alternatives'},
-      es:{brandTitle:'Redes Industriales',brandSub:'Guía visual + recomendador + asistente técnico',navCatalog:'Tecnologías',navCompare:'Comparativa',navRecommend:'Recomendación',navAssistant:'Asistente',lang:'Idioma',badge:'Elige mejor la red de tu proyecto',heroTitle:'Una guía visual, limpia e interactiva para automatización industrial.',heroText:'Compara protocolos, entiende aplicaciones típicas y recibe una recomendación según distancia, criticidad, velocidad, presupuesto e integración con PLC, HMI, variadores y sensores.',heroBtn1:'Generar recomendación',heroBtn2:'Abrir asistente',heroCardTitle:'Qué encontrarás aquí',stat1:'tecnologías comparadas',stat2:'idiomas',stat3:'asistente técnico integrado',stat4:'en un único index.html',catalogTitle:'Tecnologías de red',catalogLead:'Tarjetas más limpias, enfocadas en decidir rápido: dónde usar, fortalezas, límites y panel de detalles.',compareTitle:'Comparativa rápida',compareLead:'Usa la tabla para una vista general antes de abrir los detalles.',recTitle:'Generar recomendación',recLead:'Completa el escenario y el sistema sugiere la tecnología más coherente, explicando el motivo.',distance:'Distancia típica',environment:'Entorno',speed:'Necesidad de velocidad',criticality:'Criticidad del proceso',budget:'Presupuesto',integration:'Integración principal',recBtn:'Generar recomendación',clear:'Limpiar',assistantTitle:'IA asistente de dudas',assistantLead:'Haz preguntas específicas, como “¿cuándo usar fibra?”, “¿qué protocolo va bien con variadores?” o “¿qué cambia entre Modbus RTU y TCP?”',send:'Enviar',quickQuestions:'Preguntas rápidas',assistantNote:'La asistente usa la base de esta guía. Para un proyecto real, valida también con el manual del fabricante, la topología de la planta y los requisitos de seguridad.',footer:'Hecho para estudio y apoyo en decisiones iniciales de automatización industrial.',details:'Ver detalles',bestFor:'Mejor para',limits:'Límites',recFor:'Recomendación sugerida',why:'Por qué encaja',alt:'Alternativas'},
-      hi:{brandTitle:'इंडस्ट्रियल नेटवर्क्स',brandSub:'विज़ुअल गाइड + रिकमेंडर + तकनीकी सहायक',navCatalog:'तकनीकें',navCompare:'तुलना',navRecommend:'सिफारिश',navAssistant:'सहायक',lang:'भाषा',badge:'अपने प्रोजेक्ट के लिए सही नेटवर्क चुनें',heroTitle:'औद्योगिक ऑटोमेशन के लिए एक साफ़ और इंटरैक्टिव विज़ुअल गाइड।',heroText:'प्रोटोकॉल की तुलना करें, सामान्य उपयोग समझें और दूरी, क्रिटिकलिटी, गति, बजट और PLC/HMI/ड्राइव/सेंसर इंटीग्रेशन के आधार पर सिफारिश पाएं।',heroBtn1:'सिफारिश बनाएं',heroBtn2:'सहायक खोलें',heroCardTitle:'यहाँ क्या मिलेगा',stat1:'तकनीकों की तुलना',stat2:'भाषाएँ',stat3:'इनबिल्ट तकनीकी सहायक',stat4:'एक ही index.html में',catalogTitle:'नेटवर्क तकनीकें',catalogLead:'साफ़ कार्ड्स जो जल्दी निर्णय लेने में मदद करें: कहाँ उपयोग करें, ताकत, सीमाएँ और डिटेल पैनल।',compareTitle:'त्वरित तुलना',compareLead:'विवरण खोलने से पहले तेज़ अवलोकन के लिए तालिका देखें।',recTitle:'सिफारिश बनाएं',recLead:'अपना परिदृश्य भरें और सिस्टम सबसे उपयुक्त तकनीक सुझाएगा।',distance:'सामान्य दूरी',environment:'पर्यावरण',speed:'गति की आवश्यकता',criticality:'प्रक्रिया की गंभीरता',budget:'बजट',integration:'मुख्य इंटीग्रेशन',recBtn:'सिफारिश बनाएं',clear:'साफ़ करें',assistantTitle:'एआई प्रश्न सहायक',assistantLead:'विशिष्ट प्रश्न पूछें, जैसे “फाइबर कब उपयोग करें?” या “ड्राइव्स के लिए कौन सा प्रोटोकॉल बेहतर है?”',send:'भेजें',quickQuestions:'त्वरित प्रश्न',assistantNote:'यह सहायक इसी गाइड के ज्ञान का उपयोग करती है। वास्तविक प्रोजेक्ट के लिए निर्माता के मैनुअल और सुरक्षा आवश्यकताओं से भी पुष्टि करें।',footer:'औद्योगिक ऑटोमेशन के शुरुआती निर्णयों के लिए बनाया गया।',details:'विवरण देखें',bestFor:'सबसे अच्छा उपयोग',limits:'सीमाएँ',recFor:'सुझाई गई सिफारिश',why:'क्यों उपयुक्त है',alt:'विकल्प'},
-      zh:{brandTitle:'工业网络',brandSub:'可视化指南 + 推荐器 + 技术助手',navCatalog:'技术',navCompare:'对比',navRecommend:'推荐',navAssistant:'助手',lang:'语言',badge:'为你的项目选择更合适的网络',heroTitle:'面向工业自动化的简洁互动式可视化指南。',heroText:'比较协议、理解典型应用，并根据距离、关键性、速度、预算以及 PLC/HMI/驱动/传感器集成获得推荐。',heroBtn1:'生成推荐',heroBtn2:'打开助手',heroCardTitle:'你能在这里找到什么',stat1:'项技术对比',stat2:'种语言',stat3:'内置技术助手',stat4:'全部在一个 index.html 中运行',catalogTitle:'网络技术',catalogLead:'更清爽的卡片，聚焦快速决策：适用场景、优势、限制和详情面板。',compareTitle:'快速对比',compareLead:'在查看详情之前，先用表格快速浏览。',recTitle:'生成推荐',recLead:'填写你的场景，系统会推荐更合适的技术并说明原因。',distance:'典型距离',environment:'环境',speed:'速度需求',criticality:'过程关键性',budget:'预算',integration:'主要集成',recBtn:'生成推荐',clear:'清空',assistantTitle:'AI 问答助手',assistantLead:'可以问更具体的问题，比如“什么时候用光纤？”、“哪种协议适合驱动器？”或“Modbus RTU 和 TCP 有什么区别？”',send:'发送',quickQuestions:'快捷问题',assistantNote:'助手使用本指南自身的知识库。真实项目中，还应结合厂家手册、工厂拓扑和安全要求进行确认。',footer:'用于学习和工业自动化前期决策支持。',details:'查看详情',bestFor:'最适合',limits:'限制',recFor:'推荐结果',why:'推荐原因',alt:'备选方案'},
-      ar:{brandTitle:'الشبكات الصناعية',brandSub:'دليل مرئي + موصي + مساعد تقني',navCatalog:'التقنيات',navCompare:'مقارنة',navRecommend:'توصية',navAssistant:'المساعد',lang:'اللغة',badge:'اختر الشبكة الأنسب لمشروعك',heroTitle:'دليل مرئي نظيف وتفاعلي للأتمتة الصناعية.',heroText:'قارن بين البروتوكولات وافهم الاستخدامات النموذجية واحصل على توصية بناءً على المسافة والحرجية والسرعة والميزانية والتكامل مع PLC وHMI والمحركات والحساسات.',heroBtn1:'إنشاء توصية',heroBtn2:'فتح المساعد',heroCardTitle:'ما الذي ستجده هنا',stat1:'تقنيات مقارنة',stat2:'لغات',stat3:'مساعد تقني مدمج',stat4:'كل شيء داخل ملف index.html واحد',catalogTitle:'تقنيات الشبكات',catalogLead:'بطاقات أنظف تركّز على ما يساعدك على اتخاذ قرار سريع: أين تستخدمها، نقاط القوة، القيود ولوحة التفاصيل.',compareTitle:'مقارنة سريعة',compareLead:'استخدم الجدول للحصول على نظرة عامة سريعة قبل فتح التفاصيل.',recTitle:'إنشاء توصية',recLead:'املأ السيناريو وسيقترح النظام التقنية الأنسب مع توضيح السبب.',distance:'المسافة النموذجية',environment:'البيئة',speed:'الحاجة إلى السرعة',criticality:'حرجية العملية',budget:'الميزانية',integration:'نوع التكامل الرئيسي',recBtn:'إنشاء توصية',clear:'مسح',assistantTitle:'مساعد أسئلة بالذكاء الاصطناعي',assistantLead:'اسأل أسئلة محددة مثل: "متى أستخدم الألياف؟" أو "أي بروتوكول يناسب الدرايفات؟" أو "ما الفرق بين Modbus RTU وTCP؟"',send:'إرسال',quickQuestions:'أسئلة سريعة',assistantNote:'يعتمد المساعد على قاعدة المعرفة الموجودة في هذا الدليل. في المشاريع الحقيقية، راجع أيضاً دليل الشركة المصنعة ومتطلبات السلامة وبنية المصنع.',footer:'مُعد للدراسة ودعم القرارات الأولية في الأتمتة الصناعية.',details:'عرض التفاصيل',bestFor:'الأفضل لـ',limits:'القيود',recFor:'التوصية المقترحة',why:'لماذا تناسب',alt:'بدائل'}
-    };
-
-    const compareRows = [
-      ['Velocidade / Speed', t => t.speed],
-      ['Distância / Distance', t => t.distance],
-      ['Custo / Cost', t => t.cost],
-      ['Uso típico / Typical use', t => t.summary]
-    ];
-
-    const langSelect = document.getElementById('langSelect');
-    const cards = document.getElementById('cards');
-    const compareTable = document.getElementById('compareTable');
-    const modal = document.getElementById('modal');
-    const modalTitle = document.getElementById('modalTitle');
-    const modalSubtitle = document.getElementById('modalSubtitle');
-    const modalBody = document.getElementById('modalBody');
-    const closeModal = document.getElementById('closeModal');
-    const recommendationResult = document.getElementById('recommendationResult');
-    const chatlog = document.getElementById('chatlog');
-    const assistantInput = document.getElementById('assistantInput');
-
-    let currentLang = 'pt';
-
-    function t(key){
-      return (i18n[currentLang] && i18n[currentLang][key]) || i18n.pt[key] || key;
-    }
-
-    function applyTranslations(){
-      document.documentElement.lang = currentLang;
-      document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
-      document.querySelectorAll('[data-i18n]').forEach(el => {
-        const key = el.dataset.i18n;
-        el.textContent = t(key);
-      });
-      assistantInput.placeholder = {
-        pt:'Digite sua dúvida...',
-        en:'Type your question...',
-        es:'Escribe tu duda...',
-        hi:'अपना प्रश्न लिखें...',
-        zh:'输入你的问题...',
-        ar:'اكتب سؤالك...'
-      }[currentLang];
-      renderCards();
-      renderCompare();
-      renderAssistantWelcome();
-    }
-
-    function initLang(){
-      const langs = [
-        ['pt','Português'],['en','English'],['es','Español'],
-        ['hi','हिन्दी'],['zh','中文'],['ar','العربية']
-      ];
-      langSelect.innerHTML = langs.map(([v,l]) => `<option value="${v}">${l}</option>`).join('');
-      langSelect.value = currentLang;
-      langSelect.addEventListener('change', () => { currentLang = langSelect.value; applyTranslations(); });
-    }
-
-    function renderCards(){
-      cards.innerHTML = technologies.map(tech => `
-        <article class="card">
-          <span class="chip">${tech.tag}</span>
-          <h4>${tech.name}</h4>
-          <p class="muted">${tech.summary}</p>
-          <div class="stack">
-            <span class="chip">${tech.speed}</span>
-            <span class="chip">${tech.distance}</span>
-            <span class="chip">${tech.cost}</span>
+      <div class="grid grid-3">
+        <!-- Par Trançado -->
+        <article class="card searchable" data-search="par trançado ethernet profinet cabo cobre clp ihms switch rj45 m12">
+          <div class="icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+              <rect x="2" y="9" width="20" height="6" rx="2" stroke="#77d0ff" stroke-width="2"/>
+              <path d="M4 12 L10 12" stroke="#21e2a8" stroke-width="2" stroke-linecap="round"/>
+              <path d="M14 12 L20 12" stroke="#21e2a8" stroke-width="2" stroke-linecap="round"/>
+            </svg>
           </div>
-          <div class="actions">
-            <button class="ghost detail-btn" data-id="${tech.id}">${t('details')}</button>
+          <h3>Par Trançado (Ethernet/Profinet)</h3>
+          <p class="muted">Cabo de cobre para redes industriais e corporativas. Ideal para interligar CLP, switch e IHMs.</p>
+          <div class="quick-compare">
+            <span class="pill">Custo: baixo</span>
+            <span class="pill">Distância: média</span>
+            <span class="pill">EMI: moderada</span>
+          </div>
+          <div style="margin-top:12px">
+            <button class="btn accent" data-toggle="#par-details" aria-expanded="false" aria-controls="par-details" type="button">Ver detalhes</button>
+          </div>
+          <div id="par-details" class="details" role="region" aria-label="Detalhes Par Trançado">
+            <p><b>O que é:</b> cabo de cobre usado em <b>Ethernet/Profinet</b>.</p>
+            <p><b>Onde é usado:</b> ligação entre <b>CLP</b>, <b>switch</b>, <b>IHMs</b>, computadores e equipamentos de rede.</p>
+            <p><b>Vantagens:</b></p>
+            <ul class="list">
+              <li>Baixo custo e ampla disponibilidade.</li>
+              <li>Instalação simples, conectores padronizados (RJ45/M12).</li>
+              <li>Comum em ambientes industriais e corporativos.</li>
+            </ul>
+            <p><b>Desvantagens:</b></p>
+            <ul class="list">
+              <li>Maior suscetibilidade a <b>interferência eletromagnética</b> (EMI).</li>
+              <li>Alcance menor que a fibra em altas taxas.</li>
+            </ul>
+            <p><b>Exemplo na fábrica:</b> conectar o <b>CLP</b> ao computador de supervisão ou a um <b>switch industrial</b>.</p>
           </div>
         </article>
+
+        <!-- Fibra -->
+        <article class="card searchable" data-search="fibra óptica backbone longas distâncias emi galpão switch velocidade luz">
+          <div class="icon" aria-hidden="true" style="color:#b4ffdf">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+              <path d="M5 12 H19" stroke="#0fd192" stroke-width="2" stroke-linecap="round"/>
+              <circle cx="5" cy="12" r="3" stroke="#8cf9cd" stroke-width="2"/>
+              <circle cx="19" cy="12" r="3" stroke="#8cf9cd" stroke-width="2"/>
+            </svg>
+          </div>
+          <h3>Fibra Óptica</h3>
+          <p class="muted">Transmissão por luz. Excelente para longas distâncias e locais com muita interferência.</p>
+          <div class="quick-compare">
+            <span class="pill">Velocidade: alta</span>
+            <span class="pill">Distância: longa</span>
+            <span class="pill">EMI: imune</span>
+          </div>
+          <div style="margin-top:12px">
+            <button class="btn accent" data-toggle="#fibra-details" aria-expanded="false" aria-controls="fibra-details" type="button">Ver detalhes</button>
+          </div>
+          <div id="fibra-details" class="details" role="region" aria-label="Detalhes Fibra Óptica">
+            <p><b>O que é:</b> cabo que transmite dados por <b>luz</b>.</p>
+            <p><b>Onde é usado:</b> comunicação a <b>longas distâncias</b>, interligação de setores e locais com <b>alta EMI</b>.</p>
+            <p><b>Vantagens:</b></p>
+            <ul class="list">
+              <li><b>Alta velocidade</b> e baixíssima atenuação.</li>
+              <li><b>Grandes distâncias</b> sem repetidores em comparação ao cobre.</li>
+              <li><b>Imunidade</b> a interferências eletromagnéticas.</li>
+            </ul>
+            <p><b>Desvantagens:</b></p>
+            <ul class="list">
+              <li>Custo de material e ferramentas mais alto.</li>
+              <li>Instalação e conectorização mais delicadas.</li>
+            </ul>
+            <p><b>Exemplo na fábrica:</b> interligar <b>galpões</b> distantes ou áreas com <b>motores potentes</b>.</p>
+          </div>
+        </article>
+
+        <!-- Wireless -->
+        <article class="card searchable" data-search="wireless wifi rádio industrial agv empilhadeira sensores móveis mobilidade">
+          <div class="icon" aria-hidden="true" style="color:#ffd4a6">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+              <path d="M4 10 C8 6,16 6,20 10" stroke="#ffb460" stroke-width="2" stroke-linecap="round"/>
+              <path d="M7 13 C11 10,13 10,17 13" stroke="#ff9d2e" stroke-width="2" stroke-linecap="round"/>
+              <circle cx="12" cy="17" r="2" fill="#ff8a00"/>
+            </svg>
+          </div>
+          <h3>Wireless (Wi-Fi/Rádio Industrial)</h3>
+          <p class="muted">Comunicação sem fio para mobilidade, locais de difícil acesso e monitoramento remoto.</p>
+          <div class="quick-compare">
+            <span class="pill">Cabo: nenhum</span>
+            <span class="pill">Flexibilidade: alta</span>
+            <span class="pill">Segurança: atenção</span>
+          </div>
+          <div style="margin-top:12px">
+            <button class="btn accent" data-toggle="#wifi-details" aria-expanded="false" aria-controls="wifi-details" type="button">Ver detalhes</button>
+          </div>
+          <div id="wifi-details" class="details" role="region" aria-label="Detalhes Wireless">
+            <p><b>O que é:</b> comunicação <b>sem fio</b> por rádio ou Wi-Fi industrial.</p>
+            <p><b>Onde é usado:</b> sensores móveis, áreas de difícil passagem de cabo, equipamentos em movimento.</p>
+            <p><b>Vantagens:</b></p>
+            <ul class="list">
+              <li><b>Flexibilidade</b> para mudanças e expansões.</li>
+              <li>Reduz cabeamento e tempo de instalação.</li>
+              <li>Ótimo para partes móveis ou temporárias.</li>
+            </ul>
+            <p><b>Desvantagens:</b></p>
+            <ul class="list">
+              <li>Possível <b>interferência</b> e variação de sinal.</li>
+              <li>Exige <b>segurança</b> e planejamento de cobertura.</li>
+            </ul>
+            <p><b>Exemplo na fábrica:</b> monitorar sensores em <b>partes móveis</b> ou <b>empilhadeiras automatizadas</b>.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Topologias -->
+  <section id="topologias" aria-labelledby="topo-title">
+    <div class="container">
+      <h2 class="section-title" id="topo-title">Topologias de Rede</h2>
+      <p class="section-lead">Veja como os dispositivos podem ser organizados para se comunicar de forma eficiente.</p>
+
+      <div class="grid grid-2">
+        <!-- Barramento -->
+        <article class="card searchable" data-search="barramento topologia linha sequencia tronco terminadores falha legado">
+          <div class="icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+              <path d="M4 12 H20" stroke="#43c3ff" stroke-width="2" stroke-linecap="round"/>
+              <circle cx="6" cy="12" r="2" fill="#14b87a"/>
+              <circle cx="12" cy="12" r="2" fill="#14b87a"/>
+              <circle cx="18" cy="12" r="2" fill="#14b87a"/>
+            </svg>
+          </div>
+          <h3>Rede em Barramento</h3>
+          <p class="muted">Todos os dispositivos compartilham uma mesma linha de comunicação em sequência.</p>
+
+          <div class="diagram" aria-hidden="true">
+            <div class="row" style="gap:6px">
+              <div class="node">Dispositivo A</div>
+              <div class="node">Dispositivo B</div>
+              <div class="node">Dispositivo C</div>
+              <div class="node">Dispositivo D</div>
+            </div>
+            <div class="wire" style="margin-top:10px"></div>
+          </div>
+
+          <div style="margin-top:12px">
+            <button class="btn accent" data-toggle="#bus-details" aria-expanded="false" aria-controls="bus-details" type="button">Ver detalhes</button>
+          </div>
+
+          <div id="bus-details" class="details" role="region" aria-label="Detalhes Barramento">
+            <p><b>Como funciona:</b> equipamentos ligados em sequência na mesma linha.</p>
+            <p><b>Explicação simples:</b> todos compartilham o <b>mesmo caminho</b> de dados.</p>
+            <p><b>Vantagens:</b></p>
+            <ul class="list">
+              <li>Instalação simples.</li>
+              <li>Menos cabeamento.</li>
+              <li>Menor custo inicial.</li>
+            </ul>
+            <p><b>Desvantagens:</b></p>
+            <ul class="list">
+              <li>Falha no barramento pode <b>parar parte</b> da rede.</li>
+              <li>Diagnóstico e manutenção podem ser mais difíceis.</li>
+            </ul>
+            <p><b>Uso na automação:</b> útil em <b>linhas simples</b> ou protocolos que suportam comunicação em linha.</p>
+            <p><b>Exemplo prático:</b> sequência de máquinas conectadas no mesmo canal.</p>
+          </div>
+        </article>
+
+        <!-- Estrela -->
+        <article class="card searchable" data-search="estrela switch topologia centralizada ethernet industrial manutenção expansão painel">
+          <div class="icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="12" r="3" fill="#1a73e8"/>
+              <path d="M12 12 L4 6" stroke="#21e2a8" stroke-width="2" stroke-linecap="round"/>
+              <path d="M12 12 L20 6" stroke="#21e2a8" stroke-width="2" stroke-linecap="round"/>
+              <path d="M12 12 L4 18" stroke="#21e2a8" stroke-width="2" stroke-linecap="round"/>
+              <path d="M12 12 L20 18" stroke="#21e2a8" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3>Rede em Estrela</h3>
+          <p class="muted">Todos os dispositivos se conectam a um ponto central, como um switch industrial.</p>
+
+          <div class="diagram" aria-hidden="true">
+            <div class="row" style="margin-bottom:8px">
+              <div class="node">Dispositivo A</div>
+              <div class="node center">Switch</div>
+              <div class="node">Dispositivo B</div>
+            </div>
+            <div class="row">
+              <div class="node">Dispositivo C</div>
+              <div class="node">Dispositivo D</div>
+            </div>
+            <div class="wire" style="margin-top:10px"></div>
+          </div>
+
+          <div style="margin-top:12px">
+            <button class="btn accent" data-toggle="#star-details" aria-expanded="false" aria-controls="star-details" type="button">Ver detalhes</button>
+          </div>
+
+          <div id="star-details" class="details" role="region" aria-label="Detalhes Estrela">
+            <p><b>Como funciona:</b> cada dispositivo tem um <b>link dedicado</b> com o ponto central.</p>
+            <p><b>Explicação simples:</b> o switch é o <b>hub</b> que interliga todos.</p>
+            <p><b>Vantagens:</b></p>
+            <ul class="list">
+              <li>Fácil manutenção e expansão.</li>
+              <li>Falha em um equipamento <b>não derruba</b> os demais.</li>
+              <li>Organização melhor; muito usada com <b>Ethernet industrial</b>.</li>
+            </ul>
+            <p><b>Desvantagens:</b></p>
+            <ul class="list">
+              <li>Dependência do equipamento central.</li>
+              <li>Gasta mais cabeamento.</li>
+            </ul>
+            <p><b>Uso na automação:</b> padrão em redes de <b>CLPs, IHMs</b> e supervisórios.</p>
+            <p><b>Exemplo prático:</b> sensores, CLPs e PCs conectados a um <b>switch</b> no painel.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Comparativo -->
+  <section id="comparativo" aria-labelledby="comp-title">
+    <div class="container">
+      <h2 class="section-title" id="comp-title">Comparativo</h2>
+      <p class="section-lead">Tabela comparativa dos meios físicos e das topologias para decisão rápida.</p>
+
+      <h3 style="margin:8px 0 10px">Comparativo dos Cabos</h3>
+      <div class="table-wrap" role="region" aria-label="Tabela comparativa de cabos">
+        <table>
+          <thead>
+            <tr>
+              <th>Critério</th>
+              <th>Par Trançado</th>
+              <th>Fibra Óptica</th>
+              <th>Wireless</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>Custo</b></td>
+              <td><span class="ok">Baixo</span></td>
+              <td>Médio a Alto</td>
+              <td>Baixo a Médio</td>
+            </tr>
+            <tr>
+              <td><b>Velocidade</b></td>
+              <td>Alta (Fast/Gigabit/Industrial)</td>
+              <td><span class="ok">Muito alta</span></td>
+              <td>Variável (depende do padrão e do canal)</td>
+            </tr>
+            <tr>
+              <td><b>Resistência à Interferência (EMI)</b></td>
+              <td>Média (melhora com cabos blindados)</td>
+              <td><span class="ok">Imune</span></td>
+              <td>Baixa a média (planejamento necessário)</td>
+            </tr>
+            <tr>
+              <td><b>Facilidade de Instalação</b></td>
+              <td><span class="ok">Alta</span></td>
+              <td>Média (conectorização delicada)</td>
+              <td>Alta (mas requer survey e segurança)</td>
+            </tr>
+            <tr>
+              <td><b>Distância de Transmissão</b></td>
+              <td>Curta a média (tip. até 100 m por segmento)</td>
+              <td><span class="ok">Longa</span></td>
+              <td>Curta a média (limitada por cobertura)</td>
+            </tr>
+            <tr>
+              <td><b>Aplicação Mais Comum</b></td>
+              <td>CLP, IHMs, PCs e switches no mesmo painel/setor</td>
+              <td>Backbones entre prédios/galpões e áreas com alta EMI</td>
+              <td>Sensores/ativos móveis e pontos remotos</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 style="margin:18px 0 10px">Comparativo das Topologias</h3>
+      <div class="table-wrap" role="region" aria-label="Tabela comparativa de topologias">
+        <table>
+          <thead>
+            <tr>
+              <th>Critério</th>
+              <th>Barramento</th>
+              <th>Estrela</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>Organização</b></td>
+              <td>Linear, simples</td>
+              <td><span class="ok">Clara e centralizada</span></td>
+            </tr>
+            <tr>
+              <td><b>Custo</b></td>
+              <td><span class="ok">Baixo inicial</span></td>
+              <td>Médio (switches e mais cabos)</td>
+            </tr>
+            <tr>
+              <td><b>Facilidade de Manutenção</b></td>
+              <td>Média/baixa (diagnóstico mais difícil)</td>
+              <td><span class="ok">Alta</span></td>
+            </tr>
+            <tr>
+              <td><b>Confiabilidade</b></td>
+              <td>Média (um problema pode afetar o segmento)</td>
+              <td><span class="ok">Alta</span> (falha isolada afeta menos)</td>
+            </tr>
+            <tr>
+              <td><b>Impacto de Falhas</b></td>
+              <td><span class="bad">Maior</span> no trecho comum</td>
+              <td><span class="warn">Dependência</span> do ponto central</td>
+            </tr>
+            <tr>
+              <td><b>Uso na Automação</b></td>
+              <td>Linhas simples/legado</td>
+              <td><span class="ok">Padrão Ethernet industrial</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Aplicações -->
+  <section id="aplicacoes" aria-labelledby="apps-title">
+    <div class="container">
+      <h2 class="section-title" id="apps-title">Aplicações na Fábrica</h2>
+      <p class="section-lead">Como os conceitos aparecem no mundo real e por que importam.</p>
+
+      <div class="app-grid">
+        <article class="app-card searchable" data-search="clp supervisão switch par trançado ethernet profinet painel">
+          <div class="badge">Par Trançado</div>
+          <h3>CLP ligado ao computador de supervisão</h3>
+          <p>Conexão direta ou via <b>switch industrial</b> usando <b>Ethernet/Profinet</b> com cabo de <b>par trançado</b>. Ótimo custo-benefício e fácil de manter.</p>
+          <p class="hint">Dica: prefira cabos industriais blindados (S/FTP) próximos a inversores.</p>
+
+          <div style="margin-top:12px">
+            <button class="btn" data-toggle="#app-1-details" aria-expanded="false" aria-controls="app-1-details" type="button">Ver detalhes</button>
+          </div>
+          <div id="app-1-details" class="details">
+            <p><b>Quando usar:</b> distâncias curtas, equipamentos no mesmo painel ou setor e quando o custo precisa ser controlado.</p>
+            <p><b>Cuidados:</b> roteamento separado de cabos de potência, blindagem adequada e identificação das portas do switch.</p>
+          </div>
+        </article>
+
+        <article class="app-card searchable" data-search="fibra galpões backbone longas distâncias motores emi">
+          <div class="badge alt">Fibra</div>
+          <h3>Interligação de galpões</h3>
+          <p>Backbone em <b>fibra óptica</b> para longas distâncias e imunidade a <b>EMI</b>, conectando switches de distribuição entre prédios.</p>
+          <p class="hint">Dica: use caixas de emenda e identificações claras nas bandejas.</p>
+
+          <div style="margin-top:12px">
+            <button class="btn" data-toggle="#app-2-details" aria-expanded="false" aria-controls="app-2-details" type="button">Ver detalhes</button>
+          </div>
+          <div id="app-2-details" class="details">
+            <p><b>Quando usar:</b> quando a distância passa do confortável para cobre, ou quando o ambiente tem muito ruído eletromagnético.</p>
+            <p><b>Cuidados:</b> raio mínimo de curvatura, limpeza de conectores e escolha entre fibra monomodo ou multimodo conforme a distância.</p>
+          </div>
+        </article>
+
+        <article class="app-card searchable" data-search="wireless wifi rádio agv empilhadeira sensor móvel telemetria">
+          <div class="badge">Wireless</div>
+          <h3>Sensores móveis e AGVs/empilhadeiras</h3>
+          <p>Uso de <b>Wi-Fi industrial</b> ou rádio para telemetria em equipamentos que se deslocam, onde puxar cabo é inviável.</p>
+          <p class="hint">Dica: planeje cobertura, canais e segurança (WPA2-Enterprise, VLANs).</p>
+
+          <div style="margin-top:12px">
+            <button class="btn" data-toggle="#app-3-details" aria-expanded="false" aria-controls="app-3-details" type="button">Ver detalhes</button>
+          </div>
+          <div id="app-3-details" class="details">
+            <p><b>Quando usar:</b> mobilidade, coleta de dados em áreas grandes e equipamentos em movimento.</p>
+            <p><b>Cuidados:</b> evitar zonas de sombra, validar latência para o processo e separar rede operacional da rede administrativa quando necessário.</p>
+          </div>
+        </article>
+
+        <article class="app-card searchable" data-search="estrela switch painel clp ihm gateway manutenção">
+          <div class="badge">Estrela</div>
+          <h3>Rede em estrela com switch no painel</h3>
+          <p>CLPs, IHMs, PCs e gateways conectados ao <b>switch</b> central, simplificando organização, diagnóstico e expansão.</p>
+          <p class="hint">Dica: mantenha documentação com mapa de portas e endereços.</p>
+
+          <div style="margin-top:12px">
+            <button class="btn" data-toggle="#app-4-details" aria-expanded="false" aria-controls="app-4-details" type="button">Ver detalhes</button>
+          </div>
+          <div id="app-4-details" class="details">
+            <p><b>Vantagem principal:</b> uma falha em um cabo ou equipamento geralmente afeta só aquele ponto, e não a rede toda.</p>
+            <p><b>Boa prática:</b> usar switches industriais gerenciáveis quando houver necessidade de diagnóstico, VLAN, QoS ou redundância.</p>
+          </div>
+        </article>
+
+        <article class="app-card searchable" data-search="barramento linha produção sequencia terminador legado">
+          <div class="badge alt">Linha</div>
+          <h3>Comunicação em linha de produção</h3>
+          <p>Equipamentos conectados <b>em sequência</b> quando o protocolo e o processo favorecem a topologia em <b>barramento</b>.</p>
+          <p class="hint">Dica: monitore a integridade do segmento comum e terminadores.</p>
+
+          <div style="margin-top:12px">
+            <button class="btn" data-toggle="#app-5-details" aria-expanded="false" aria-controls="app-5-details" type="button">Ver detalhes</button>
+          </div>
+          <div id="app-5-details" class="details">
+            <p><b>Quando faz sentido:</b> redes mais simples, sistemas legados ou protocolos em que a estrutura linear é natural.</p>
+            <p><b>Ponto crítico:</b> o tronco principal e os conectores/terminadores precisam estar bem cuidados, porque um problema pode impactar vários nós.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Recomendador -->
+  <section id="recomendador" aria-labelledby="rec-title">
+    <div class="container">
+      <h2 class="section-title" id="rec-title">Gerar recomendação</h2>
+      <p class="section-lead">
+        Informe as condições do cenário e o sistema sugere o meio físico e a topologia mais adequados, com justificativa técnica.
+      </p>
+
+      <div class="recommendation-layout">
+        <div class="card">
+          <h3 style="margin-top:0">Configurar cenário</h3>
+
+          <div class="form-grid">
+            <div class="field">
+              <label for="distancia">Distância predominante</label>
+              <select id="distancia">
+                <option value="curta">Curta (até ~100 m)</option>
+                <option value="media">Média (100 m a algumas centenas)</option>
+                <option value="longa">Longa (galpões, prédios, backbone)</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="emi">Nível de interferência eletromagnética (EMI)</label>
+              <select id="emi">
+                <option value="baixa">Baixa</option>
+                <option value="media">Média</option>
+                <option value="alta">Alta</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="mobilidade">Existe mobilidade / equipamentos em movimento?</label>
+              <select id="mobilidade">
+                <option value="nao">Não</option>
+                <option value="sim">Sim</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="prioridade">O que é mais importante?</label>
+              <select id="prioridade">
+                <option value="custo">Baixo custo</option>
+                <option value="confiabilidade">Confiabilidade</option>
+                <option value="facilidade">Facilidade de manutenção</option>
+                <option value="flexibilidade">Flexibilidade / expansão</option>
+                <option value="desempenho">Desempenho / velocidade</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="topologiaPreferida">Topologia preferida</label>
+              <select id="topologiaPreferida">
+                <option value="auto">Deixar o sistema decidir</option>
+                <option value="estrela">Estrela</option>
+                <option value="barramento">Barramento</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="criticidade">Criticidade do processo</label>
+              <select id="criticidade">
+                <option value="normal">Normal</option>
+                <option value="alta">Alta / processo crítico</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button class="btn success" id="generateRecommendationBtn" type="button">Gerar recomendação</button>
+            <button class="btn" id="exampleScenarioBtn" type="button">Preencher exemplo</button>
+            <button class="btn warn" id="clearRecommendationBtn" type="button">Limpar</button>
+          </div>
+
+          <p class="note">
+            Exemplo: se houver <b>longa distância + alta EMI</b>, a tendência é recomendar <b>fibra óptica</b>. Se houver <b>mobilidade</b>, o sistema tende a considerar <b>wireless</b> para a parte móvel.
+          </p>
+        </div>
+
+        <div class="result-box" id="recommendationResult">
+          <h3>Resultado da recomendação</h3>
+          <div class="result-placeholder">
+            Preencha o cenário e clique em <b>“Gerar recomendação”</b>. O sistema vai sugerir o meio físico, a topologia e explicar o motivo.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- IA Assistente -->
+  <section id="assistente" aria-labelledby="assistente-title">
+    <div class="container">
+      <h2 class="section-title" id="assistente-title">IA Assistente de Dúvidas</h2>
+      <p class="section-lead">
+        Tire dúvidas mais específicas sobre cabos, topologias, CLP, EMI, backbone, Wi-Fi industrial e cenários de aplicação.
+      </p>
+
+      <div class="assistant-shell">
+        <div class="assistant-panel">
+          <div class="assistant-header">
+            <h3>
+              <span style="display:inline-grid;place-items:center;width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#1a73e8,#00bcd4)">🤖</span>
+              Assistente Técnico
+            </h3>
+            <div class="assistant-status">Base local • sem internet</div>
+          </div>
+
+          <div class="assistant-messages" id="assistantMessages" aria-live="polite">
+            <div class="msg assistant">
+              Olá! Eu sou o assistente técnico deste guia. Posso ajudar com dúvidas como:
+              • Quando usar fibra em vez de par trançado?
+              • Rede em estrela ou barramento?
+              • Como a EMI afeta a escolha do cabo?
+              • Wireless serve para AGV?
+              <small>Assistente • pronto para responder</small>
+            </div>
+          </div>
+
+          <div class="assistant-input">
+            <div class="suggestions">
+              <button class="sugg" type="button">Quando usar fibra óptica?</button>
+              <button class="sugg" type="button">Estrela ou barramento?</button>
+              <button class="sugg" type="button">Wireless em AGV é uma boa?</button>
+              <button class="sugg" type="button">Como a EMI influencia a rede?</button>
+            </div>
+
+            <div class="assistant-row">
+              <div class="field" style="width:100%">
+                <label for="assistantQuestion">Sua pergunta</label>
+                <textarea id="assistantQuestion" placeholder="Ex.: Tenho um CLP e uma IHM no mesmo painel, com distância curta e pouco ruído. O que faz mais sentido?"></textarea>
+              </div>
+            </div>
+
+            <div class="assistant-row">
+              <button class="btn success" id="assistantSendBtn" type="button">Perguntar</button>
+              <button class="btn" id="assistantClearBtn" type="button">Limpar conversa</button>
+            </div>
+          </div>
+        </div>
+
+        <aside class="assistant-help">
+          <h3>O que essa IA consegue responder</h3>
+
+          <div class="help-topic">
+            <h4>Cabos e meios físicos</h4>
+            <p>Diferença entre par trançado, fibra óptica e wireless; impacto de distância, custo e interferência.</p>
+          </div>
+
+          <div class="help-topic">
+            <h4>Topologias</h4>
+            <p>Quando faz sentido usar estrela ou barramento, e como isso afeta manutenção, confiabilidade e expansão.</p>
+          </div>
+
+          <div class="help-topic">
+            <h4>Cenários industriais</h4>
+            <p>Backbone entre galpões, CLP + IHM + switch, sensores móveis, AGVs, áreas com inversores e motores.</p>
+          </div>
+
+          <div class="help-topic">
+            <h4>Respostas orientativas</h4>
+            <p>Ela funciona com uma base local do conteúdo do site. Ou seja: serve muito bem para estudo e orientação, mas não substitui projeto de rede industrial completo.</p>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- Resumo -->
+  <section id="resumo" aria-labelledby="resumo-title">
+    <div class="container">
+      <h2 class="section-title" id="resumo-title">Resumo Final</h2>
+      <div class="grid grid-2">
+        <div class="card">
+          <h3>Meios físicos de comunicação</h3>
+          <ul class="list">
+            <li><b>Par Trançado:</b> cobre, custo baixo, instalação simples, alcance moderado, sujeito a EMI.</li>
+            <li><b>Fibra Óptica:</b> dados por luz, alta velocidade, longa distância, imune a EMI, instalação mais delicada.</li>
+            <li><b>Wireless:</b> sem fio, flexível, reduz cabeamento, atenção à estabilidade e segurança.</li>
+          </ul>
+
+          <h3 style="margin-top:12px">Topologias</h3>
+          <ul class="list">
+            <li><b>Barramento:</b> dispositivos compartilham uma linha; simples e econômico, mas mais sensível a falhas no tronco.</li>
+            <li><b>Estrela:</b> todos ligados a um ponto central; organização e manutenção superiores, depende do switch.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>Qual solução adotar?</h3>
+          <ul class="list">
+            <li><b>Distância:</b> longas rotas favorecem <b>fibra</b>; curtas podem usar <b>par trançado</b>.</li>
+            <li><b>Custo:</b> <b>par trançado</b> é mais econômico na borda; <b>fibra</b> para backbone.</li>
+            <li><b>Interferência:</b> alta EMI recomenda <b>fibra</b> ou cobre blindado de qualidade.</li>
+            <li><b>Mobilidade:</b> dispositivos móveis pedem <b>wireless</b> com bom planejamento.</li>
+            <li><b>Manutenção:</b> <b>estrela</b> simplifica diagnóstico; <b>barramento</b> requer cuidado no tronco.</li>
+            <li><b>Confiabilidade:</b> estrela com switches industriais e redundância onde crítico.</li>
+          </ul>
+          <p class="note">
+            Combine meios e topologias: por exemplo, <b>backbone em fibra</b> entre áreas e <b>estrela em cobre</b> no painel.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer role="contentinfo">
+    <div class="container foot">
+      <small>© Guia Visual de Redes para Automação Industrial — Conteúdo educativo para eletricistas, técnicos e alunos.</small>
+      <div class="nav-links" aria-label="Acessos rápidos">
+        <a href="#inicio">Topo</a>
+        <a href="#cabos">Cabos</a>
+        <a href="#topologias">Topologias</a>
+        <a href="#recomendador">Recomendação</a>
+        <a href="#assistente">IA</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    /* =========================================================
+       UTILIDADES
+    ========================================================= */
+    const $ = (sel, parent = document) => parent.querySelector(sel);
+    const $$ = (sel, parent = document) => Array.from(parent.querySelectorAll(sel));
+
+    function scrollToElement(el, offset = 92){
+      if(!el) return;
+      const y = el.getBoundingClientRect().top + window.scrollY - offset;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
+
+    function safeToggle(panel, btn){
+      if(!panel) return false;
+      const isOpen = panel.classList.toggle('open');
+      if(btn){
+        btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        btn.textContent = isOpen ? 'Ocultar detalhes' : 'Ver detalhes';
+      }
+      return isOpen;
+    }
+
+    function highlightElement(el){
+      if(!el) return;
+      el.classList.add('highlight');
+      setTimeout(() => el.classList.remove('highlight'), 1800);
+    }
+
+    /* =========================================================
+       TOGGLE DOS DETALHES - corrigido/robusto
+    ========================================================= */
+    function bindToggleButtons(){
+      $$('[data-toggle]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const selector = btn.getAttribute('data-toggle');
+          if(!selector) return;
+
+          const panel = document.querySelector(selector);
+          if(!panel){
+            console.warn('Painel não encontrado para:', selector);
+            return;
+          }
+
+          const isOpen = safeToggle(panel, btn);
+          if(isOpen){
+            setTimeout(() => scrollToElement(panel, 110), 40);
+          }
+        });
+      });
+    }
+
+    /* =========================================================
+       ANCORAS / NAVEGAÇÃO SUAVE
+    ========================================================= */
+    function bindAnchorNavigation(){
+      $$('a[href^="#"]').forEach(a => {
+        a.addEventListener('click', e => {
+          const id = a.getAttribute('href');
+          if(!id || id.length <= 1) return;
+          const el = document.querySelector(id);
+          if(!el) return;
+          e.preventDefault();
+          history.pushState(null, '', id);
+          scrollToElement(el, 86);
+        });
+      });
+    }
+
+    /* =========================================================
+       BUSCA RÁPIDA
+    ========================================================= */
+    const searchableItems = [
+      { id: '#cabos', title: 'Cabos Industriais', desc: 'Visão geral dos meios físicos.', keywords: 'cabos rede industrial' },
+      { id: '#topologias', title: 'Topologias de Rede', desc: 'Barramento e estrela.', keywords: 'topologia rede' },
+      { id: '#recomendador', title: 'Gerar recomendação', desc: 'Sistema para sugerir meio físico e topologia.', keywords: 'recomendação escolher cabo' },
+      { id: '#assistente', title: 'IA Assistente', desc: 'Tire dúvidas mais específicas.', keywords: 'ia chat dúvidas' },
+      { id: '#par-details', title: 'Par Trançado', desc: 'Ethernet/Profinet em cobre.', keywords: 'par trançado ethernet profinet cobre clp switch' },
+      { id: '#fibra-details', title: 'Fibra Óptica', desc: 'Longas distâncias e imunidade a EMI.', keywords: 'fibra óptica backbone emi galpão' },
+      { id: '#wifi-details', title: 'Wireless', desc: 'Wi-Fi/rádio industrial para mobilidade.', keywords: 'wireless wifi radio agv empilhadeira' },
+      { id: '#bus-details', title: 'Rede em Barramento', desc: 'Linha compartilhada entre dispositivos.', keywords: 'barramento linha tronco terminador' },
+      { id: '#star-details', title: 'Rede em Estrela', desc: 'Todos ligados ao switch central.', keywords: 'estrela switch painel manutenção' },
+      { id: '#app-1-details', title: 'Aplicação: CLP + supervisão', desc: 'Par trançado no painel/setor.', keywords: 'clp supervisão par trançado' },
+      { id: '#app-2-details', title: 'Aplicação: galpões em fibra', desc: 'Backbone em fibra.', keywords: 'galpões fibra backbone' },
+      { id: '#app-3-details', title: 'Aplicação: AGV / sensores móveis', desc: 'Wireless industrial.', keywords: 'agv wifi wireless sensor móvel' },
+      { id: '#app-4-details', title: 'Aplicação: estrela no painel', desc: 'Switch central para CLPs e IHMs.', keywords: 'estrela switch painel clp ihm' },
+      { id: '#app-5-details', title: 'Aplicação: linha de produção', desc: 'Barramento em sequência.', keywords: 'linha barramento sequência' },
+    ];
+
+    function runSearch(term){
+      const box = $('#searchResults');
+      const q = term.trim().toLowerCase();
+
+      if(!q){
+        box.classList.remove('show');
+        box.innerHTML = '';
+        return;
+      }
+
+      const results = searchableItems.filter(item => {
+        const text = `${item.title} ${item.desc} ${item.keywords}`.toLowerCase();
+        return text.includes(q);
+      }).slice(0, 8);
+
+      if(results.length === 0){
+        box.innerHTML = `<div class="search-item"><b>Nada encontrado</b><br><small>Tente termos como: fibra, estrela, EMI, wireless, CLP.</small></div>`;
+        box.classList.add('show');
+        return;
+      }
+
+      box.innerHTML = results.map(item => `
+        <div class="search-item" data-target="${item.id}">
+          <b>${item.title}</b><br>
+          <small>${item.desc}</small>
+        </div>
       `).join('');
-      document.querySelectorAll('.detail-btn').forEach(btn => btn.addEventListener('click', () => openDetails(btn.dataset.id)));
+
+      box.classList.add('show');
+
+      $$('.search-item', box).forEach(item => {
+        item.addEventListener('click', () => {
+          const targetSel = item.getAttribute('data-target');
+          const el = document.querySelector(targetSel);
+          if(!el) return;
+
+          if(el.classList.contains('details') && !el.classList.contains('open')){
+            el.classList.add('open');
+            const btn = document.querySelector(`[data-toggle="${targetSel}"]`);
+            if(btn){
+              btn.setAttribute('aria-expanded', 'true');
+              btn.textContent = 'Ocultar detalhes';
+            }
+          }
+
+          scrollToElement(el.closest('section, article, .card, .app-card') || el, 100);
+          highlightElement(el.closest('.card, .app-card, .result-box, .assistant-panel') || el);
+          box.classList.remove('show');
+        });
+      });
     }
 
-    function renderCompare(){
-      const header = `<tr><th>Tecnologia</th>${compareRows.map(r=>`<th>${r[0]}</th>`).join('')}</tr>`;
-      const body = technologies.map(tech => `<tr>
-        <td><b>${tech.name}</b></td>
-        ${compareRows.map(r=>`<td>${r[1](tech)}</td>`).join('')}
-      </tr>`).join('');
-      compareTable.innerHTML = header + body;
+    function bindSearch(){
+      const input = $('#quickSearch');
+      const clearBtn = $('#clearSearchBtn');
+      if(!input || !clearBtn) return;
+
+      input.addEventListener('input', () => runSearch(input.value));
+      clearBtn.addEventListener('click', () => {
+        input.value = '';
+        runSearch('');
+        input.focus();
+      });
+
+      document.addEventListener('click', (e) => {
+        const box = $('#searchResults');
+        if(!box) return;
+        if(!box.contains(e.target) && e.target !== input){
+          box.classList.remove('show');
+        }
+      });
     }
 
-    function openDetails(id){
-      const tech = technologies.find(t => t.id === id);
-      if(!tech) return;
-      modalTitle.textContent = tech.name;
-      modalSubtitle.textContent = tech.tag + ' • ' + tech.speed + ' • ' + tech.distance + ' • ' + tech.cost;
-      modalBody.innerHTML = `
-        <p>${tech.detail}</p>
-        <h4>${t('bestFor')}</h4>
-        <ul>${tech.best.map(item => `<li>${item}</li>`).join('')}</ul>
-        <h4>${t('limits')}</h4>
-        <ul>${tech.limits.map(item => `<li>${item}</li>`).join('')}</ul>
+    /* =========================================================
+       RECOMENDADOR
+    ========================================================= */
+    function buildRecommendationHTML(data){
+      const {
+        meio, topologia, motivo, observacoes, score,
+        arquitetura, resumo
+      } = data;
+
+      const tags = [
+        `Meio sugerido: ${meio}`,
+        `Topologia: ${topologia}`,
+        `Arquitetura: ${arquitetura}`
+      ];
+
+      return `
+        <h3>Resultado da recomendação</h3>
+        <p><b>Resumo:</b> ${resumo}</p>
+
+        <div class="rec-tags">
+          ${tags.map(t => `<span class="pill">${t}</span>`).join('')}
+        </div>
+
+        <div class="rec-card">
+          <h4>Por que essa recomendação faz sentido?</h4>
+          <p>${motivo}</p>
+        </div>
+
+        <div class="rec-card">
+          <h4>Observações importantes</h4>
+          <ul class="list">
+            ${observacoes.map(o => `<li>${o}</li>`).join('')}
+          </ul>
+        </div>
+
+        <div class="score-row">
+          <div class="score-box">
+            <strong>${score.custo}</strong>
+            impacto em custo
+          </div>
+          <div class="score-box">
+            <strong>${score.confiabilidade}</strong>
+            confiabilidade esperada
+          </div>
+          <div class="score-box">
+            <strong>${score.manutencao}</strong>
+            facilidade de manutenção
+          </div>
+        </div>
       `;
-      modal.classList.add('open');
-      modal.setAttribute('aria-hidden','false');
     }
 
-    closeModal.addEventListener('click', ()=>modal.classList.remove('open'));
-    modal.addEventListener('click', e => { if(e.target === modal) modal.classList.remove('open'); });
+    function generateRecommendation(){
+      const distancia = $('#distancia').value;
+      const emi = $('#emi').value;
+      const mobilidade = $('#mobilidade').value;
+      const prioridade = $('#prioridade').value;
+      const topologiaPreferida = $('#topologiaPreferida').value;
+      const criticidade = $('#criticidade').value;
 
-    function scoreTech(tech, answers){
-      let score = 0;
-      if(answers.integration === 'drives' && tech.fit.includes('drives')) score += 4;
-      if(answers.integration === 'supervision' && tech.fit.includes('supervision')) score += 4;
-      if(answers.integration === 'sensors' && tech.fit.includes('sensors')) score += 4;
-
-      if(answers.speed === 'high'){
-        if(['EtherCAT','PROFINET','EtherNet/IP'].includes(tech.name)) score += 4;
-        if(tech.name === 'Fibra óptica') score += 2;
-      } else if(answers.speed === 'medium'){
-        if(['PROFINET','EtherNet/IP','Modbus TCP','PROFIBUS-DP'].includes(tech.name)) score += 3;
-      } else {
-        if(['Modbus RTU','PROFIBUS-DP'].includes(tech.name)) score += 3;
-      }
-
-      if(answers.distance === 'long'){
-        if(tech.name === 'Fibra óptica') score += 5;
-        if(['Modbus RTU','PROFIBUS-DP'].includes(tech.name)) score += 2;
-      } else if(answers.distance === 'medium'){
-        if(['PROFINET','EtherNet/IP','Modbus TCP','PROFIBUS-DP'].includes(tech.name)) score += 2;
-      } else {
-        if(['EtherCAT','PROFINET','EtherNet/IP'].includes(tech.name)) score += 2;
-      }
-
-      if(answers.environment === 'harsh'){
-        if(tech.name === 'Fibra óptica') score += 4;
-        if(['Modbus RTU','PROFIBUS-DP'].includes(tech.name)) score += 2;
-      }
-
-      if(answers.budget === 'low'){
-        if(['Modbus RTU','Modbus TCP'].includes(tech.name)) score += 4;
-      } else if(answers.budget === 'high'){
-        if(['EtherCAT','PROFINET','Fibra óptica'].includes(tech.name)) score += 2;
-      }
-
-      if(answers.criticality === 'critical'){
-        if(['PROFINET','EtherCAT','Fibra óptica'].includes(tech.name)) score += 3;
-      }
-      return score;
-    }
-
-    function buildRecommendation(){
-      const answers = {
-        distance: document.getElementById('distance').value,
-        environment: document.getElementById('environment').value,
-        speed: document.getElementById('speed').value,
-        criticality: document.getElementById('criticality').value,
-        budget: document.getElementById('budget').value,
-        integration: document.getElementById('integration').value
+      let meio = 'Par Trançado';
+      let topologia = 'Estrela';
+      let arquitetura = 'Rede em estrela com switch industrial';
+      let observacoes = [];
+      let score = {
+        custo: 'Médio',
+        confiabilidade: 'Boa',
+        manutencao: 'Boa'
       };
-      const ranked = technologies.map(tech => ({tech, score: scoreTech(tech, answers)})).sort((a,b)=>b.score-a.score);
-      const top = ranked[0].tech;
-      const alt = ranked.slice(1,3).map(r=>r.tech.name).join(' • ');
-      const reasons = [];
-      if(answers.integration === 'drives') reasons.push('o foco em drives / motion');
-      if(answers.integration === 'supervision') reasons.push('a integração com CLP, IHM e supervisão');
-      if(answers.integration === 'sensors') reasons.push('a comunicação com sensores e dispositivos simples');
-      if(answers.distance === 'long') reasons.push('a necessidade de cobrir distâncias maiores');
-      if(answers.speed === 'high') reasons.push('a exigência de alta velocidade / tempo real');
-      if(answers.budget === 'low') reasons.push('o orçamento mais enxuto');
-      recommendationResult.hidden = false;
-      recommendationResult.innerHTML = `
-        <h4 style="margin:0 0 8px">${t('recFor')}: ${top.name}</h4>
-        <p style="margin:0 0 12px">${top.detail}</p>
-        <p><b>${t('why')}:</b> ${reasons.join(', ') || 'combinação geral do cenário informado'}.</p>
-        <p><b>${t('alt')}:</b> ${alt}</p>
-      `;
+
+      // Escolha do meio físico
+      if(mobilidade === 'sim'){
+        meio = 'Wireless (para a parte móvel) + infraestrutura cabeada de apoio';
+        observacoes.push('Para AGVs, empilhadeiras ou sensores móveis, o wireless costuma ser o melhor para a parte em movimento.');
+        observacoes.push('Mesmo com wireless, geralmente existe uma infraestrutura cabeada de backbone e switches de apoio.');
+        score.custo = 'Médio';
+        score.confiabilidade = emi === 'alta' ? 'Média a boa (depende do projeto)' : 'Boa';
+      } else if(distancia === 'longa' || emi === 'alta'){
+        meio = 'Fibra Óptica';
+        observacoes.push('A fibra é a opção mais segura para longas distâncias e ambientes com muita interferência eletromagnética.');
+        observacoes.push('É especialmente útil para backbone entre galpões, prédios ou áreas com motores e inversores.');
+        score.custo = 'Médio a alto';
+        score.confiabilidade = 'Alta';
+      } else {
+        meio = 'Par Trançado';
+        observacoes.push('Par trançado é uma solução muito boa para painéis, setores locais e distâncias curtas.');
+        observacoes.push('Se houver ruído moderado, vale usar cabo blindado industrial e boa segregação de potência.');
+        score.custo = 'Baixo';
+        score.confiabilidade = emi === 'media' ? 'Boa' : 'Boa';
+      }
+
+      // Ajustes por prioridade
+      if(prioridade === 'custo'){
+        if(mobilidade !== 'sim' && distancia !== 'longa' && emi !== 'alta'){
+          meio = 'Par Trançado';
+          score.custo = 'Baixo';
+        }
+      }
+
+      if(prioridade === 'desempenho' && mobilidade !== 'sim'){
+        if(distancia === 'longa' || emi === 'alta'){
+          meio = 'Fibra Óptica';
+        }
+      }
+
+      // Topologia
+      if(topologiaPreferida === 'estrela'){
+        topologia = 'Estrela';
+      } else if(topologiaPreferida === 'barramento'){
+        topologia = 'Barramento';
+      } else {
+        // Auto
+        if(prioridade === 'facilidade' || prioridade === 'confiabilidade' || criticidade === 'alta'){
+          topologia = 'Estrela';
+        } else if(prioridade === 'custo' && mobilidade === 'nao' && distancia !== 'longa'){
+          topologia = 'Barramento';
+        } else {
+          topologia = 'Estrela';
+        }
+      }
+
+      if(topologia === 'Estrela'){
+        arquitetura = 'Switch central no painel/área, com links dedicados para cada equipamento';
+        observacoes.push('A topologia em estrela facilita manutenção, expansão e diagnóstico.');
+        score.manutencao = 'Alta';
+      } else {
+        arquitetura = 'Linha comum com dispositivos em sequência no mesmo segmento';
+        observacoes.push('Barramento pode reduzir cabeamento, mas exige atenção ao segmento comum e à propagação de falhas.');
+        score.manutencao = 'Média';
+      }
+
+      if(criticidade === 'alta'){
+        observacoes.push('Como o processo é crítico, vale considerar switches industriais gerenciáveis, redundância e documentação detalhada da rede.');
+        if(topologia !== 'Estrela'){
+          observacoes.push('Para processo crítico, normalmente estrela tende a ser mais confortável para manutenção e isolamento de falhas.');
+        }
+      }
+
+      let motivo = '';
+      if(meio.includes('Wireless')){
+        motivo = `Como existe mobilidade no processo, o sistema priorizou wireless para a parte móvel. Isso evita cabeamento em equipamentos que se deslocam e aumenta a flexibilidade da instalação. A recomendação continua pedindo infraestrutura cabeada de apoio para backbone, switches e pontos fixos.`;
+      } else if(meio === 'Fibra Óptica'){
+        motivo = `A combinação de ${distancia === 'longa' ? 'longa distância' : 'distância relevante'} e/ou ${emi === 'alta' ? 'alta interferência eletromagnética' : 'necessidade de maior robustez'} favorece fibra óptica. Ela oferece maior imunidade a EMI, bom desempenho e mais segurança para interligar áreas ou galpões.`;
+      } else {
+        motivo = `Como o cenário está mais próximo de distâncias curtas/médias e sem exigência dominante de backbone óptico, o par trançado oferece o melhor equilíbrio entre custo, simplicidade e manutenção. Em ambiente industrial, o ideal é usar cabo adequado ao ambiente e observar blindagem quando necessário.`;
+      }
+
+      if(topologia === 'Estrela'){
+        motivo += ` A topologia em estrela complementa bem esse cenário porque centraliza a rede em um switch e facilita manutenção, expansão e diagnóstico.`;
+      } else {
+        motivo += ` A topologia em barramento foi considerada aceitável porque prioriza economia de cabeamento e pode atender cenários lineares ou mais simples, desde que o segmento comum seja bem cuidado.`;
+      }
+
+      const resumo = `Para este cenário, a recomendação principal é usar <b>${meio}</b> com topologia <b>${topologia}</b>.`;
+
+      return {
+        meio,
+        topologia,
+        arquitetura,
+        motivo,
+        observacoes,
+        score,
+        resumo
+      };
     }
 
-    document.getElementById('recommendBtn').addEventListener('click', buildRecommendation);
-    document.getElementById('clearRecBtn').addEventListener('click', ()=>{
-      recommendationResult.hidden = true;
-      recommendationResult.innerHTML = '';
-      document.querySelectorAll('#recommend select').forEach((el, idx)=> el.selectedIndex = 0);
-    });
+    function bindRecommendation(){
+      const resultBox = $('#recommendationResult');
+      const generateBtn = $('#generateRecommendationBtn');
+      const clearBtn = $('#clearRecommendationBtn');
+      const exampleBtn = $('#exampleScenarioBtn');
 
-    function renderAssistantWelcome(){
-      chatlog.innerHTML = '';
-      addMessage('assistant', {
-        pt:'Posso ajudar com protocolos, meios físicos, cenários de aplicação, comparação entre redes e escolha de tecnologia para o seu projeto.',
-        en:'I can help with protocols, physical media, application scenarios, network comparison and choosing a technology for your project.',
-        es:'Puedo ayudar con protocolos, medios físicos, escenarios de aplicación, comparación de redes y elección de tecnología para tu proyecto.',
-        hi:'मैं प्रोटोकॉल, फिजिकल मीडिया, एप्लिकेशन परिदृश्यों, नेटवर्क तुलना और आपके प्रोजेक्ट के लिए तकनीक चुनने में मदद कर सकता हूँ।',
-        zh:'我可以帮助你了解协议、物理介质、应用场景、网络对比，以及为项目选择合适的技术。',
-        ar:'أستطيع مساعدتك في البروتوكولات ووسائط النقل وسيناريوهات التطبيق ومقارنة الشبكات واختيار التقنية المناسبة لمشروعك.'
-      }[currentLang]);
+      if(!resultBox || !generateBtn || !clearBtn || !exampleBtn) return;
+
+      generateBtn.addEventListener('click', () => {
+        const result = generateRecommendation();
+        resultBox.innerHTML = buildRecommendationHTML(result);
+        highlightElement(resultBox);
+      });
+
+      clearBtn.addEventListener('click', () => {
+        $('#distancia').value = 'curta';
+        $('#emi').value = 'baixa';
+        $('#mobilidade').value = 'nao';
+        $('#prioridade').value = 'custo';
+        $('#topologiaPreferida').value = 'auto';
+        $('#criticidade').value = 'normal';
+
+        resultBox.innerHTML = `
+          <h3>Resultado da recomendação</h3>
+          <div class="result-placeholder">
+            Preencha o cenário e clique em <b>“Gerar recomendação”</b>. O sistema vai sugerir o meio físico, a topologia e explicar o motivo.
+          </div>
+        `;
+      });
+
+      exampleBtn.addEventListener('click', () => {
+        $('#distancia').value = 'longa';
+        $('#emi').value = 'alta';
+        $('#mobilidade').value = 'nao';
+        $('#prioridade').value = 'confiabilidade';
+        $('#topologiaPreferida').value = 'auto';
+        $('#criticidade').value = 'alta';
+        highlightElement($('.card', $('#recomendador')));
+      });
     }
 
-    function addMessage(role, text){
+    /* =========================================================
+       IA ASSISTENTE LOCAL
+    ========================================================= */
+    const assistantKnowledge = [
+      {
+        keys: ['fibra', 'fibra óptica', 'backbone', 'longa distância', 'galpão'],
+        answer:
+`A fibra óptica costuma ser a melhor escolha quando você tem:
+• longas distâncias;
+• interligação entre galpões, prédios ou setores distantes;
+• ambiente com muita interferência eletromagnética (motores, inversores, partidas de potência);
+• necessidade de backbone mais robusto.
+
+Pontos fortes:
+• alta imunidade a EMI;
+• ótima capacidade para backbone;
+• bom desempenho em longas distâncias.
+
+Pontos de atenção:
+• custo e conectorização costumam ser mais delicados do que no cobre.`
+      },
+      {
+        keys: ['par trançado', 'ethernet', 'profinet', 'rj45', 'm12', 'cobre'],
+        answer:
+`Par trançado é uma escolha muito comum para:
+• CLP, IHM, switch e supervisório no mesmo painel ou setor;
+• distâncias curtas, normalmente até cerca de 100 m por segmento;
+• cenários em que custo e simplicidade pesam bastante.
+
+Vantagens:
+• menor custo;
+• instalação mais simples;
+• muito comum em Ethernet/Profinet.
+
+Cuidados:
+• se houver EMI, prefira cabo industrial blindado e roteamento longe de cabos de potência.`
+      },
+      {
+        keys: ['wireless', 'wifi', 'wi-fi', 'agv', 'empilhadeira', 'móvel', 'movel', 'mobilidade', 'rádio'],
+        answer:
+`Wireless é especialmente interessante quando existe mobilidade:
+• AGVs;
+• empilhadeiras automatizadas;
+• sensores móveis;
+• pontos em que passar cabo é difícil ou inviável.
+
+Benefícios:
+• flexibilidade;
+• menos cabeamento em partes móveis;
+• facilidade de expansão.
+
+Cuidados:
+• cobertura e canais precisam ser planejados;
+• a latência e a estabilidade do sinal precisam ser compatíveis com o processo;
+• segurança da rede é importante.`
+      },
+      {
+        keys: ['estrela', 'switch', 'topologia em estrela'],
+        answer:
+`A topologia em estrela é a mais confortável para redes industriais Ethernet em muitos cenários.
+
+Como funciona:
+• cada equipamento tem um link dedicado para um ponto central, geralmente um switch.
+
+Vantagens:
+• manutenção e diagnóstico mais fáceis;
+• expansão mais organizada;
+• falha em um cabo ou dispositivo tende a afetar menos a rede como um todo.
+
+Ponto de atenção:
+• existe dependência do equipamento central.`
+      },
+      {
+        keys: ['barramento', 'topologia em barramento', 'linha', 'tronco'],
+        answer:
+`Na topologia em barramento, os dispositivos compartilham uma linha comum.
+
+Vantagens:
+• menos cabeamento;
+• estrutura simples;
+• pode fazer sentido em cenários lineares ou sistemas legados.
+
+Desvantagens:
+• falhas no tronco/segmento comum podem afetar vários equipamentos;
+• manutenção e diagnóstico tendem a ser menos confortáveis que em estrela.`
+      },
+      {
+        keys: ['emi', 'interferência', 'interferencia', 'ruído', 'ruido eletromagnético'],
+        answer:
+`A EMI (interferência eletromagnética) influencia bastante a escolha do meio físico.
+
+Em ambiente com muita EMI:
+• fibra óptica é muito forte porque é imune a esse tipo de interferência;
+• se usar cobre, vale pensar em cabo blindado industrial, aterramento correto e segregação de potência e comunicação.
+
+Quanto maior a presença de motores, inversores e partidas, maior a atenção com EMI.`
+      },
+      {
+        keys: ['clp', 'ihm', 'supervisão', 'supervisao', 'switch industrial'],
+        answer:
+`Em um cenário clássico de automação, com CLP, IHM, switch e supervisório no mesmo painel ou setor, normalmente a combinação mais comum é:
+• par trançado para os enlaces locais;
+• topologia em estrela com switch central.
+
+Isso facilita:
+• organização;
+• manutenção;
+• expansão futura;
+• diagnóstico de falhas.`
+      },
+      {
+        keys: ['qual escolher', 'qual usar', 'recomendação', 'recomendacao'],
+        answer:
+`A escolha depende principalmente de quatro fatores:
+1. Distância;
+2. Interferência eletromagnética;
+3. Mobilidade;
+4. Criticidade/manutenção.
+
+Regra prática:
+• curta distância e custo baixo → par trançado;
+• longa distância ou alta EMI → fibra óptica;
+• mobilidade → wireless para a parte móvel;
+• facilidade de manutenção e confiabilidade → estrela.`
+      }
+    ];
+
+    function normalizeText(text){
+      return (text || '')
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .trim();
+    }
+
+    function addAssistantMessage(text, role = 'assistant'){
+      const container = $('#assistantMessages');
+      if(!container) return;
+
       const div = document.createElement('div');
-      div.className = 'msg';
-      div.innerHTML = `<b>${role === 'assistant' ? 'Assistente' : 'Você'}</b><div>${text}</div>`;
-      chatlog.appendChild(div);
-      chatlog.scrollTop = chatlog.scrollHeight;
+      div.className = `msg ${role}`;
+      div.innerHTML = `
+        ${text}
+        <small>${role === 'assistant' ? 'Assistente' : 'Você'} • ${new Date().toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'})}</small>
+      `;
+      container.appendChild(div);
+      container.scrollTop = container.scrollHeight;
     }
 
-    function assistantAnswer(question){
-      const q = question.toLowerCase();
-      if(q.includes('fibra')){
-        return 'Use fibra quando a distância é grande, quando existe muito ruído eletromagnético ou quando você quer backbone entre áreas/prédios. Ela também ajuda no isolamento elétrico.';
+    function answerQuestion(question){
+      const q = normalizeText(question);
+
+      if(!q){
+        return 'Escreve uma pergunta e eu respondo com base no conteúdo do guia.';
       }
-      if(q.includes('modbus rtu') && q.includes('tcp')){
-        return 'Modbus RTU roda normalmente em serial RS-485: é simples, barato e comum em equipamentos legados. Modbus TCP leva a mesma lógica do Modbus para Ethernet, facilitando integração com CLPs, supervisórios e gateways.';
+
+      // tenta casar com base de conhecimento
+      const matched = assistantKnowledge.filter(item =>
+        item.keys.some(key => q.includes(normalizeText(key)))
+      );
+
+      if(matched.length){
+        // junta até 2 respostas relevantes
+        return matched.slice(0,2).map(item => item.answer).join('\n\n');
       }
-      if(q.includes('ethercat') || q.includes('motion')){
-        return 'EtherCAT é uma ótima escolha para motion e sincronismo de eixos. Ele se destaca quando a aplicação exige ciclos curtos, baixa latência e determinismo.';
+
+      // heurística simples para perguntas comparativas
+      if(q.includes('fibra') && q.includes('par')){
+        return `Se a comparação é entre fibra e par trançado, pensa assim:
+
+• <b>Par trançado</b>: melhor quando a distância é curta, o custo precisa ser menor e os equipamentos estão no mesmo painel/setor.
+• <b>Fibra óptica</b>: melhor para backbone, longas distâncias e ambientes com alta EMI.
+
+Se você quiser, me descreve o cenário em 1 frase e eu te digo qual faz mais sentido.`;
       }
-      if(q.includes('profinet')){
-        return 'PROFINET costuma ser uma escolha forte para CLP + IHM + remotas + drives, principalmente em ecossistemas Siemens. Ele oferece bom desempenho, diagnóstico e manutenção facilitada.';
+
+      if(q.includes('estrela') && q.includes('barramento')){
+        return `Resumo rápido:
+• <b>Estrela</b> → mais organizada, mais fácil de manter, mais comum em Ethernet industrial.
+• <b>Barramento</b> → menos cabeamento e menor custo inicial, mas mais sensível a problemas no segmento comum.
+
+Se o processo é crítico e você quer manutenção mais tranquila, estrela normalmente é a aposta mais segura.`;
       }
-      if(q.includes('rockwell') || q.includes('ethernet/ip')){
-        return 'EtherNet/IP é muito forte em ambientes Rockwell/Allen-Bradley. Faz bastante sentido para integração de CLPs, IHMs, drives e remotas quando o ecossistema já conversa em CIP.';
+
+      if(q.includes('clp') || q.includes('ihm') || q.includes('switch')){
+        return `Para CLP, IHM e switch no mesmo painel ou setor, a solução mais comum é:
+• <b>par trançado</b> nos enlaces locais;
+• <b>topologia em estrela</b> com switch central.
+
+Se houver muito ruído eletromagnético, vale reforçar a escolha do cabo e a blindagem.`;
       }
-      if(q.includes('barato') || q.includes('baixo custo') || q.includes('econôm')){
-        return 'Se o foco é custo baixo e simplicidade, normalmente Modbus RTU ou Modbus TCP entram primeiro na conversa. A escolha entre eles depende mais do meio físico e da arquitetura da planta.';
-      }
-      if(q.includes('longa') || q.includes('distância')){
-        return 'Para longas distâncias, fibra óptica costuma ser a melhor resposta. Em alguns cenários legados, Modbus RTU e PROFIBUS-DP também podem atender, mas a fibra costuma vencer em imunidade a ruído e backbone.';
-      }
-      const top = technologies.map(tech => ({tech, score: (tech.fit.includes('supervision')?1:0) + (tech.fit.includes('drives')?1:0)})).sort((a,b)=>b.score-a.score)[0].tech;
-      return `Se você me disser o cenário (distância, velocidade, integração principal e ambiente), eu consigo te indicar melhor. Como ponto de partida, ${top.name} é uma opção bem versátil para redes industriais modernas.`;
+
+      return `Ainda não encontrei uma resposta específica para essa pergunta dentro da base local do guia, mas posso te orientar se você descrever o cenário de forma objetiva.
+
+Exemplo de pergunta boa:
+“Tenho um CLP e uma IHM no mesmo painel, com distância curta e pouca EMI. Qual cabo e topologia usar?”`;
     }
 
-    document.getElementById('assistantSend').addEventListener('click', ()=>{
-      const q = assistantInput.value.trim();
+    function askAssistant(question){
+      const q = question.trim();
       if(!q) return;
-      addMessage('user', q);
-      addMessage('assistant', assistantAnswer(q));
-      assistantInput.value = '';
-    });
-    assistantInput.addEventListener('keydown', e => {
-      if(e.key === 'Enter'){ e.preventDefault(); document.getElementById('assistantSend').click(); }
-    });
-    document.querySelectorAll('.quick-q').forEach(btn => btn.addEventListener('click', ()=>{
-      assistantInput.value = btn.dataset.q;
-      document.getElementById('assistantSend').click();
-    }));
+      addAssistantMessage(q, 'user');
 
-    initLang();
-    applyTranslations();
+      const answer = answerQuestion(q);
+      setTimeout(() => addAssistantMessage(answer, 'assistant'), 180);
+    }
+
+    function bindAssistant(){
+      const sendBtn = $('#assistantSendBtn');
+      const clearBtn = $('#assistantClearBtn');
+      const textarea = $('#assistantQuestion');
+      const suggestions = $$('.sugg');
+
+      if(sendBtn && textarea){
+        sendBtn.addEventListener('click', () => {
+          askAssistant(textarea.value);
+          textarea.value = '';
+          textarea.focus();
+        });
+
+        textarea.addEventListener('keydown', e => {
+          if(e.key === 'Enter' && !e.shiftKey){
+            e.preventDefault();
+            askAssistant(textarea.value);
+            textarea.value = '';
+          }
+        });
+      }
+
+      if(clearBtn){
+        clearBtn.addEventListener('click', () => {
+          const container = $('#assistantMessages');
+          container.innerHTML = `
+            <div class="msg assistant">
+              Conversa reiniciada. Pode mandar outra dúvida sobre redes industriais, cabos, topologias ou cenários de aplicação.
+              <small>Assistente • pronto para responder</small>
+            </div>
+          `;
+        });
+      }
+
+      suggestions.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const text = btn.textContent.trim();
+          $('#assistantQuestion').value = text;
+          askAssistant(text);
+          $('#assistantQuestion').value = '';
+        });
+      });
+    }
+
+    /* =========================================================
+       INIT
+    ========================================================= */
+    document.addEventListener('DOMContentLoaded', () => {
+      bindToggleButtons();
+      bindAnchorNavigation();
+      bindSearch();
+      bindRecommendation();
+      bindAssistant();
+    });
   </script>
 </body>
 </html>
