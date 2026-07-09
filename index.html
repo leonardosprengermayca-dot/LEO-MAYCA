@@ -5,1091 +5,611 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Guia Visual de Redes para Automação Industrial</title>
   <meta name="description" content="Guia visual educativo sobre cabos industriais, topologias de rede e aplicações no chão de fábrica." />
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
     :root{
-      --bg:#071018;
-      --bg-2:#0b131d;
-      --panel:#0d1722;
-      --panel-2:#101c29;
-      --card:#0f1a27;
-      --card-2:#122131;
+      --bg:#0b0f14;
+      --bg-alt:#0f141b;
+      --panel:#121924;
+      --panel-2:#0e1620;
+      --card:#0f1924;
       --muted:#9fb0c3;
       --text:#e8eef6;
-      --text-soft:#c9d7e6;
       --accent:#14b87a;
       --accent-2:#ff8a00;
+      --edge:#1d2a38;
+      --line:#1c2c3d;
       --primary:#1a73e8;
       --cyan:#00bcd4;
-      --purple:#8b5cf6;
-      --edge:#1c2b3a;
-      --edge-2:#284158;
-      --danger:#ff8181;
-      --warn:#ffc266;
-      --ok:#5ce69f;
-      --shadow:0 12px 30px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.02);
-      --shadow-soft:0 10px 24px rgba(0,0,0,.22);
-      --radius:16px;
-      --radius-sm:12px;
-      --radius-lg:22px;
-      --gap:20px;
-      --container:min(1240px, 92%);
-      --header-h:78px;
+      --danger:#ff6b6b;
+      --success:#46e89a;
+      --warning:#ffbf5f;
+      --shadow: 0 6px 18px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.02);
+      --radius:14px;
+      --radius-sm:10px;
+      --radius-lg:18px;
+      --gap:18px;
     }
 
     *{box-sizing:border-box}
+    html,body{height:100%}
     html{scroll-behavior:smooth}
     body{
       margin:0;
-      font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;
-      color:var(--text);
+      font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
       background:
-        radial-gradient(900px 600px at 110% -10%, rgba(20,184,122,.10), transparent 60%),
-        radial-gradient(900px 700px at -10% 110%, rgba(26,115,232,.12), transparent 60%),
-        linear-gradient(180deg,#071018 0%, #08111a 28%, #09131d 100%);
-      line-height:1.65;
-      overflow-x:hidden;
+        radial-gradient(1200px 800px at 120% -10%, rgba(20,184,122,.10), transparent 60%),
+        radial-gradient(900px 700px at -10% 120%, rgba(26,115,232,.10), transparent 60%),
+        linear-gradient(180deg, #0a0e13 0%, #0b0f14 100%);
+      color:var(--text);
+      line-height:1.6;
     }
-
-    ::selection{background:rgba(20,184,122,.25); color:#fff}
     a{color:var(--accent)}
     img,svg{display:block;max-width:100%}
-    .container{width:var(--container); margin:0 auto}
+    .container{width:min(1220px, 92%); margin:0 auto}
 
-    /* ---------- Progress bar ---------- */
-    .progress-wrap{
-      position:fixed;
-      top:0; left:0; right:0;
-      height:4px;
-      z-index:999;
-      background:transparent;
-      pointer-events:none;
-    }
-    .progress-bar{
-      width:0%;
-      height:100%;
-      background:linear-gradient(90deg,var(--accent),var(--cyan),var(--primary));
-      box-shadow:0 0 18px rgba(20,184,122,.35);
-      transition:width .08s linear;
-    }
-
-    /* ---------- Background grid ---------- */
-    .bg-grid{
-      position:fixed;
-      inset:0;
-      pointer-events:none;
-      opacity:.18;
-      z-index:-1;
-      background-image:
-        linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px);
-      background-size:36px 36px;
-      mask-image: radial-gradient(circle at center, black 20%, transparent 95%);
-    }
-
-    /* ---------- Header ---------- */
+    /* Header */
     header{
-      position:sticky;
-      top:0;
-      z-index:80;
-      backdrop-filter:saturate(140%) blur(14px);
-      background:linear-gradient(180deg, rgba(10,16,24,.92), rgba(10,16,24,.70));
-      border-bottom:1px solid rgba(255,255,255,.06);
+      position:sticky; top:0; z-index:100;
+      backdrop-filter:saturate(140%) blur(10px);
+      background:linear-gradient(180deg, rgba(15,20,27,.90), rgba(15,20,27,.72));
+      border-bottom:1px solid var(--edge);
     }
-
     .nav{
-      min-height:var(--header-h);
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:16px;
-      padding:12px 0;
+      display:flex; align-items:center; justify-content:space-between;
+      gap:12px; padding:12px 0;
     }
-
     .brand{
-      display:flex;
-      align-items:center;
-      gap:14px;
-      color:var(--text);
-      text-decoration:none;
-      min-width:0;
+      display:flex; align-items:center; gap:12px; text-decoration:none; color:var(--text)
     }
-
     .brand-logo{
-      width:46px; height:46px;
-      border-radius:14px;
-      border:1px solid var(--edge-2);
+      width:42px; height:42px; border-radius:12px;
       background:
-        radial-gradient(100% 100% at 30% 20%, rgba(20,184,122,.35), transparent 45%),
-        linear-gradient(135deg, #0b1824, #102131);
-      display:grid;
-      place-items:center;
+        radial-gradient(100% 100% at 30% 20%, rgba(20,184,122,.5), transparent 40%),
+        linear-gradient(135deg, #0c1823, #102131);
+      border:1px solid var(--edge);
       box-shadow:var(--shadow);
-      position:relative;
-      overflow:hidden;
-      flex:0 0 auto;
+      display:grid; place-items:center;
+      position:relative; overflow:hidden;
+      flex-shrink:0;
     }
     .brand-logo::after{
-      content:"";
-      position:absolute; inset:0;
-      background:repeating-linear-gradient(135deg, rgba(255,255,255,.05) 0 2px, transparent 2px 7px);
-      mix-blend-mode:overlay;
-      pointer-events:none;
+      content:""; position:absolute; inset:0;
+      background:repeating-linear-gradient(135deg, rgba(255,255,255,.04) 0 2px, transparent 2px 6px);
+      mix-blend-mode:overlay; pointer-events:none;
     }
-
-    .brand-title{
-      font-weight:900;
-      letter-spacing:.2px;
-      font-size:15px;
-      line-height:1.2;
-    }
-    .tag{
-      font-size:12px;
-      color:var(--muted);
-      margin-top:2px;
-    }
-
-    .nav-right{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      flex-wrap:wrap;
-      justify-content:flex-end;
-    }
+    .brand-title{font-weight:800; letter-spacing:.2px}
+    .tag{font-size:12px; color:var(--muted)}
 
     .nav-links{
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px;
+      display:flex; flex-wrap:wrap; gap:8px;
       align-items:center;
     }
-
-    .nav-links a{
-      color:var(--text);
-      text-decoration:none;
-      font-weight:700;
-      font-size:14px;
-      padding:10px 14px;
-      border-radius:12px;
-      border:1px solid var(--edge);
+    .nav-links a,
+    .nav-links button{
+      color:var(--text); text-decoration:none; font-weight:600; font-size:14px;
+      padding:10px 14px; border-radius:10px; border:1px solid var(--edge);
       background:linear-gradient(180deg, #0f1721, #0b121a);
-      box-shadow:var(--shadow-soft);
-      transition:.22s ease;
-      white-space:nowrap;
+      transition:.2s ease; box-shadow:var(--shadow);
+      cursor:pointer;
     }
-    .nav-links a:hover{
-      transform:translateY(-1px);
-      border-color:#2d4f6f;
-      background:#11202f;
+    .nav-links a:hover,
+    .nav-links button:hover{
+      transform:translateY(-1px); border-color:#24405c; background:#0f1c28
     }
-
     .cta{
-      background:linear-gradient(135deg, var(--accent), #0fd192);
-      color:#05130f !important;
+      background:linear-gradient(135deg, var(--accent), #0fd192) !important;
+      color:#041310 !important;
       border-color:transparent !important;
-      box-shadow:0 10px 24px rgba(20,184,122,.18);
+      text-shadow:0 1px 0 rgba(255,255,255,.15)
     }
 
-    .search-mini{
-      display:flex;
-      align-items:center;
-      gap:8px;
-      padding:8px 10px;
-      min-width:240px;
-      border-radius:12px;
-      border:1px solid var(--edge);
-      background:linear-gradient(180deg,#0f1721,#0b121a);
-      box-shadow:var(--shadow-soft);
+    /* Hero */
+    .hero{
+      padding:28px 0 18px;
+      display:grid; grid-template-columns:1.2fr .8fr; gap:18px;
+      align-items:start;
     }
-    .search-mini input{
+    .hero h1{
+      margin:6px 0 0; font-size: clamp(28px, 4.4vw, 42px);
+      line-height:1.15; letter-spacing:.2px
+    }
+    .subtitle{
+      color:var(--muted); font-weight:500; margin-top:4px
+    }
+    .intro{
+      margin-top:14px; color:#d9e6f3
+    }
+    .hero-panel{
+      margin-top:18px; padding:18px; border:1px solid var(--edge); border-radius:var(--radius);
+      background:
+        linear-gradient(180deg, rgba(20,184,122,.06), transparent 30%),
+        linear-gradient(180deg, #0c1621, #0b121a);
+      box-shadow:var(--shadow); display:flex; gap:16px; align-items:center; flex-wrap:wrap
+    }
+    .chip{
+      display:flex; align-items:center; gap:8px; padding:8px 12px; border-radius:999px;
+      border:1px solid #1e3347; color:#cfe5f7; background:#0b1520;
+      font-size:13px; font-weight:600
+    }
+    .chip i{width:18px; height:18px; border-radius:6px; background:linear-gradient(135deg, #1a73e8, #00bcd4)}
+
+    .hero-side{
+      border:1px solid var(--edge);
+      border-radius:var(--radius-lg);
+      background:
+        linear-gradient(180deg, rgba(26,115,232,.08), transparent 28%),
+        linear-gradient(180deg, #0c141d, #0b121a);
+      box-shadow:var(--shadow);
+      padding:18px;
+      position:relative;
+      overflow:hidden;
+    }
+    .hero-side::before{
+      content:"";
+      position:absolute; inset:-30% auto auto -20%;
+      width:280px; height:280px; border-radius:50%;
+      background:radial-gradient(circle, rgba(20,184,122,.12), transparent 70%);
+      pointer-events:none;
+    }
+    .hero-side h3{margin:0 0 10px}
+    .hero-mini-grid{
+      display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:12px;
+    }
+    .hero-mini{
+      padding:14px; border:1px solid #1f3447; border-radius:12px; background:#0b1520;
+    }
+    .hero-mini strong{display:block; font-size:22px; margin-bottom:4px}
+    .note{
+      margin-top:10px; padding:10px 12px; border-left:3px solid var(--accent);
+      background:#0b1620; border-radius:10px; color:#d8ecff
+    }
+
+    /* Search bar */
+    .search-wrap{
+      margin-top:16px;
+      display:flex; gap:10px; flex-wrap:wrap;
+      align-items:center;
+    }
+    .search{
+      flex:1 1 320px;
+      display:flex; align-items:center; gap:10px;
+      border:1px solid var(--edge);
+      background:#0b1520;
+      border-radius:12px;
+      padding:10px 12px;
+      box-shadow:var(--shadow);
+    }
+    .search input{
+      flex:1;
       background:transparent;
-      border:0;
+      border:none;
       outline:none;
       color:var(--text);
-      width:100%;
       font:inherit;
     }
-    .search-mini input::placeholder{color:#87a0b7}
-
-    /* ---------- Hero ---------- */
-    .hero-wrap{
-      position:relative;
-      padding:36px 0 12px;
+    .search-results{
+      margin-top:10px;
+      display:none;
+      border:1px solid var(--edge);
+      border-radius:12px;
+      background:#0c141d;
+      overflow:hidden;
+      box-shadow:var(--shadow);
     }
-
-    .hero{
-      display:grid;
-      grid-template-columns:1.15fr .95fr;
-      gap:24px;
-      align-items:stretch;
+    .search-results.show{display:block}
+    .search-item{
+      padding:12px 14px;
+      border-bottom:1px solid #162536;
+      cursor:pointer;
     }
+    .search-item:last-child{border-bottom:none}
+    .search-item:hover{background:#0f1c29}
+    .search-item small{color:var(--muted)}
 
-    .hero-left,
-    .hero-right{
-      min-width:0;
+    /* Section */
+    section{scroll-margin-top:90px; padding:28px 0}
+    .section-title{
+      font-size: clamp(22px, 3.2vw, 30px); margin:0 0 10px; letter-spacing:.3px
     }
+    .section-lead{color:var(--muted); margin:0 0 18px}
 
-    .eyebrow{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:8px 12px;
-      border-radius:999px;
-      background:rgba(20,184,122,.10);
-      border:1px solid rgba(20,184,122,.24);
-      color:#c9ffe9;
-      font-weight:700;
-      font-size:13px;
-      box-shadow:var(--shadow-soft);
-    }
-    .eyebrow i{
-      width:10px; height:10px;
-      border-radius:999px;
-      background:linear-gradient(135deg,var(--accent),#66ffd0);
-      box-shadow:0 0 12px rgba(20,184,122,.45);
-    }
+    /* Grid */
+    .grid{display:grid; gap:var(--gap)}
+    .grid-3{grid-template-columns:repeat(3,1fr)}
+    .grid-2{grid-template-columns:repeat(2,1fr)}
+    .grid-4{grid-template-columns:repeat(4,1fr)}
+    .app-grid{display:grid; gap:var(--gap); grid-template-columns:repeat(2,1fr)}
 
-    .hero h1{
-      margin:14px 0 10px;
-      font-size:clamp(32px, 5vw, 54px);
-      line-height:1.05;
-      letter-spacing:-.03em;
+    @media (max-width: 1100px){
+      .hero{grid-template-columns:1fr}
     }
-
-    .gradient-text{
-      background:linear-gradient(90deg,#fff,#d7fff2 28%, #91fff1 52%, #8cc7ff 100%);
-      -webkit-background-clip:text;
-      background-clip:text;
-      color:transparent;
+    @media (max-width: 980px){
+      .grid-3{grid-template-columns:1fr 1fr}
+      .grid-4{grid-template-columns:1fr 1fr}
+    }
+    @media (max-width: 860px){
+      .app-grid{grid-template-columns:1fr}
+    }
+    @media (max-width: 680px){
+      .grid-3,.grid-2,.grid-4{grid-template-columns:1fr}
+      .nav{gap:8px}
+      .nav-links{overflow-x:auto; scrollbar-width:none}
+      .nav-links::-webkit-scrollbar{display:none}
+      .hero-mini-grid{grid-template-columns:1fr}
     }
 
-    .subtitle{
-      color:var(--muted);
-      font-weight:600;
-      margin:0 0 14px;
-      font-size:clamp(15px, 2vw, 18px);
+    /* Cards */
+    .card{
+      border:1px solid var(--edge); border-radius:var(--radius);
+      background:
+        linear-gradient(180deg, rgba(26,115,232,.06), transparent 30%),
+        linear-gradient(180deg, #0c141d, #0b121a);
+      box-shadow:var(--shadow);
+      padding:16px; position:relative; overflow:hidden;
+      transition:.22s ease;
     }
-
-    .intro{
-      margin:0;
-      color:#d8e6f4;
-      max-width:70ch;
+    .card:hover{
+      transform:translateY(-3px);
+      border-color:#23415f;
+      box-shadow:0 10px 24px rgba(0,0,0,.38), inset 0 1px 0 rgba(255,255,255,.03);
     }
-
-    .hero-actions{
-      margin-top:22px;
-      display:flex;
-      flex-wrap:wrap;
-      gap:12px;
+    .card .icon{
+      width:44px; height:44px; border-radius:12px; display:grid; place-items:center;
+      background:linear-gradient(135deg, #0d2131, #0a1824); border:1px solid #1f3447; color:#9bdcff;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.06)
     }
+    .card h3{margin:12px 0 6px}
+    .muted{color:var(--muted)}
 
     .btn{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:10px;
-      padding:12px 16px;
-      border-radius:12px;
-      text-decoration:none;
-      border:1px solid var(--edge-2);
-      background:linear-gradient(180deg,#0f1721,#0b121a);
-      color:#d8ebff;
-      font-weight:800;
-      transition:.22s ease;
+      display:inline-flex; align-items:center; justify-content:center; gap:8px;
+      border:1px solid #244056; background:#0b1520; color:#cae7ff; text-decoration:none;
+      padding:10px 14px; border-radius:10px; font-weight:600; transition:.2s ease;
       cursor:pointer;
-      box-shadow:var(--shadow-soft);
+      font:inherit;
     }
-    .btn:hover{
-      transform:translateY(-2px);
-      border-color:#35688e;
-      background:#102030;
-    }
-    .btn.primary{
-      background:linear-gradient(135deg,var(--primary),var(--cyan));
-      border-color:transparent;
-      color:#04131c;
-      box-shadow:0 12px 28px rgba(26,115,232,.22);
+    .btn:hover{transform:translateY(-1px); border-color:#2b5677; background:#0e1b28}
+    .btn.accent{
+      background:linear-gradient(135deg, var(--primary), #00bcd4);
+      border-color:transparent; color:#07121a
     }
     .btn.success{
-      background:linear-gradient(135deg,var(--accent),#0fd192);
-      border-color:transparent;
-      color:#05130f;
-      box-shadow:0 12px 28px rgba(20,184,122,.20);
+      background:linear-gradient(135deg, var(--accent), #0fd192);
+      border-color:transparent; color:#07150f;
+    }
+    .btn.warn{
+      background:linear-gradient(135deg, #ff9d2e, #ffc266);
+      border-color:transparent; color:#201000;
     }
 
-    .hero-stats{
-      margin-top:20px;
-      display:grid;
-      grid-template-columns:repeat(4,1fr);
-      gap:12px;
-    }
-    .stat{
-      border:1px solid var(--edge);
-      background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01));
-      border-radius:14px;
-      padding:14px;
-      box-shadow:var(--shadow-soft);
-    }
-    .stat .k{
-      display:block;
-      font-size:20px;
-      font-weight:900;
-      margin-bottom:2px;
-      color:#fff;
-    }
-    .stat .t{
-      display:block;
-      font-size:12px;
-      color:var(--muted);
-      font-weight:700;
-      letter-spacing:.02em;
-    }
-
-    .hero-panel{
-      height:100%;
-      min-height:420px;
-      border:1px solid var(--edge);
-      border-radius:22px;
-      background:
-        radial-gradient(600px 300px at 20% 10%, rgba(20,184,122,.10), transparent 40%),
-        radial-gradient(600px 300px at 90% 90%, rgba(26,115,232,.14), transparent 40%),
-        linear-gradient(180deg, #0b141f, #0b121a);
-      box-shadow:var(--shadow);
-      padding:18px;
-      position:relative;
-      overflow:hidden;
-    }
-
-    .hero-panel::before{
-      content:"";
-      position:absolute;
-      inset:auto -60px -60px auto;
-      width:180px; height:180px;
-      border-radius:999px;
-      background:radial-gradient(circle, rgba(20,184,122,.18), transparent 70%);
-      filter:blur(10px);
-      pointer-events:none;
-    }
-
-    .panel-top{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
-      margin-bottom:14px;
-    }
-    .panel-title{
-      font-weight:800;
-      font-size:14px;
-      color:#dff5ff;
-    }
-    .panel-badge{
-      font-size:12px;
-      font-weight:800;
-      color:#062015;
-      background:linear-gradient(135deg,var(--accent),#66ffd0);
-      padding:7px 10px;
-      border-radius:999px;
-    }
-
-    .network-scene{
-      position:relative;
-      height:260px;
-      border:1px solid rgba(255,255,255,.06);
-      border-radius:18px;
-      background:
-        radial-gradient(200px 100px at 50% 50%, rgba(26,115,232,.12), transparent 70%),
-        linear-gradient(180deg,#0c1622,#0a1119);
-      overflow:hidden;
-    }
-
-    .scene-grid{
-      position:absolute; inset:0;
-      background-image:
-        linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
-      background-size:28px 28px;
-      opacity:.55;
-    }
-
-    .node{
-      position:absolute;
-      min-width:110px;
-      padding:10px 12px;
-      border-radius:14px;
-      border:1px solid #29465f;
-      background:linear-gradient(180deg,#122131,#0f1a27);
-      color:#e6f5ff;
-      box-shadow:var(--shadow-soft);
-      text-align:center;
-      font-size:13px;
-      font-weight:800;
-    }
-
-    .node.center{
-      min-width:130px;
-      background:linear-gradient(135deg,#133455,#10263d);
-      border-color:#31648f;
-      box-shadow:0 0 0 1px rgba(64,157,255,.18), 0 16px 30px rgba(0,0,0,.28);
-    }
-
-    .n-clp{top:26px; left:32px}
-    .n-ihm{top:34px; right:30px}
-    .n-sens{bottom:30px; left:54px}
-    .n-scada{bottom:34px; right:34px}
-    .n-switch{left:50%; top:50%; transform:translate(-50%,-50%)}
-
-    .line{
-      position:absolute;
-      background:linear-gradient(90deg, rgba(34,197,94,.35), rgba(56,189,248,.9), rgba(26,115,232,.35));
-      box-shadow:0 0 16px rgba(56,189,248,.25);
-      overflow:hidden;
-    }
-    .line::after{
-      content:"";
-      position:absolute;
-      width:70px; height:100%;
-      top:0; left:-80px;
-      background:linear-gradient(90deg, transparent, rgba(255,255,255,.7), transparent);
-      animation:flow 2.2s linear infinite;
-      opacity:.8;
-    }
-
-    @keyframes flow{
-      to{left:calc(100% + 80px)}
-    }
-
-    .line.h{height:2px}
-    .line.v{width:2px}
-
-    .l1{left:140px; top:82px; width:220px}
-    .l2{right:140px; top:88px; width:210px}
-    .l3{left:165px; bottom:86px; width:190px}
-    .l4{right:146px; bottom:86px; width:205px}
-
-    .panel-mini-stats{
-      margin-top:16px;
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:12px;
-    }
-    .mini-stat{
-      padding:14px;
-      border-radius:14px;
-      border:1px solid var(--edge);
-      background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01));
-    }
-    .mini-stat b{
-      display:block;
-      font-size:18px;
-      margin-bottom:4px;
-    }
-    .mini-stat span{
-      color:var(--muted);
-      font-size:12px;
-      font-weight:700;
-    }
-
-    /* ---------- Sections ---------- */
-    section{
-      padding:34px 0;
-      scroll-margin-top:95px;
-    }
-    .section-head{
-      display:flex;
-      align-items:flex-end;
-      justify-content:space-between;
-      gap:16px;
-      margin-bottom:18px;
-      flex-wrap:wrap;
-    }
-    .section-title{
-      margin:0;
-      font-size:clamp(24px,3.5vw,34px);
-      line-height:1.1;
-      letter-spacing:-.02em;
-    }
-    .section-lead{
-      margin:8px 0 0;
-      color:var(--muted);
-      max-width:80ch;
-    }
-
-    .section-chip{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:8px 12px;
-      border-radius:999px;
-      border:1px solid #224057;
-      background:#0b1520;
-      color:#d7efff;
-      font-size:13px;
-      font-weight:700;
-      box-shadow:var(--shadow-soft);
-    }
-
-    /* ---------- Generic cards ---------- */
-    .grid{display:grid; gap:var(--gap)}
-    .grid-2{grid-template-columns:repeat(2,1fr)}
-    .grid-3{grid-template-columns:repeat(3,1fr)}
-    .grid-4{grid-template-columns:repeat(4,1fr)}
-
-    .card{
-      border:1px solid var(--edge);
-      border-radius:18px;
-      background:
-        linear-gradient(180deg, rgba(26,115,232,.05), transparent 30%),
-        linear-gradient(180deg,#0d1722,#0b121a);
-      box-shadow:var(--shadow);
-      padding:18px;
-      position:relative;
-      overflow:hidden;
-      transition:transform .25s ease, border-color .25s ease, box-shadow .25s ease;
-    }
-
-    .card::before{
-      content:"";
-      position:absolute;
-      inset:0;
-      background:linear-gradient(120deg, transparent 0%, rgba(255,255,255,.03) 50%, transparent 100%);
-      transform:translateX(-100%);
-      transition:transform .8s ease;
-      pointer-events:none;
-    }
-
-    .card:hover{
-      transform:translateY(-4px);
-      border-color:#2f577a;
-      box-shadow:0 18px 34px rgba(0,0,0,.32), inset 0 1px 0 rgba(255,255,255,.02);
-    }
-    .card:hover::before{
-      transform:translateX(100%);
-    }
-
-    .icon{
-      width:48px; height:48px;
-      display:grid;
-      place-items:center;
-      border-radius:14px;
-      border:1px solid #234158;
-      background:linear-gradient(135deg,#0d2131,#0a1824);
-      box-shadow:inset 0 1px 0 rgba(255,255,255,.06);
-      color:#9bdcff;
-    }
-
-    .card h3{
-      margin:14px 0 8px;
-      font-size:20px;
-      line-height:1.2;
-    }
-
-    .muted{color:var(--muted)}
-    .soft{color:var(--text-soft)}
-
-    .quick-compare{
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      margin-top:12px;
-    }
-
-    .pill{
-      padding:8px 12px;
-      border-radius:999px;
-      border:1px solid #264157;
-      background:#0b1520;
-      color:#d8edff;
-      font-size:13px;
-      font-weight:700;
-      box-shadow:var(--shadow-soft);
-    }
-
+    /* Expand / details panels */
     .details{
-      margin-top:14px;
-      padding:14px;
-      border-radius:14px;
-      border:1px dashed #29445c;
-      background:#0c1722;
-      display:none;
-      animation:fadeIn .24s ease;
+      margin-top:12px; padding:14px; border-radius:12px; border:1px dashed #264157; background:#0c1722; display:none
     }
-    .details.open{display:block}
-
-    @keyframes fadeIn{
-      from{opacity:0; transform:translateY(-4px)}
-      to{opacity:1; transform:translateY(0)}
-    }
-
-    .list{
-      margin:8px 0 0;
-      padding-left:18px;
-    }
+    .details.open{display:block; animation:fadeIn .24s ease}
+    @keyframes fadeIn{from{opacity:0; transform:translateY(-4px)} to{opacity:1; transform:translateY(0)}}
+    .list{margin:8px 0; padding-left:18px}
     .list li{margin:6px 0}
 
-    .note{
-      margin-top:14px;
-      padding:12px 14px;
-      border-left:3px solid var(--accent);
-      background:#0b1620;
-      border-radius:12px;
-      color:#d8ecff;
+    .quick-compare{
+      display:flex; gap:10px; flex-wrap:wrap; margin-top:12px
+    }
+    .pill{
+      border:1px solid #254157; border-radius:999px; padding:8px 12px; color:#cfe5f7; background:#0b1520; font-size:13px; font-weight:600
     }
 
-    /* ---------- Search / highlight ---------- */
-    .toolbox{
+    /* Diagram */
+    .diagram{
+      margin-top:12px; background:#0b1520; border:1px solid #234058; border-radius:12px; padding:14px; position:relative; overflow:hidden
+    }
+    .diagram .node{
+      min-width:84px; padding:8px 10px; border-radius:10px; text-align:center; font-size:13px; font-weight:700;
+      background:linear-gradient(135deg, #132334, #0f1b28); border:1px solid #26445e; color:#e1f2ff; box-shadow:var(--shadow)
+    }
+    .diagram .center{background:linear-gradient(135deg, #15395a, #0f2840); border-color:#2a5b86}
+    .diagram .row{display:flex; gap:10px; align-items:center; justify-content:center; flex-wrap:wrap}
+    .wire{
+      height:2px; background:linear-gradient(90deg, #1e4567, #2693ff); position:relative
+    }
+    .wire::after{
+      content:""; position:absolute; inset:-6px -10px; background:radial-gradient(200px 2px at 10% 50%, rgba(38,147,255,.35), transparent 40%)
+    }
+
+    /* Tables */
+    .table-wrap{
+      overflow:auto; border:1px solid var(--edge); border-radius:var(--radius); background:linear-gradient(180deg, #0c1621, #0b121a); box-shadow:var(--shadow)
+    }
+    table{border-collapse:separate; border-spacing:0; width:100%; min-width:780px}
+    thead th{
+      text-align:left; position:sticky; top:0; background:#0e1a26; border-bottom:1px solid #22364a; padding:12px; font-weight:700; color:#d9ecff
+    }
+    tbody td{
+      border-bottom:1px solid #182a3a; padding:12px; color:#d9e6f3; vertical-align:top
+    }
+    tbody tr:nth-child(odd) td{background:#0b1420}
+    tbody tr:hover td{background:#0e1a27}
+
+    /* App cards */
+    .app-card{
+      border:1px solid var(--edge); border-radius:var(--radius); background:linear-gradient(180deg, #0c141d, #0b121a);
+      box-shadow:var(--shadow); padding:16px; position:relative; overflow:hidden
+    }
+    .app-card .badge{
+      position:absolute; right:12px; top:12px; font-size:12px; color:#052013; background:linear-gradient(135deg, var(--accent), #0fd192);
+      border-radius:999px; padding:6px 10px; font-weight:800
+    }
+    .app-card .badge.alt{background:linear-gradient(135deg, var(--accent-2), #ffb14a); color:#1b0b00}
+    .hint{color:#cfe5f7; font-size:13px; opacity:.9}
+
+    /* Recommendation */
+    .recommendation-layout{
       display:grid;
-      grid-template-columns:1.15fr .85fr;
+      grid-template-columns:1fr .95fr;
       gap:18px;
-      margin-bottom:22px;
+      align-items:start;
     }
-
-    .tool-card{
-      border:1px solid var(--edge);
-      border-radius:18px;
-      padding:18px;
-      background:
-        linear-gradient(180deg, rgba(20,184,122,.05), transparent 30%),
-        linear-gradient(180deg,#0d1722,#0b121a);
-      box-shadow:var(--shadow);
+    .form-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:14px;
     }
-
-    .tool-card h3{
-      margin:0 0 8px;
-      font-size:20px;
-    }
-
-    .search-box{
+    .field{
       display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      margin-top:12px;
+      flex-direction:column;
+      gap:8px;
     }
-    .search-box input,
-    .select,
-    .tool-card select{
+    .field label{
+      font-weight:700;
+      color:#dcecff;
+      font-size:14px;
+    }
+    .field select,
+    .field input,
+    .field textarea{
       width:100%;
-      border:1px solid var(--edge-2);
       background:#0b1520;
       color:var(--text);
+      border:1px solid #22384d;
       border-radius:12px;
       padding:12px 14px;
       font:inherit;
       outline:none;
-      box-shadow:var(--shadow-soft);
+      transition:.18s ease;
+    }
+    .field select:focus,
+    .field input:focus,
+    .field textarea:focus{
+      border-color:#2d6ca4;
+      box-shadow:0 0 0 3px rgba(26,115,232,.15);
+    }
+    .form-actions{
+      margin-top:16px;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
     }
 
-    .search-status{
-      margin-top:12px;
+    .result-box{
+      min-height:100%;
+      border:1px solid var(--edge);
+      border-radius:var(--radius-lg);
+      background:
+        linear-gradient(180deg, rgba(20,184,122,.06), transparent 30%),
+        linear-gradient(180deg, #0c141d, #0b121a);
+      box-shadow:var(--shadow);
+      padding:18px;
+    }
+    .result-box h3{margin-top:0}
+    .result-placeholder{
       color:var(--muted);
-      font-size:14px;
-    }
-
-    mark.search-hit{
-      background:rgba(20,184,122,.25);
-      color:#fff;
-      padding:0 .12em;
-      border-radius:4px;
-      box-shadow:0 0 0 1px rgba(20,184,122,.18);
-    }
-
-    /* ---------- Decision helper ---------- */
-    .decision-grid{
-      display:grid;
-      grid-template-columns:repeat(2,1fr);
-      gap:12px;
-      margin-top:14px;
-    }
-
-    .decision-result{
-      margin-top:14px;
-      padding:16px;
-      border-radius:14px;
-      border:1px solid #264157;
-      background:linear-gradient(180deg,#0d1a27,#0b1520);
-      color:#dff1ff;
-    }
-    .decision-result strong{
-      color:#fff;
-      font-size:18px;
-    }
-
-    /* ---------- Topology diagrams ---------- */
-    .diagram{
-      margin-top:14px;
-      padding:16px;
-      border-radius:16px;
-      border:1px solid #234058;
-      background:
-        linear-gradient(180deg, rgba(26,115,232,.04), transparent 30%),
-        #0b1520;
-      position:relative;
-      overflow:hidden;
-    }
-
-    .diagram .row{
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      gap:10px;
-      flex-wrap:wrap;
-    }
-
-    .diagram .node-mini{
-      min-width:88px;
-      padding:9px 10px;
+      border:1px dashed #27445a;
       border-radius:12px;
-      text-align:center;
-      font-size:13px;
-      font-weight:800;
-      color:#e1f2ff;
-      background:linear-gradient(135deg,#132334,#0f1b28);
-      border:1px solid #26445e;
-      box-shadow:var(--shadow-soft);
-    }
-    .diagram .node-mini.center{
-      background:linear-gradient(135deg,#15395a,#0f2840);
-      border-color:#2a5b86;
-    }
-
-    .wire{
-      height:2px;
-      background:linear-gradient(90deg,#1e4567,#2693ff);
-      position:relative;
-      margin-top:12px;
-      overflow:hidden;
-    }
-    .wire::after{
-      content:"";
-      position:absolute;
-      inset:-4px auto -4px -80px;
-      width:80px;
-      background:linear-gradient(90deg, transparent, rgba(255,255,255,.7), transparent);
-      animation:wireFlow 2s linear infinite;
-    }
-    @keyframes wireFlow{
-      to{transform:translateX(calc(100% + 160px))}
-    }
-
-    /* ---------- Tables ---------- */
-    .table-wrap{
-      overflow:auto;
-      border:1px solid var(--edge);
-      border-radius:18px;
-      background:linear-gradient(180deg,#0c1621,#0b121a);
-      box-shadow:var(--shadow);
-    }
-    table{
-      border-collapse:separate;
-      border-spacing:0;
-      width:100%;
-      min-width:860px;
-    }
-    thead th{
-      position:sticky;
-      top:0;
-      text-align:left;
-      background:#0e1a26;
-      border-bottom:1px solid #22364a;
-      padding:14px 12px;
-      font-weight:800;
-      color:#d9ecff;
-      z-index:1;
-    }
-    tbody td{
-      padding:13px 12px;
-      border-bottom:1px solid #182a3a;
-      color:#d9e6f3;
-      vertical-align:top;
-    }
-    tbody tr:nth-child(odd) td{background:#0b1420}
-    tbody tr:hover td{background:#0f1c2a}
-    .ok{color:var(--ok); font-weight:800}
-    .warn{color:var(--warn); font-weight:800}
-    .bad{color:var(--danger); font-weight:800}
-
-    /* ---------- Applications ---------- */
-    .app-grid{
-      display:grid;
-      gap:var(--gap);
-      grid-template-columns:repeat(2,1fr);
-    }
-    .app-card{
-      border:1px solid var(--edge);
-      border-radius:18px;
-      background:
-        linear-gradient(180deg, rgba(20,184,122,.03), transparent 30%),
-        linear-gradient(180deg,#0c141d,#0b121a);
-      box-shadow:var(--shadow);
-      padding:18px;
-      position:relative;
-      overflow:hidden;
-      transition:.25s ease;
-    }
-    .app-card:hover{
-      transform:translateY(-4px);
-      border-color:#2e5778;
-    }
-    .badge{
-      position:absolute;
-      right:14px; top:14px;
-      font-size:12px;
-      color:#052013;
-      background:linear-gradient(135deg,var(--accent),#0fd192);
-      border-radius:999px;
-      padding:7px 10px;
-      font-weight:900;
-      box-shadow:var(--shadow-soft);
-    }
-    .badge.alt{
-      background:linear-gradient(135deg,var(--accent-2),#ffb14a);
-      color:#1b0b00;
-    }
-    .hint{
-      color:#cfe5f7;
-      font-size:13px;
-      opacity:.95;
-    }
-
-    /* ---------- Summary cards ---------- */
-    .summary-box{
-      display:grid;
-      grid-template-columns:repeat(2,1fr);
-      gap:var(--gap);
-    }
-
-    /* ---------- Quiz ---------- */
-    .quiz{
-      margin-top:10px;
-    }
-
-    .quiz-card{
-      border:1px solid var(--edge);
-      border-radius:18px;
-      background:linear-gradient(180deg,#0d1722,#0b121a);
-      box-shadow:var(--shadow);
-      padding:18px;
-    }
-
-    .quiz-q{
-      font-size:18px;
-      font-weight:800;
-      margin:0 0 14px;
-    }
-
-    .quiz-options{
-      display:grid;
-      gap:10px;
-    }
-
-    .option{
-      display:flex;
-      align-items:flex-start;
-      gap:10px;
-      padding:12px 14px;
-      border-radius:14px;
-      border:1px solid var(--edge);
+      padding:16px;
       background:#0b1520;
-      cursor:pointer;
-      transition:.2s ease;
     }
-    .option:hover{
-      border-color:#35688e;
-      background:#0f1d2a;
-    }
-    .option input{
-      margin-top:3px;
-      accent-color:var(--accent);
-    }
-
-    .quiz-actions{
-      margin-top:16px;
+    .rec-tags{
       display:flex;
+      gap:8px;
       flex-wrap:wrap;
-      gap:12px;
-      align-items:center;
+      margin:12px 0;
     }
-
-    .quiz-result{
-      margin-top:16px;
+    .rec-card{
+      margin-top:14px;
       padding:14px;
+      border:1px solid #23415a;
       border-radius:14px;
-      border:1px solid #27465d;
-      background:#0c1722;
-      display:none;
+      background:#0b1520;
     }
-    .quiz-result.show{display:block}
+    .rec-card h4{margin:0 0 8px}
+    .score-row{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:10px;
+      margin-top:14px;
+    }
+    .score-box{
+      border:1px solid #1f3447;
+      border-radius:12px;
+      padding:12px;
+      background:#0d1722;
+    }
+    .score-box strong{
+      display:block;
+      font-size:22px;
+      margin-bottom:4px;
+    }
 
-    /* ---------- Footer ---------- */
-    footer{
-      margin-top:30px;
-      padding:24px 0;
-      border-top:1px solid rgba(255,255,255,.06);
-      background:
-        linear-gradient(180deg, rgba(20,184,122,.05), transparent 40%),
-        linear-gradient(180deg,#0b1118,#0a0f14);
+    /* Assistant */
+    .assistant-shell{
+      display:grid;
+      grid-template-columns:1fr .95fr;
+      gap:18px;
+      align-items:start;
     }
-    .foot{
+    .assistant-panel,
+    .assistant-help{
+      border:1px solid var(--edge);
+      border-radius:var(--radius-lg);
+      background:
+        linear-gradient(180deg, rgba(26,115,232,.06), transparent 28%),
+        linear-gradient(180deg, #0c141d, #0b121a);
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+    .assistant-header{
+      padding:16px 18px;
+      border-bottom:1px solid #172737;
       display:flex;
       align-items:center;
       justify-content:space-between;
-      gap:16px;
+      gap:12px;
+    }
+    .assistant-header h3{
+      margin:0;
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    .assistant-status{
+      font-size:12px;
+      color:#b8d8ee;
+      border:1px solid #1e3347;
+      background:#0b1520;
+      border-radius:999px;
+      padding:6px 10px;
+      font-weight:700;
+    }
+    .assistant-messages{
+      height:420px;
+      overflow:auto;
+      padding:18px;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      background:
+        radial-gradient(600px 200px at 120% -10%, rgba(20,184,122,.06), transparent 55%),
+        #0a131d;
+    }
+    .msg{
+      max-width:min(86%, 760px);
+      padding:12px 14px;
+      border-radius:14px;
+      border:1px solid #1d3144;
+      background:#0c1823;
+      white-space:pre-wrap;
+    }
+    .msg.user{
+      align-self:flex-end;
+      background:linear-gradient(135deg, #10314a, #0f2436);
+      border-color:#2a5678;
+    }
+    .msg.assistant{
+      align-self:flex-start;
+      background:linear-gradient(135deg, #0f1b28, #0d1620);
+    }
+    .msg small{
+      display:block;
+      margin-top:6px;
+      color:var(--muted);
+      font-size:12px;
+    }
+    .assistant-input{
+      padding:16px 18px;
+      border-top:1px solid #172737;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      background:#0b121a;
+    }
+    .assistant-row{
+      display:flex;
+      gap:10px;
       flex-wrap:wrap;
     }
+    .assistant-row textarea{
+      min-height:84px;
+      resize:vertical;
+    }
+    .suggestions{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+    .sugg{
+      border:1px solid #244056;
+      background:#0b1520;
+      color:#cae7ff;
+      border-radius:999px;
+      padding:8px 12px;
+      font-size:13px;
+      cursor:pointer;
+      transition:.18s ease;
+    }
+    .sugg:hover{
+      transform:translateY(-1px);
+      border-color:#2d5d82;
+      background:#0f1c28;
+    }
+
+    .assistant-help{
+      padding:18px;
+    }
+    .assistant-help h3{margin-top:0}
+    .help-topic{
+      border:1px solid #1e3347;
+      background:#0b1520;
+      border-radius:12px;
+      padding:12px 14px;
+      margin-bottom:12px;
+    }
+    .help-topic h4{margin:0 0 6px}
+    .help-topic p{margin:0; color:#cfe1f0}
+
+    /* Footer */
+    footer{
+      margin-top:30px; padding:22px 0; border-top:1px solid var(--edge);
+      background:linear-gradient(180deg, rgba(20,184,122,.05), transparent 40%), linear-gradient(180deg, #0b1118, #0a0f14)
+    }
+    .foot{display:flex; gap:16px; align-items:center; justify-content:space-between; flex-wrap:wrap}
     .foot small{color:var(--muted)}
 
-    /* ---------- Scroll to top ---------- */
-    .to-top{
-      position:fixed;
-      right:18px;
-      bottom:18px;
-      width:50px; height:50px;
-      border-radius:16px;
-      border:1px solid #2b4b67;
-      background:linear-gradient(180deg,#102030,#0c1722);
-      color:#dff3ff;
-      display:grid;
-      place-items:center;
-      box-shadow:var(--shadow);
-      cursor:pointer;
-      opacity:0;
-      transform:translateY(10px);
-      pointer-events:none;
+    /* Utilities */
+    .ok{color:#5ce69f; font-weight:700}
+    .warn{color:#ffc266; font-weight:700}
+    .bad{color:#ff8181; font-weight:700}
+    .highlight{
+      outline:2px solid rgba(20,184,122,.45);
+      box-shadow:0 0 0 5px rgba(20,184,122,.08);
       transition:.25s ease;
-      z-index:70;
     }
-    .to-top.show{
-      opacity:1;
-      transform:translateY(0);
-      pointer-events:auto;
+    .empty{
+      color:var(--muted);
+      font-style:italic;
     }
 
-    /* ---------- Reveal ---------- */
-    .reveal{
-      opacity:0;
-      transform:translateY(18px);
-      transition:opacity .6s ease, transform .6s ease;
-    }
-    .reveal.show{
-      opacity:1;
-      transform:translateY(0);
-    }
-
-    /* ---------- Responsive ---------- */
-    @media (max-width:1100px){
-      .hero{grid-template-columns:1fr}
-      .hero-panel{min-height:380px}
-      .toolbox{grid-template-columns:1fr}
-    }
-
-    @media (max-width:900px){
-      .grid-4{grid-template-columns:repeat(2,1fr)}
-      .grid-3{grid-template-columns:repeat(2,1fr)}
-      .grid-2,
-      .summary-box,
-      .app-grid{grid-template-columns:1fr}
-      .hero-stats{grid-template-columns:repeat(2,1fr)}
-      .panel-mini-stats{grid-template-columns:1fr}
-      .decision-grid{grid-template-columns:1fr}
-    }
-
-    @media (max-width:720px){
-      :root{--header-h:72px}
-      .nav{
-        align-items:flex-start;
-        flex-direction:column;
+    @media (max-width: 980px){
+      .recommendation-layout,
+      .assistant-shell{
+        grid-template-columns:1fr;
       }
-      .nav-right{
-        width:100%;
-        align-items:stretch;
-      }
-      .nav-links{
-        overflow-x:auto;
-        scrollbar-width:none;
-        flex-wrap:nowrap;
-        width:100%;
-      }
-      .nav-links::-webkit-scrollbar{display:none}
-      .search-mini{
-        width:100%;
-        min-width:0;
-      }
-      .hero h1{font-size:clamp(30px,9vw,42px)}
-      .hero-stats{grid-template-columns:1fr 1fr}
-      .stat{padding:12px}
-      .network-scene{height:300px}
-      .n-clp{top:16px; left:14px}
-      .n-ihm{top:16px; right:14px}
-      .n-sens{bottom:18px; left:14px}
-      .n-scada{bottom:18px; right:14px}
-      .l1{left:116px; top:70px; width:120px}
-      .l2{right:116px; top:70px; width:120px}
-      .l3{left:118px; bottom:74px; width:118px}
-      .l4{right:118px; bottom:74px; width:118px}
-    }
-
-    @media (max-width:560px){
-      .grid-4,.grid-3{grid-template-columns:1fr}
-      .hero-stats{grid-template-columns:1fr}
-      .hero-actions{flex-direction:column}
-      .btn{width:100%}
-      .stat .k{font-size:18px}
-      .node{
-        min-width:88px;
-        font-size:12px;
-        padding:8px 10px;
-      }
-      .n-switch{min-width:100px}
-      .l1,.l2,.l3,.l4{display:none}
-      .network-scene{
-        display:grid;
-        place-items:center;
-        padding:20px;
-      }
-      .network-scene .node{
-        position:static;
-        transform:none !important;
-      }
-      .scene-stack{
-        display:grid;
-        gap:12px;
-        width:100%;
-      }
-      .mobile-line{
-        height:2px;
-        background:linear-gradient(90deg,#1e4567,#2693ff);
-        position:relative;
-        overflow:hidden;
-      }
-      .mobile-line::after{
-        content:"";
-        position:absolute;
-        inset:-4px auto -4px -80px;
-        width:80px;
-        background:linear-gradient(90deg, transparent, rgba(255,255,255,.7), transparent);
-        animation:wireFlow 2s linear infinite;
+      .form-grid{
+        grid-template-columns:1fr;
       }
     }
   </style>
 </head>
 <body>
-  <div class="bg-grid" aria-hidden="true"></div>
 
-  <!-- Progress -->
-  <div class="progress-wrap" aria-hidden="true">
-    <div class="progress-bar" id="progressBar"></div>
-  </div>
-
-  <!-- Header -->
+  <!-- Header / Nav -->
   <header>
     <div class="container nav">
-      <a class="brand" href="#inicio" aria-label="Ir para o início">
+      <a class="brand" href="#inicio" aria-label="Ir para início">
         <div class="brand-logo" aria-hidden="true">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <circle cx="6" cy="6" r="3" stroke="#16d190" stroke-width="2"/>
             <circle cx="18" cy="6" r="3" stroke="#4cc9f0" stroke-width="2"/>
             <circle cx="12" cy="18" r="3" stroke="#1a73e8" stroke-width="2"/>
@@ -1104,209 +624,96 @@
         </div>
       </a>
 
-      <div class="nav-right">
-        <div class="search-mini" aria-label="Busca rápida">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <circle cx="11" cy="11" r="7" stroke="#86b3d6" stroke-width="2"/>
-            <path d="M20 20 L16.65 16.65" stroke="#86b3d6" stroke-width="2" stroke-linecap="round"/>
-          </svg>
-          <input id="headerSearch" type="text" placeholder="Buscar no conteúdo..." />
-        </div>
-
-        <nav class="nav-links" aria-label="Navegação principal">
-          <a href="#inicio">Início</a>
-          <a href="#explorar">Explorar</a>
-          <a href="#cabos">Cabos</a>
-          <a href="#topologias">Topologias</a>
-          <a href="#comparativo">Comparativo</a>
-          <a href="#aplicacoes">Aplicações</a>
-          <a href="#quiz">Quiz</a>
-          <a class="cta" href="#resumo">Resumo</a>
-        </nav>
-      </div>
+      <nav class="nav-links" aria-label="Navegação principal">
+        <a href="#inicio">Início</a>
+        <a href="#cabos">Cabos</a>
+        <a href="#topologias">Topologias</a>
+        <a href="#comparativo">Comparativo</a>
+        <a href="#aplicacoes">Aplicações</a>
+        <a href="#recomendador">Gerar recomendação</a>
+        <a href="#assistente">IA Assistente</a>
+        <a class="cta" href="#resumo">Resumo Final</a>
+      </nav>
     </div>
   </header>
 
   <!-- Hero -->
-  <section id="inicio" class="hero-wrap">
+  <section id="inicio" aria-labelledby="inicio-title">
     <div class="container hero">
-      <div class="hero-left reveal">
-        <span class="eyebrow"><i></i> Conteúdo técnico com visual interativo</span>
-        <h1>
-          Entenda <span class="gradient-text">cabos, topologias e comunicação industrial</span>
-          de forma visual e prática
-        </h1>
-        <p class="subtitle">Um guia moderno para estudar redes na automação industrial com foco em aplicação real de fábrica.</p>
+      <div>
+        <h1 id="inicio-title">Guia Visual de Redes para Automação Industrial</h1>
+        <p class="subtitle">Cabos, comunicação, topologias e tomada de decisão no chão de fábrica</p>
         <p class="intro">
-          Redes industriais permitem a troca de dados entre <b>sensores</b>, <b>atuadores</b>, <b>CLPs</b>,
-          <b>IHMs</b>, <b>switches</b>, computadores e sistemas supervisórios. Quando a rede é bem projetada,
-          a operação ganha em <b>desempenho</b>, <b>confiabilidade</b>, <b>segurança</b> e <b>facilidade de manutenção</b>.
+          Redes na automação industrial são os meios que permitem a troca de dados entre sensores, atuadores, CLPs,
+          IHMs, computadores e sistemas de supervisão. Esse guia foi melhorado para ser mais prático, interativo e útil:
+          além do conteúdo visual, agora ele traz um <b>recomendador técnico</b> e uma <b>IA assistente</b> para dúvidas específicas.
         </p>
 
-        <div class="hero-actions">
-          <a class="btn primary" href="#explorar">Explorar conteúdo</a>
-          <a class="btn success" href="#quiz">Fazer quiz</a>
-          <a class="btn" href="#comparativo">Ver comparativos</a>
+        <div class="hero-panel" role="group" aria-label="Destaques">
+          <span class="chip"><i aria-hidden="true"></i> Linguagem clara e aplicada</span>
+          <span class="chip"><i aria-hidden="true"></i> Recomendações automáticas</span>
+          <span class="chip"><i aria-hidden="true"></i> IA assistente integrada</span>
+          <span class="chip"><i aria-hidden="true"></i> Visual moderno e responsivo</span>
         </div>
 
-        <div class="hero-stats">
-          <div class="stat">
-            <span class="k">3</span>
-            <span class="t">Meios físicos principais</span>
+        <div class="search-wrap">
+          <div class="search" aria-label="Busca rápida no guia">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <circle cx="11" cy="11" r="7" stroke="#7bcfff" stroke-width="2"/>
+              <path d="M20 20 L16.65 16.65" stroke="#7bcfff" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <input id="quickSearch" type="text" placeholder="Buscar no guia: fibra, estrela, EMI, CLP..." />
           </div>
-          <div class="stat">
-            <span class="k">2</span>
-            <span class="t">Topologias mais cobradas</span>
+          <button class="btn" id="clearSearchBtn" type="button">Limpar busca</button>
+        </div>
+        <div id="searchResults" class="search-results" aria-live="polite"></div>
+
+        <p class="note">
+          A escolha correta do <b>cabo</b> e da <b>topologia</b> melhora desempenho, confiabilidade, manutenção e escalabilidade da rede industrial.
+        </p>
+      </div>
+
+      <aside class="hero-side" aria-label="Painel de visão geral">
+        <h3>Visão rápida</h3>
+        <p class="muted" style="margin-top:0">
+          Em muitos cenários, a solução ideal é uma combinação: <b>fibra no backbone</b>, <b>par trançado no painel</b> e <b>wireless</b> onde há mobilidade.
+        </p>
+
+        <div class="hero-mini-grid">
+          <div class="hero-mini">
+            <strong>3</strong>
+            meios físicos principais
           </div>
-          <div class="stat">
-            <span class="k">+5</span>
-            <span class="t">Aplicações industriais</span>
+          <div class="hero-mini">
+            <strong>2</strong>
+            topologias explicadas
           </div>
-          <div class="stat">
-            <span class="k">1</span>
-            <span class="t">Quiz para revisar</span>
+          <div class="hero-mini">
+            <strong>1</strong>
+            recomendador automático
+          </div>
+          <div class="hero-mini">
+            <strong>IA</strong>
+            para dúvidas específicas
           </div>
         </div>
 
         <p class="note">
-          <b>Dica técnica:</b> a escolha correta do <b>cabo</b> e da <b>topologia</b> impacta diretamente
-          na confiabilidade da rede, no tempo de parada e na facilidade de expansão do sistema.
+          Se você só quer uma orientação rápida, vá direto em <b>“Gerar recomendação”</b>. Se a dúvida for mais específica, use a <b>IA Assistente</b>.
         </p>
-      </div>
-
-      <div class="hero-right reveal">
-        <div class="hero-panel">
-          <div class="panel-top">
-            <div class="panel-title">Exemplo visual de rede industrial</div>
-            <div class="panel-badge">Monitoramento em tempo real</div>
-          </div>
-
-          <div class="network-scene" aria-label="Diagrama visual de rede industrial">
-            <div class="scene-grid"></div>
-
-            <div class="line h l1"></div>
-            <div class="line h l2"></div>
-            <div class="line h l3"></div>
-            <div class="line h l4"></div>
-
-            <div class="node n-clp">CLP</div>
-            <div class="node n-ihm">IHM</div>
-            <div class="node center n-switch">Switch Industrial</div>
-            <div class="node n-sens">Sensores</div>
-            <div class="node n-scada">SCADA / PC</div>
-
-            <!-- fallback visual para telas pequenas -->
-            <div class="scene-stack" style="display:none"></div>
-          </div>
-
-          <div class="panel-mini-stats">
-            <div class="mini-stat">
-              <b>Par Trançado</b>
-              <span>Baixo custo e ótimo para CLPs, IHMs e switches.</span>
-            </div>
-            <div class="mini-stat">
-              <b>Fibra Óptica</b>
-              <span>Longa distância e imunidade a interferência eletromagnética.</span>
-            </div>
-            <div class="mini-stat">
-              <b>Wireless</b>
-              <span>Mobilidade, telemetria e pontos onde cabeamento é inviável.</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Ferramentas -->
-  <section id="explorar">
-    <div class="container">
-      <div class="section-head reveal">
-        <div>
-          <h2 class="section-title">Explorar o conteúdo</h2>
-          <p class="section-lead">
-            Use a busca para localizar termos importantes ou use o assistente abaixo para descobrir qual meio de comunicação faz mais sentido em cada cenário.
-          </p>
-        </div>
-        <span class="section-chip">Busca + recomendação rápida</span>
-      </div>
-
-      <div class="toolbox">
-        <div class="tool-card reveal">
-          <h3>Busca rápida por assunto</h3>
-          <p class="muted">Digite termos como <b>CLP</b>, <b>fibra</b>, <b>EMI</b>, <b>switch</b>, <b>estrela</b> ou <b>wireless</b>. O site destaca os trechos relacionados.</p>
-
-          <div class="search-box">
-            <input id="pageSearch" type="text" placeholder="Ex.: fibra, EMI, CLP, topologia em estrela..." />
-            <button class="btn primary" id="searchBtn" type="button">Buscar no conteúdo</button>
-            <button class="btn" id="clearSearchBtn" type="button">Limpar destaque</button>
-          </div>
-          <div class="search-status" id="searchStatus">Nenhuma busca realizada ainda.</div>
-        </div>
-
-        <div class="tool-card reveal">
-          <h3>Qual cabo escolher?</h3>
-          <p class="muted">Selecione o cenário e veja uma recomendação rápida.</p>
-
-          <div class="decision-grid">
-            <div>
-              <label class="muted" for="distancia">Distância</label>
-              <select id="distancia">
-                <option value="curta">Curta (mesmo painel / setor)</option>
-                <option value="media">Média (setores próximos)</option>
-                <option value="longa">Longa (galpões / prédios)</option>
-              </select>
-            </div>
-            <div>
-              <label class="muted" for="emi">Interferência eletromagnética</label>
-              <select id="emi">
-                <option value="baixa">Baixa</option>
-                <option value="media">Média</option>
-                <option value="alta">Alta</option>
-              </select>
-            </div>
-            <div>
-              <label class="muted" for="mobilidade">Mobilidade do equipamento</label>
-              <select id="mobilidade">
-                <option value="nao">Não</option>
-                <option value="sim">Sim</option>
-              </select>
-            </div>
-            <div>
-              <label class="muted" for="orcamento">Orçamento</label>
-              <select id="orcamento">
-                <option value="baixo">Baixo</option>
-                <option value="medio">Médio</option>
-                <option value="alto">Alto</option>
-              </select>
-            </div>
-          </div>
-
-          <button class="btn success" id="decisionBtn" type="button" style="margin-top:14px;">Gerar recomendação</button>
-
-          <div class="decision-result" id="decisionResult">
-            <strong>A recomendação vai aparecer aqui.</strong>
-            <p class="muted" style="margin:.45rem 0 0;">Selecione os critérios e clique em “Gerar recomendação”.</p>
-          </div>
-        </div>
-      </div>
+      </aside>
     </div>
   </section>
 
   <!-- Cabos -->
-  <section id="cabos">
+  <section id="cabos" aria-labelledby="cabos-title">
     <div class="container">
-      <div class="section-head reveal">
-        <div>
-          <h2 class="section-title">Cabos Industriais</h2>
-          <p class="section-lead">Explore os principais meios físicos de comunicação na automação: <b>Par Trançado</b>, <b>Fibra Óptica</b> e <b>Wireless</b>.</p>
-        </div>
-        <span class="section-chip">Escolha do meio físico</span>
-      </div>
+      <h2 class="section-title" id="cabos-title">Cabos Industriais</h2>
+      <p class="section-lead">Explore os principais meios físicos de comunicação: Par Trançado, Fibra Óptica e Wireless.</p>
 
       <div class="grid grid-3">
-        <!-- Par trançado -->
-        <article class="card reveal searchable-card" aria-labelledby="par-title">
+        <!-- Par Trançado -->
+        <article class="card searchable" data-search="par trançado ethernet profinet cabo cobre clp ihms switch rj45 m12">
           <div class="icon" aria-hidden="true">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
               <rect x="2" y="9" width="20" height="6" rx="2" stroke="#77d0ff" stroke-width="2"/>
@@ -1314,42 +721,36 @@
               <path d="M14 12 L20 12" stroke="#21e2a8" stroke-width="2" stroke-linecap="round"/>
             </svg>
           </div>
-          <h3 id="par-title">Par Trançado (Ethernet / Profinet)</h3>
-          <p class="muted">
-            Cabo de cobre muito usado em redes industriais e corporativas. Ideal para interligar
-            <b>CLP</b>, <b>switch</b>, <b>IHM</b> e computadores no mesmo painel ou setor.
-          </p>
-
+          <h3>Par Trançado (Ethernet/Profinet)</h3>
+          <p class="muted">Cabo de cobre para redes industriais e corporativas. Ideal para interligar CLP, switch e IHMs.</p>
           <div class="quick-compare">
             <span class="pill">Custo: baixo</span>
             <span class="pill">Distância: média</span>
             <span class="pill">EMI: moderada</span>
           </div>
-
-          <div style="margin-top:14px">
-            <button class="btn primary toggle-btn" data-toggle="#par-details" aria-expanded="false" aria-controls="par-details">Ver detalhes</button>
+          <div style="margin-top:12px">
+            <button class="btn accent" data-toggle="#par-details" aria-expanded="false" aria-controls="par-details" type="button">Ver detalhes</button>
           </div>
-
           <div id="par-details" class="details" role="region" aria-label="Detalhes Par Trançado">
-            <p><b>O que é:</b> cabo de cobre usado em <b>Ethernet</b> e redes industriais como <b>Profinet</b>.</p>
-            <p><b>Onde é usado:</b> ligação entre <b>CLP</b>, <b>switches</b>, <b>IHMs</b>, PCs e equipamentos de rede.</p>
+            <p><b>O que é:</b> cabo de cobre usado em <b>Ethernet/Profinet</b>.</p>
+            <p><b>Onde é usado:</b> ligação entre <b>CLP</b>, <b>switch</b>, <b>IHMs</b>, computadores e equipamentos de rede.</p>
             <p><b>Vantagens:</b></p>
             <ul class="list">
               <li>Baixo custo e ampla disponibilidade.</li>
-              <li>Instalação simples com conectores padronizados como RJ45 e M12.</li>
-              <li>Muito comum em painéis, máquinas e integração com supervisão.</li>
+              <li>Instalação simples, conectores padronizados (RJ45/M12).</li>
+              <li>Comum em ambientes industriais e corporativos.</li>
             </ul>
             <p><b>Desvantagens:</b></p>
             <ul class="list">
-              <li>Maior suscetibilidade a <b>interferência eletromagnética (EMI)</b>.</li>
-              <li>Alcance menor que a fibra em grandes distâncias.</li>
+              <li>Maior suscetibilidade a <b>interferência eletromagnética</b> (EMI).</li>
+              <li>Alcance menor que a fibra em altas taxas.</li>
             </ul>
             <p><b>Exemplo na fábrica:</b> conectar o <b>CLP</b> ao computador de supervisão ou a um <b>switch industrial</b>.</p>
           </div>
         </article>
 
         <!-- Fibra -->
-        <article class="card reveal searchable-card" aria-labelledby="fibra-title">
+        <article class="card searchable" data-search="fibra óptica backbone longas distâncias emi galpão switch velocidade luz">
           <div class="icon" aria-hidden="true" style="color:#b4ffdf">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
               <path d="M5 12 H19" stroke="#0fd192" stroke-width="2" stroke-linecap="round"/>
@@ -1357,29 +758,23 @@
               <circle cx="19" cy="12" r="3" stroke="#8cf9cd" stroke-width="2"/>
             </svg>
           </div>
-          <h3 id="fibra-title">Fibra Óptica</h3>
-          <p class="muted">
-            Meio de transmissão por luz. Excelente para <b>longas distâncias</b>, backbones
-            entre setores e locais com muita interferência.
-          </p>
-
+          <h3>Fibra Óptica</h3>
+          <p class="muted">Transmissão por luz. Excelente para longas distâncias e locais com muita interferência.</p>
           <div class="quick-compare">
             <span class="pill">Velocidade: alta</span>
             <span class="pill">Distância: longa</span>
             <span class="pill">EMI: imune</span>
           </div>
-
-          <div style="margin-top:14px">
-            <button class="btn primary toggle-btn" data-toggle="#fibra-details" aria-expanded="false" aria-controls="fibra-details">Ver detalhes</button>
+          <div style="margin-top:12px">
+            <button class="btn accent" data-toggle="#fibra-details" aria-expanded="false" aria-controls="fibra-details" type="button">Ver detalhes</button>
           </div>
-
           <div id="fibra-details" class="details" role="region" aria-label="Detalhes Fibra Óptica">
-            <p><b>O que é:</b> cabo que transmite dados por <b>luz</b>, em vez de condução elétrica.</p>
-            <p><b>Onde é usado:</b> comunicação a <b>longas distâncias</b>, interligação de galpões, setores e áreas com alta <b>EMI</b>.</p>
+            <p><b>O que é:</b> cabo que transmite dados por <b>luz</b>.</p>
+            <p><b>Onde é usado:</b> comunicação a <b>longas distâncias</b>, interligação de setores e locais com <b>alta EMI</b>.</p>
             <p><b>Vantagens:</b></p>
             <ul class="list">
               <li><b>Alta velocidade</b> e baixíssima atenuação.</li>
-              <li><b>Grandes distâncias</b> com ótimo desempenho.</li>
+              <li><b>Grandes distâncias</b> sem repetidores em comparação ao cobre.</li>
               <li><b>Imunidade</b> a interferências eletromagnéticas.</li>
             </ul>
             <p><b>Desvantagens:</b></p>
@@ -1387,12 +782,12 @@
               <li>Custo de material e ferramentas mais alto.</li>
               <li>Instalação e conectorização mais delicadas.</li>
             </ul>
-            <p><b>Exemplo na fábrica:</b> interligar <b>galpões</b> distantes ou áreas com <b>motores potentes</b> e inversores.</p>
+            <p><b>Exemplo na fábrica:</b> interligar <b>galpões</b> distantes ou áreas com <b>motores potentes</b>.</p>
           </div>
         </article>
 
         <!-- Wireless -->
-        <article class="card reveal searchable-card" aria-labelledby="wifi-title">
+        <article class="card searchable" data-search="wireless wifi rádio industrial agv empilhadeira sensores móveis mobilidade">
           <div class="icon" aria-hidden="true" style="color:#ffd4a6">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
               <path d="M4 10 C8 6,16 6,20 10" stroke="#ffb460" stroke-width="2" stroke-linecap="round"/>
@@ -1400,37 +795,31 @@
               <circle cx="12" cy="17" r="2" fill="#ff8a00"/>
             </svg>
           </div>
-          <h3 id="wifi-title">Wireless (Wi-Fi / Rádio Industrial)</h3>
-          <p class="muted">
-            Comunicação sem fio para mobilidade, locais de difícil acesso e monitoramento remoto.
-            Muito útil em equipamentos móveis e telemetria.
-          </p>
-
+          <h3>Wireless (Wi-Fi/Rádio Industrial)</h3>
+          <p class="muted">Comunicação sem fio para mobilidade, locais de difícil acesso e monitoramento remoto.</p>
           <div class="quick-compare">
             <span class="pill">Cabo: nenhum</span>
             <span class="pill">Flexibilidade: alta</span>
             <span class="pill">Segurança: atenção</span>
           </div>
-
-          <div style="margin-top:14px">
-            <button class="btn primary toggle-btn" data-toggle="#wifi-details" aria-expanded="false" aria-controls="wifi-details">Ver detalhes</button>
+          <div style="margin-top:12px">
+            <button class="btn accent" data-toggle="#wifi-details" aria-expanded="false" aria-controls="wifi-details" type="button">Ver detalhes</button>
           </div>
-
           <div id="wifi-details" class="details" role="region" aria-label="Detalhes Wireless">
-            <p><b>O que é:</b> comunicação <b>sem fio</b> via rádio ou Wi-Fi industrial.</p>
-            <p><b>Onde é usado:</b> sensores móveis, AGVs, empilhadeiras automatizadas, áreas remotas e locais onde cabeamento é difícil.</p>
+            <p><b>O que é:</b> comunicação <b>sem fio</b> por rádio ou Wi-Fi industrial.</p>
+            <p><b>Onde é usado:</b> sensores móveis, áreas de difícil passagem de cabo, equipamentos em movimento.</p>
             <p><b>Vantagens:</b></p>
             <ul class="list">
               <li><b>Flexibilidade</b> para mudanças e expansões.</li>
               <li>Reduz cabeamento e tempo de instalação.</li>
-              <li>Ótimo para equipamentos em movimento ou temporários.</li>
+              <li>Ótimo para partes móveis ou temporárias.</li>
             </ul>
             <p><b>Desvantagens:</b></p>
             <ul class="list">
               <li>Possível <b>interferência</b> e variação de sinal.</li>
-              <li>Exige bom projeto de <b>segurança</b>, cobertura e canais.</li>
+              <li>Exige <b>segurança</b> e planejamento de cobertura.</li>
             </ul>
-            <p><b>Exemplo na fábrica:</b> monitorar sensores em <b>partes móveis</b>, AGVs e telemetria sem cabo.</p>
+            <p><b>Exemplo na fábrica:</b> monitorar sensores em <b>partes móveis</b> ou <b>empilhadeiras automatizadas</b>.</p>
           </div>
         </article>
       </div>
@@ -1438,21 +827,14 @@
   </section>
 
   <!-- Topologias -->
-  <section id="topologias">
+  <section id="topologias" aria-labelledby="topo-title">
     <div class="container">
-      <div class="section-head reveal">
-        <div>
-          <h2 class="section-title">Topologias de Rede</h2>
-          <p class="section-lead">
-            Veja como os dispositivos podem ser organizados para se comunicar de forma eficiente na automação industrial.
-          </p>
-        </div>
-        <span class="section-chip">Organização da rede</span>
-      </div>
+      <h2 class="section-title" id="topo-title">Topologias de Rede</h2>
+      <p class="section-lead">Veja como os dispositivos podem ser organizados para se comunicar de forma eficiente.</p>
 
       <div class="grid grid-2">
         <!-- Barramento -->
-        <article class="card reveal searchable-card" aria-labelledby="bus-title">
+        <article class="card searchable" data-search="barramento topologia linha sequencia tronco terminadores falha legado">
           <div class="icon" aria-hidden="true">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
               <path d="M4 12 H20" stroke="#43c3ff" stroke-width="2" stroke-linecap="round"/>
@@ -1461,22 +843,25 @@
               <circle cx="18" cy="12" r="2" fill="#14b87a"/>
             </svg>
           </div>
-
-          <h3 id="bus-title">Rede em Barramento</h3>
+          <h3>Rede em Barramento</h3>
           <p class="muted">Todos os dispositivos compartilham uma mesma linha de comunicação em sequência.</p>
 
           <div class="diagram" aria-hidden="true">
-            <div class="row" style="gap:8px">
-              <div class="node-mini">Disp. A</div>
-              <div class="node-mini">Disp. B</div>
-              <div class="node-mini">Disp. C</div>
-              <div class="node-mini">Disp. D</div>
+            <div class="row" style="gap:6px">
+              <div class="node">Dispositivo A</div>
+              <div class="node">Dispositivo B</div>
+              <div class="node">Dispositivo C</div>
+              <div class="node">Dispositivo D</div>
             </div>
-            <div class="wire"></div>
+            <div class="wire" style="margin-top:10px"></div>
           </div>
 
-          <div class="details open" role="region" aria-label="Detalhes Barramento">
-            <p><b>Como funciona:</b> equipamentos ligados em sequência na mesma linha de comunicação.</p>
+          <div style="margin-top:12px">
+            <button class="btn accent" data-toggle="#bus-details" aria-expanded="false" aria-controls="bus-details" type="button">Ver detalhes</button>
+          </div>
+
+          <div id="bus-details" class="details" role="region" aria-label="Detalhes Barramento">
+            <p><b>Como funciona:</b> equipamentos ligados em sequência na mesma linha.</p>
             <p><b>Explicação simples:</b> todos compartilham o <b>mesmo caminho</b> de dados.</p>
             <p><b>Vantagens:</b></p>
             <ul class="list">
@@ -1486,16 +871,16 @@
             </ul>
             <p><b>Desvantagens:</b></p>
             <ul class="list">
-              <li>Falha no barramento pode afetar vários dispositivos.</li>
+              <li>Falha no barramento pode <b>parar parte</b> da rede.</li>
               <li>Diagnóstico e manutenção podem ser mais difíceis.</li>
             </ul>
-            <p><b>Uso na automação:</b> útil em linhas simples, sistemas legados ou protocolos que trabalham bem em linha.</p>
+            <p><b>Uso na automação:</b> útil em <b>linhas simples</b> ou protocolos que suportam comunicação em linha.</p>
             <p><b>Exemplo prático:</b> sequência de máquinas conectadas no mesmo canal.</p>
           </div>
         </article>
 
         <!-- Estrela -->
-        <article class="card reveal searchable-card" aria-labelledby="star-title">
+        <article class="card searchable" data-search="estrela switch topologia centralizada ethernet industrial manutenção expansão painel">
           <div class="icon" aria-hidden="true">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
               <circle cx="12" cy="12" r="3" fill="#1a73e8"/>
@@ -1505,39 +890,42 @@
               <path d="M12 12 L20 18" stroke="#21e2a8" stroke-width="2" stroke-linecap="round"/>
             </svg>
           </div>
-
-          <h3 id="star-title">Rede em Estrela</h3>
+          <h3>Rede em Estrela</h3>
           <p class="muted">Todos os dispositivos se conectam a um ponto central, como um switch industrial.</p>
 
           <div class="diagram" aria-hidden="true">
             <div class="row" style="margin-bottom:8px">
-              <div class="node-mini">Disp. A</div>
-              <div class="node-mini center">Switch</div>
-              <div class="node-mini">Disp. B</div>
+              <div class="node">Dispositivo A</div>
+              <div class="node center">Switch</div>
+              <div class="node">Dispositivo B</div>
             </div>
             <div class="row">
-              <div class="node-mini">Disp. C</div>
-              <div class="node-mini">Disp. D</div>
+              <div class="node">Dispositivo C</div>
+              <div class="node">Dispositivo D</div>
             </div>
-            <div class="wire"></div>
+            <div class="wire" style="margin-top:10px"></div>
           </div>
 
-          <div class="details open" role="region" aria-label="Detalhes Estrela">
+          <div style="margin-top:12px">
+            <button class="btn accent" data-toggle="#star-details" aria-expanded="false" aria-controls="star-details" type="button">Ver detalhes</button>
+          </div>
+
+          <div id="star-details" class="details" role="region" aria-label="Detalhes Estrela">
             <p><b>Como funciona:</b> cada dispositivo tem um <b>link dedicado</b> com o ponto central.</p>
-            <p><b>Explicação simples:</b> o switch é o <b>hub</b> que interliga todos os equipamentos.</p>
+            <p><b>Explicação simples:</b> o switch é o <b>hub</b> que interliga todos.</p>
             <p><b>Vantagens:</b></p>
             <ul class="list">
               <li>Fácil manutenção e expansão.</li>
-              <li>Falha em um equipamento não derruba os demais.</li>
-              <li>Muito usada em <b>Ethernet industrial</b>.</li>
+              <li>Falha em um equipamento <b>não derruba</b> os demais.</li>
+              <li>Organização melhor; muito usada com <b>Ethernet industrial</b>.</li>
             </ul>
             <p><b>Desvantagens:</b></p>
             <ul class="list">
               <li>Dependência do equipamento central.</li>
-              <li>Maior quantidade de cabeamento.</li>
+              <li>Gasta mais cabeamento.</li>
             </ul>
-            <p><b>Uso na automação:</b> padrão em redes com <b>CLPs</b>, <b>IHMs</b>, PCs e supervisão.</p>
-            <p><b>Exemplo prático:</b> sensores, CLPs e computadores ligados a um <b>switch</b> no painel.</p>
+            <p><b>Uso na automação:</b> padrão em redes de <b>CLPs, IHMs</b> e supervisórios.</p>
+            <p><b>Exemplo prático:</b> sensores, CLPs e PCs conectados a um <b>switch</b> no painel.</p>
           </div>
         </article>
       </div>
@@ -1545,300 +933,394 @@
   </section>
 
   <!-- Comparativo -->
-  <section id="comparativo">
+  <section id="comparativo" aria-labelledby="comp-title">
     <div class="container">
-      <div class="section-head reveal">
-        <div>
-          <h2 class="section-title">Comparativo rápido</h2>
-          <p class="section-lead">
-            Use estas tabelas para comparar custo, velocidade, resistência a interferência, distância e facilidade de manutenção.
-          </p>
-        </div>
-        <span class="section-chip">Tomada de decisão</span>
+      <h2 class="section-title" id="comp-title">Comparativo</h2>
+      <p class="section-lead">Tabela comparativa dos meios físicos e das topologias para decisão rápida.</p>
+
+      <h3 style="margin:8px 0 10px">Comparativo dos Cabos</h3>
+      <div class="table-wrap" role="region" aria-label="Tabela comparativa de cabos">
+        <table>
+          <thead>
+            <tr>
+              <th>Critério</th>
+              <th>Par Trançado</th>
+              <th>Fibra Óptica</th>
+              <th>Wireless</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>Custo</b></td>
+              <td><span class="ok">Baixo</span></td>
+              <td>Médio a Alto</td>
+              <td>Baixo a Médio</td>
+            </tr>
+            <tr>
+              <td><b>Velocidade</b></td>
+              <td>Alta (Fast/Gigabit/Industrial)</td>
+              <td><span class="ok">Muito alta</span></td>
+              <td>Variável (depende do padrão e do canal)</td>
+            </tr>
+            <tr>
+              <td><b>Resistência à Interferência (EMI)</b></td>
+              <td>Média (melhora com cabos blindados)</td>
+              <td><span class="ok">Imune</span></td>
+              <td>Baixa a média (planejamento necessário)</td>
+            </tr>
+            <tr>
+              <td><b>Facilidade de Instalação</b></td>
+              <td><span class="ok">Alta</span></td>
+              <td>Média (conectorização delicada)</td>
+              <td>Alta (mas requer survey e segurança)</td>
+            </tr>
+            <tr>
+              <td><b>Distância de Transmissão</b></td>
+              <td>Curta a média (tip. até 100 m por segmento)</td>
+              <td><span class="ok">Longa</span></td>
+              <td>Curta a média (limitada por cobertura)</td>
+            </tr>
+            <tr>
+              <td><b>Aplicação Mais Comum</b></td>
+              <td>CLP, IHMs, PCs e switches no mesmo painel/setor</td>
+              <td>Backbones entre prédios/galpões e áreas com alta EMI</td>
+              <td>Sensores/ativos móveis e pontos remotos</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
 
-      <div class="reveal">
-        <h3 style="margin:8px 0 12px">Comparativo dos cabos</h3>
-        <div class="table-wrap" role="region" aria-label="Tabela comparativa de cabos">
-          <table>
-            <thead>
-              <tr>
-                <th>Critério</th>
-                <th>Par Trançado</th>
-                <th>Fibra Óptica</th>
-                <th>Wireless</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><b>Custo</b></td>
-                <td><span class="ok">Baixo</span></td>
-                <td>Médio a alto</td>
-                <td>Baixo a médio</td>
-              </tr>
-              <tr>
-                <td><b>Velocidade</b></td>
-                <td>Alta (Fast/Gigabit/Industrial)</td>
-                <td><span class="ok">Muito alta</span></td>
-                <td>Variável</td>
-              </tr>
-              <tr>
-                <td><b>Resistência à EMI</b></td>
-                <td>Média (melhora com blindagem)</td>
-                <td><span class="ok">Imune</span></td>
-                <td>Baixa a média</td>
-              </tr>
-              <tr>
-                <td><b>Facilidade de Instalação</b></td>
-                <td><span class="ok">Alta</span></td>
-                <td>Média</td>
-                <td>Alta, mas exige survey e segurança</td>
-              </tr>
-              <tr>
-                <td><b>Distância</b></td>
-                <td>Curta a média (tip. até 100 m por segmento)</td>
-                <td><span class="ok">Longa</span></td>
-                <td>Curta a média</td>
-              </tr>
-              <tr>
-                <td><b>Aplicação comum</b></td>
-                <td>CLP, IHM, PC e switches no mesmo painel/setor</td>
-                <td>Backbone entre prédios, galpões e áreas com alta EMI</td>
-                <td>Sensores móveis, AGVs e pontos remotos</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <div class="reveal" style="margin-top:22px">
-        <h3 style="margin:8px 0 12px">Comparativo das topologias</h3>
-        <div class="table-wrap" role="region" aria-label="Tabela comparativa de topologias">
-          <table>
-            <thead>
-              <tr>
-                <th>Critério</th>
-                <th>Barramento</th>
-                <th>Estrela</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><b>Organização</b></td>
-                <td>Linear e simples</td>
-                <td><span class="ok">Clara e centralizada</span></td>
-              </tr>
-              <tr>
-                <td><b>Custo</b></td>
-                <td><span class="ok">Baixo inicial</span></td>
-                <td>Médio</td>
-              </tr>
-              <tr>
-                <td><b>Facilidade de manutenção</b></td>
-                <td>Média/baixa</td>
-                <td><span class="ok">Alta</span></td>
-              </tr>
-              <tr>
-                <td><b>Confiabilidade</b></td>
-                <td>Média</td>
-                <td><span class="ok">Alta</span></td>
-              </tr>
-              <tr>
-                <td><b>Impacto de falhas</b></td>
-                <td><span class="bad">Maior</span> no trecho comum</td>
-                <td><span class="warn">Dependência</span> do ponto central</td>
-              </tr>
-              <tr>
-                <td><b>Uso na automação</b></td>
-                <td>Linhas simples / legado</td>
-                <td><span class="ok">Padrão Ethernet industrial</span></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+      <h3 style="margin:18px 0 10px">Comparativo das Topologias</h3>
+      <div class="table-wrap" role="region" aria-label="Tabela comparativa de topologias">
+        <table>
+          <thead>
+            <tr>
+              <th>Critério</th>
+              <th>Barramento</th>
+              <th>Estrela</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>Organização</b></td>
+              <td>Linear, simples</td>
+              <td><span class="ok">Clara e centralizada</span></td>
+            </tr>
+            <tr>
+              <td><b>Custo</b></td>
+              <td><span class="ok">Baixo inicial</span></td>
+              <td>Médio (switches e mais cabos)</td>
+            </tr>
+            <tr>
+              <td><b>Facilidade de Manutenção</b></td>
+              <td>Média/baixa (diagnóstico mais difícil)</td>
+              <td><span class="ok">Alta</span></td>
+            </tr>
+            <tr>
+              <td><b>Confiabilidade</b></td>
+              <td>Média (um problema pode afetar o segmento)</td>
+              <td><span class="ok">Alta</span> (falha isolada afeta menos)</td>
+            </tr>
+            <tr>
+              <td><b>Impacto de Falhas</b></td>
+              <td><span class="bad">Maior</span> no trecho comum</td>
+              <td><span class="warn">Dependência</span> do ponto central</td>
+            </tr>
+            <tr>
+              <td><b>Uso na Automação</b></td>
+              <td>Linhas simples/legado</td>
+              <td><span class="ok">Padrão Ethernet industrial</span></td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </section>
 
   <!-- Aplicações -->
-  <section id="aplicacoes">
+  <section id="aplicacoes" aria-labelledby="apps-title">
     <div class="container">
-      <div class="section-head reveal">
-        <div>
-          <h2 class="section-title">Aplicações na fábrica</h2>
-          <p class="section-lead">Veja como os conceitos aparecem no mundo real e por que eles importam no chão de fábrica.</p>
-        </div>
-        <span class="section-chip">Casos práticos</span>
-      </div>
+      <h2 class="section-title" id="apps-title">Aplicações na Fábrica</h2>
+      <p class="section-lead">Como os conceitos aparecem no mundo real e por que importam.</p>
 
       <div class="app-grid">
-        <article class="app-card reveal searchable-card">
+        <article class="app-card searchable" data-search="clp supervisão switch par trançado ethernet profinet painel">
           <div class="badge">Par Trançado</div>
           <h3>CLP ligado ao computador de supervisão</h3>
-          <p>
-            Conexão direta ou via <b>switch industrial</b> usando <b>Ethernet / Profinet</b> com cabo de
-            <b>par trançado</b>. É uma solução com ótimo custo-benefício e manutenção simples.
-          </p>
-          <p class="hint">Dica: em áreas com inversores e motores, prefira cabos industriais blindados (S/FTP).</p>
+          <p>Conexão direta ou via <b>switch industrial</b> usando <b>Ethernet/Profinet</b> com cabo de <b>par trançado</b>. Ótimo custo-benefício e fácil de manter.</p>
+          <p class="hint">Dica: prefira cabos industriais blindados (S/FTP) próximos a inversores.</p>
+
+          <div style="margin-top:12px">
+            <button class="btn" data-toggle="#app-1-details" aria-expanded="false" aria-controls="app-1-details" type="button">Ver detalhes</button>
+          </div>
+          <div id="app-1-details" class="details">
+            <p><b>Quando usar:</b> distâncias curtas, equipamentos no mesmo painel ou setor e quando o custo precisa ser controlado.</p>
+            <p><b>Cuidados:</b> roteamento separado de cabos de potência, blindagem adequada e identificação das portas do switch.</p>
+          </div>
         </article>
 
-        <article class="app-card reveal searchable-card">
+        <article class="app-card searchable" data-search="fibra galpões backbone longas distâncias motores emi">
           <div class="badge alt">Fibra</div>
           <h3>Interligação de galpões</h3>
-          <p>
-            Backbone em <b>fibra óptica</b> para longas distâncias e imunidade a <b>EMI</b>, conectando switches de distribuição entre prédios e áreas de processo.
-          </p>
-          <p class="hint">Dica: use caixas de emenda, identificação clara e organização das rotas ópticas.</p>
+          <p>Backbone em <b>fibra óptica</b> para longas distâncias e imunidade a <b>EMI</b>, conectando switches de distribuição entre prédios.</p>
+          <p class="hint">Dica: use caixas de emenda e identificações claras nas bandejas.</p>
+
+          <div style="margin-top:12px">
+            <button class="btn" data-toggle="#app-2-details" aria-expanded="false" aria-controls="app-2-details" type="button">Ver detalhes</button>
+          </div>
+          <div id="app-2-details" class="details">
+            <p><b>Quando usar:</b> quando a distância passa do confortável para cobre, ou quando o ambiente tem muito ruído eletromagnético.</p>
+            <p><b>Cuidados:</b> raio mínimo de curvatura, limpeza de conectores e escolha entre fibra monomodo ou multimodo conforme a distância.</p>
+          </div>
         </article>
 
-        <article class="app-card reveal searchable-card">
+        <article class="app-card searchable" data-search="wireless wifi rádio agv empilhadeira sensor móvel telemetria">
           <div class="badge">Wireless</div>
-          <h3>Sensores móveis e AGVs / empilhadeiras</h3>
-          <p>
-            Uso de <b>Wi-Fi industrial</b> ou rádio para telemetria em equipamentos que se deslocam, onde puxar cabo é inviável ou pouco confiável.
-          </p>
-          <p class="hint">Dica: planeje cobertura, canais, roaming e segurança da rede.</p>
+          <h3>Sensores móveis e AGVs/empilhadeiras</h3>
+          <p>Uso de <b>Wi-Fi industrial</b> ou rádio para telemetria em equipamentos que se deslocam, onde puxar cabo é inviável.</p>
+          <p class="hint">Dica: planeje cobertura, canais e segurança (WPA2-Enterprise, VLANs).</p>
+
+          <div style="margin-top:12px">
+            <button class="btn" data-toggle="#app-3-details" aria-expanded="false" aria-controls="app-3-details" type="button">Ver detalhes</button>
+          </div>
+          <div id="app-3-details" class="details">
+            <p><b>Quando usar:</b> mobilidade, coleta de dados em áreas grandes e equipamentos em movimento.</p>
+            <p><b>Cuidados:</b> evitar zonas de sombra, validar latência para o processo e separar rede operacional da rede administrativa quando necessário.</p>
+          </div>
         </article>
 
-        <article class="app-card reveal searchable-card">
+        <article class="app-card searchable" data-search="estrela switch painel clp ihm gateway manutenção">
           <div class="badge">Estrela</div>
           <h3>Rede em estrela com switch no painel</h3>
-          <p>
-            CLPs, IHMs, PCs e gateways conectados ao <b>switch</b> central, facilitando organização, expansão, documentação e diagnóstico.
-          </p>
-          <p class="hint">Dica: mantenha um mapa de portas, endereços IP e identificação dos dispositivos.</p>
+          <p>CLPs, IHMs, PCs e gateways conectados ao <b>switch</b> central, simplificando organização, diagnóstico e expansão.</p>
+          <p class="hint">Dica: mantenha documentação com mapa de portas e endereços.</p>
+
+          <div style="margin-top:12px">
+            <button class="btn" data-toggle="#app-4-details" aria-expanded="false" aria-controls="app-4-details" type="button">Ver detalhes</button>
+          </div>
+          <div id="app-4-details" class="details">
+            <p><b>Vantagem principal:</b> uma falha em um cabo ou equipamento geralmente afeta só aquele ponto, e não a rede toda.</p>
+            <p><b>Boa prática:</b> usar switches industriais gerenciáveis quando houver necessidade de diagnóstico, VLAN, QoS ou redundância.</p>
+          </div>
         </article>
 
-        <article class="app-card reveal searchable-card">
+        <article class="app-card searchable" data-search="barramento linha produção sequencia terminador legado">
           <div class="badge alt">Linha</div>
           <h3>Comunicação em linha de produção</h3>
-          <p>
-            Equipamentos conectados <b>em sequência</b> quando o protocolo e o processo favorecem a topologia em <b>barramento</b>.
-          </p>
-          <p class="hint">Dica: monitore a integridade do segmento comum e a correta terminação da rede.</p>
-        </article>
+          <p>Equipamentos conectados <b>em sequência</b> quando o protocolo e o processo favorecem a topologia em <b>barramento</b>.</p>
+          <p class="hint">Dica: monitore a integridade do segmento comum e terminadores.</p>
 
-        <article class="app-card reveal searchable-card">
-          <div class="badge">SCADA</div>
-          <h3>Supervisão de processo em tempo real</h3>
-          <p>
-            Integração de CLPs, bancos de dados, telas de supervisão e alarmes para monitorar produção, falhas, tendências e eventos da planta.
-          </p>
-          <p class="hint">Dica: separe redes críticas, documente endereços e priorize redundância onde a disponibilidade é essencial.</p>
+          <div style="margin-top:12px">
+            <button class="btn" data-toggle="#app-5-details" aria-expanded="false" aria-controls="app-5-details" type="button">Ver detalhes</button>
+          </div>
+          <div id="app-5-details" class="details">
+            <p><b>Quando faz sentido:</b> redes mais simples, sistemas legados ou protocolos em que a estrutura linear é natural.</p>
+            <p><b>Ponto crítico:</b> o tronco principal e os conectores/terminadores precisam estar bem cuidados, porque um problema pode impactar vários nós.</p>
+          </div>
         </article>
       </div>
     </div>
   </section>
 
-  <!-- Quiz -->
-  <section id="quiz">
+  <!-- Recomendador -->
+  <section id="recomendador" aria-labelledby="rec-title">
     <div class="container">
-      <div class="section-head reveal">
-        <div>
-          <h2 class="section-title">Quiz rápido de revisão</h2>
-          <p class="section-lead">Teste se você realmente fixou os conceitos principais sobre cabos e topologias.</p>
+      <h2 class="section-title" id="rec-title">Gerar recomendação</h2>
+      <p class="section-lead">
+        Informe as condições do cenário e o sistema sugere o meio físico e a topologia mais adequados, com justificativa técnica.
+      </p>
+
+      <div class="recommendation-layout">
+        <div class="card">
+          <h3 style="margin-top:0">Configurar cenário</h3>
+
+          <div class="form-grid">
+            <div class="field">
+              <label for="distancia">Distância predominante</label>
+              <select id="distancia">
+                <option value="curta">Curta (até ~100 m)</option>
+                <option value="media">Média (100 m a algumas centenas)</option>
+                <option value="longa">Longa (galpões, prédios, backbone)</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="emi">Nível de interferência eletromagnética (EMI)</label>
+              <select id="emi">
+                <option value="baixa">Baixa</option>
+                <option value="media">Média</option>
+                <option value="alta">Alta</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="mobilidade">Existe mobilidade / equipamentos em movimento?</label>
+              <select id="mobilidade">
+                <option value="nao">Não</option>
+                <option value="sim">Sim</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="prioridade">O que é mais importante?</label>
+              <select id="prioridade">
+                <option value="custo">Baixo custo</option>
+                <option value="confiabilidade">Confiabilidade</option>
+                <option value="facilidade">Facilidade de manutenção</option>
+                <option value="flexibilidade">Flexibilidade / expansão</option>
+                <option value="desempenho">Desempenho / velocidade</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="topologiaPreferida">Topologia preferida</label>
+              <select id="topologiaPreferida">
+                <option value="auto">Deixar o sistema decidir</option>
+                <option value="estrela">Estrela</option>
+                <option value="barramento">Barramento</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="criticidade">Criticidade do processo</label>
+              <select id="criticidade">
+                <option value="normal">Normal</option>
+                <option value="alta">Alta / processo crítico</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button class="btn success" id="generateRecommendationBtn" type="button">Gerar recomendação</button>
+            <button class="btn" id="exampleScenarioBtn" type="button">Preencher exemplo</button>
+            <button class="btn warn" id="clearRecommendationBtn" type="button">Limpar</button>
+          </div>
+
+          <p class="note">
+            Exemplo: se houver <b>longa distância + alta EMI</b>, a tendência é recomendar <b>fibra óptica</b>. Se houver <b>mobilidade</b>, o sistema tende a considerar <b>wireless</b> para a parte móvel.
+          </p>
         </div>
-        <span class="section-chip">5 perguntas</span>
+
+        <div class="result-box" id="recommendationResult">
+          <h3>Resultado da recomendação</h3>
+          <div class="result-placeholder">
+            Preencha o cenário e clique em <b>“Gerar recomendação”</b>. O sistema vai sugerir o meio físico, a topologia e explicar o motivo.
+          </div>
+        </div>
       </div>
+    </div>
+  </section>
 
-      <div class="quiz-card reveal">
-        <form id="quizForm" class="quiz">
-          <div class="quiz-item">
-            <p class="quiz-q">1) Qual meio físico é mais indicado para longas distâncias e alta imunidade a interferência eletromagnética?</p>
-            <div class="quiz-options">
-              <label class="option"><input type="radio" name="q1" value="a"> Par trançado</label>
-              <label class="option"><input type="radio" name="q1" value="b"> Fibra óptica</label>
-              <label class="option"><input type="radio" name="q1" value="c"> Wireless</label>
+  <!-- IA Assistente -->
+  <section id="assistente" aria-labelledby="assistente-title">
+    <div class="container">
+      <h2 class="section-title" id="assistente-title">IA Assistente de Dúvidas</h2>
+      <p class="section-lead">
+        Tire dúvidas mais específicas sobre cabos, topologias, CLP, EMI, backbone, Wi-Fi industrial e cenários de aplicação.
+      </p>
+
+      <div class="assistant-shell">
+        <div class="assistant-panel">
+          <div class="assistant-header">
+            <h3>
+              <span style="display:inline-grid;place-items:center;width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#1a73e8,#00bcd4)">🤖</span>
+              Assistente Técnico
+            </h3>
+            <div class="assistant-status">Base local • sem internet</div>
+          </div>
+
+          <div class="assistant-messages" id="assistantMessages" aria-live="polite">
+            <div class="msg assistant">
+              Olá! Eu sou o assistente técnico deste guia. Posso ajudar com dúvidas como:
+              • Quando usar fibra em vez de par trançado?
+              • Rede em estrela ou barramento?
+              • Como a EMI afeta a escolha do cabo?
+              • Wireless serve para AGV?
+              <small>Assistente • pronto para responder</small>
             </div>
           </div>
 
-          <div class="quiz-item" style="margin-top:18px">
-            <p class="quiz-q">2) Em uma topologia em estrela, qual equipamento costuma centralizar a comunicação?</p>
-            <div class="quiz-options">
-              <label class="option"><input type="radio" name="q2" value="a"> Terminador</label>
-              <label class="option"><input type="radio" name="q2" value="b"> Switch industrial</label>
-              <label class="option"><input type="radio" name="q2" value="c"> Sensor indutivo</label>
+          <div class="assistant-input">
+            <div class="suggestions">
+              <button class="sugg" type="button">Quando usar fibra óptica?</button>
+              <button class="sugg" type="button">Estrela ou barramento?</button>
+              <button class="sugg" type="button">Wireless em AGV é uma boa?</button>
+              <button class="sugg" type="button">Como a EMI influencia a rede?</button>
+            </div>
+
+            <div class="assistant-row">
+              <div class="field" style="width:100%">
+                <label for="assistantQuestion">Sua pergunta</label>
+                <textarea id="assistantQuestion" placeholder="Ex.: Tenho um CLP e uma IHM no mesmo painel, com distância curta e pouco ruído. O que faz mais sentido?"></textarea>
+              </div>
+            </div>
+
+            <div class="assistant-row">
+              <button class="btn success" id="assistantSendBtn" type="button">Perguntar</button>
+              <button class="btn" id="assistantClearBtn" type="button">Limpar conversa</button>
             </div>
           </div>
+        </div>
 
-          <div class="quiz-item" style="margin-top:18px">
-            <p class="quiz-q">3) Qual é a principal vantagem do wireless na automação?</p>
-            <div class="quiz-options">
-              <label class="option"><input type="radio" name="q3" value="a"> Imunidade total a EMI</label>
-              <label class="option"><input type="radio" name="q3" value="b"> Mobilidade e redução de cabeamento</label>
-              <label class="option"><input type="radio" name="q3" value="c"> Menor necessidade de segurança</label>
-            </div>
+        <aside class="assistant-help">
+          <h3>O que essa IA consegue responder</h3>
+
+          <div class="help-topic">
+            <h4>Cabos e meios físicos</h4>
+            <p>Diferença entre par trançado, fibra óptica e wireless; impacto de distância, custo e interferência.</p>
           </div>
 
-          <div class="quiz-item" style="margin-top:18px">
-            <p class="quiz-q">4) Qual é uma desvantagem comum da topologia em barramento?</p>
-            <div class="quiz-options">
-              <label class="option"><input type="radio" name="q4" value="a"> Exige sempre fibra óptica</label>
-              <label class="option"><input type="radio" name="q4" value="b"> Falhas no tronco podem afetar parte da rede</label>
-              <label class="option"><input type="radio" name="q4" value="c"> Não pode ser usada em automação</label>
-            </div>
+          <div class="help-topic">
+            <h4>Topologias</h4>
+            <p>Quando faz sentido usar estrela ou barramento, e como isso afeta manutenção, confiabilidade e expansão.</p>
           </div>
 
-          <div class="quiz-item" style="margin-top:18px">
-            <p class="quiz-q">5) Para ligar CLP, IHM e PC no mesmo painel, qual costuma ser a solução mais comum?</p>
-            <div class="quiz-options">
-              <label class="option"><input type="radio" name="q5" value="a"> Par trançado com Ethernet/Profinet</label>
-              <label class="option"><input type="radio" name="q5" value="b"> Fibra óptica submarina</label>
-              <label class="option"><input type="radio" name="q5" value="c"> Rádio de longa distância obrigatoriamente</label>
-            </div>
+          <div class="help-topic">
+            <h4>Cenários industriais</h4>
+            <p>Backbone entre galpões, CLP + IHM + switch, sensores móveis, AGVs, áreas com inversores e motores.</p>
           </div>
 
-          <div class="quiz-actions">
-            <button class="btn success" type="submit">Corrigir quiz</button>
-            <button class="btn" type="button" id="resetQuizBtn">Limpar respostas</button>
+          <div class="help-topic">
+            <h4>Respostas orientativas</h4>
+            <p>Ela funciona com uma base local do conteúdo do site. Ou seja: serve muito bem para estudo e orientação, mas não substitui projeto de rede industrial completo.</p>
           </div>
-        </form>
-
-        <div class="quiz-result" id="quizResult"></div>
+        </aside>
       </div>
     </div>
   </section>
 
   <!-- Resumo -->
-  <section id="resumo">
+  <section id="resumo" aria-labelledby="resumo-title">
     <div class="container">
-      <div class="section-head reveal">
-        <div>
-          <h2 class="section-title">Resumo final</h2>
-          <p class="section-lead">Fechamento rápido para revisão e tomada de decisão em redes de automação industrial.</p>
-        </div>
-        <span class="section-chip">Fechamento do conteúdo</span>
-      </div>
-
-      <div class="summary-box">
-        <div class="card reveal searchable-card">
+      <h2 class="section-title" id="resumo-title">Resumo Final</h2>
+      <div class="grid grid-2">
+        <div class="card">
           <h3>Meios físicos de comunicação</h3>
           <ul class="list">
-            <li><b>Par Trançado:</b> cobre, custo baixo, instalação simples, alcance moderado e sensibilidade maior a EMI.</li>
-            <li><b>Fibra Óptica:</b> transmissão por luz, alta velocidade, longa distância, imune a EMI e instalação mais delicada.</li>
-            <li><b>Wireless:</b> sem fio, flexível, reduz cabeamento e favorece mobilidade, mas exige planejamento de sinal e segurança.</li>
+            <li><b>Par Trançado:</b> cobre, custo baixo, instalação simples, alcance moderado, sujeito a EMI.</li>
+            <li><b>Fibra Óptica:</b> dados por luz, alta velocidade, longa distância, imune a EMI, instalação mais delicada.</li>
+            <li><b>Wireless:</b> sem fio, flexível, reduz cabeamento, atenção à estabilidade e segurança.</li>
           </ul>
 
-          <h3 style="margin-top:16px">Topologias</h3>
+          <h3 style="margin-top:12px">Topologias</h3>
           <ul class="list">
-            <li><b>Barramento:</b> dispositivos compartilham uma linha; simples e econômico, porém mais sensível a falhas no tronco.</li>
-            <li><b>Estrela:</b> todos ligados a um ponto central; facilita manutenção, expansão e diagnóstico, mas depende do switch.</li>
+            <li><b>Barramento:</b> dispositivos compartilham uma linha; simples e econômico, mas mais sensível a falhas no tronco.</li>
+            <li><b>Estrela:</b> todos ligados a um ponto central; organização e manutenção superiores, depende do switch.</li>
           </ul>
         </div>
 
-        <div class="card reveal searchable-card">
+        <div class="card">
           <h3>Qual solução adotar?</h3>
           <ul class="list">
-            <li><b>Distância:</b> rotas longas favorecem <b>fibra</b>; rotas curtas ou médias podem usar <b>par trançado</b>.</li>
-            <li><b>Custo:</b> <b>par trançado</b> costuma ser a opção mais econômica para a borda da rede.</li>
-            <li><b>Interferência:</b> em ambientes com alta <b>EMI</b>, a <b>fibra</b> é a escolha mais segura.</li>
-            <li><b>Mobilidade:</b> dispositivos móveis ou temporários favorecem <b>wireless</b>.</li>
-            <li><b>Manutenção:</b> topologia em <b>estrela</b> simplifica diagnóstico e organização.</li>
-            <li><b>Confiabilidade:</b> use switches industriais, documentação e, se necessário, redundância.</li>
+            <li><b>Distância:</b> longas rotas favorecem <b>fibra</b>; curtas podem usar <b>par trançado</b>.</li>
+            <li><b>Custo:</b> <b>par trançado</b> é mais econômico na borda; <b>fibra</b> para backbone.</li>
+            <li><b>Interferência:</b> alta EMI recomenda <b>fibra</b> ou cobre blindado de qualidade.</li>
+            <li><b>Mobilidade:</b> dispositivos móveis pedem <b>wireless</b> com bom planejamento.</li>
+            <li><b>Manutenção:</b> <b>estrela</b> simplifica diagnóstico; <b>barramento</b> requer cuidado no tronco.</li>
+            <li><b>Confiabilidade:</b> estrela com switches industriais e redundância onde crítico.</li>
           </ul>
-
           <p class="note">
-            Em muitos casos, a melhor solução é <b>combinar tecnologias</b>: por exemplo, <b>backbone em fibra</b> entre áreas e <b>estrela em cobre</b> dentro do painel.
+            Combine meios e topologias: por exemplo, <b>backbone em fibra</b> entre áreas e <b>estrela em cobre</b> no painel.
           </p>
         </div>
       </div>
@@ -1846,358 +1328,649 @@
   </section>
 
   <!-- Footer -->
-  <footer>
+  <footer role="contentinfo">
     <div class="container foot">
-      <small>© Guia Visual de Redes para Automação Industrial — conteúdo educativo para eletricistas, técnicos e estudantes.</small>
+      <small>© Guia Visual de Redes para Automação Industrial — Conteúdo educativo para eletricistas, técnicos e alunos.</small>
       <div class="nav-links" aria-label="Acessos rápidos">
         <a href="#inicio">Topo</a>
         <a href="#cabos">Cabos</a>
         <a href="#topologias">Topologias</a>
-        <a href="#comparativo">Comparativo</a>
-        <a href="#quiz">Quiz</a>
+        <a href="#recomendador">Recomendação</a>
+        <a href="#assistente">IA</a>
       </div>
     </div>
   </footer>
 
-  <!-- Scroll top -->
-  <button class="to-top" id="toTopBtn" aria-label="Voltar ao topo">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path d="M12 19V5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-      <path d="M6 11 L12 5 L18 11" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
-  </button>
-
   <script>
-    // ------------------------------
-    // Helpers
-    // ------------------------------
-    const $ = (sel, ctx=document) => ctx.querySelector(sel);
-    const $$ = (sel, ctx=document) => [...ctx.querySelectorAll(sel)];
+    /* =========================================================
+       UTILIDADES
+    ========================================================= */
+    const $ = (sel, parent = document) => parent.querySelector(sel);
+    const $$ = (sel, parent = document) => Array.from(parent.querySelectorAll(sel));
 
-    // ------------------------------
-    // Smooth anchor navigation
-    // ------------------------------
-    $$('a[href^="#"]').forEach(a=>{
-      a.addEventListener('click', e=>{
-        const id = a.getAttribute('href');
-        if(!id || id === '#') return;
-        const el = document.querySelector(id);
-        if(el){
-          e.preventDefault();
-          const headerOffset = 86;
-          const y = el.getBoundingClientRect().top + window.scrollY - headerOffset;
-          history.pushState(null,"",id);
-          window.scrollTo({top:y, behavior:'smooth'});
-        }
-      });
-    });
+    function scrollToElement(el, offset = 92){
+      if(!el) return;
+      const y = el.getBoundingClientRect().top + window.scrollY - offset;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
 
-    // ------------------------------
-    // Toggle details
-    // ------------------------------
-    $$('.toggle-btn').forEach(btn=>{
-      btn.addEventListener('click', ()=>{
-        const target = btn.getAttribute('data-toggle');
-        const panel = $(target);
-        if(!panel) return;
-
-        const isOpen = panel.classList.toggle('open');
+    function safeToggle(panel, btn){
+      if(!panel) return false;
+      const isOpen = panel.classList.toggle('open');
+      if(btn){
         btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
         btn.textContent = isOpen ? 'Ocultar detalhes' : 'Ver detalhes';
-
-        if(isOpen){
-          const y = panel.getBoundingClientRect().top + window.scrollY - 110;
-          window.scrollTo({top:y, behavior:'smooth'});
-        }
-      });
-    });
-
-    // ------------------------------
-    // Progress bar + to top
-    // ------------------------------
-    const progressBar = $('#progressBar');
-    const toTopBtn = $('#toTopBtn');
-
-    function updateScrollUI(){
-      const scrollTop = window.scrollY;
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-      progressBar.style.width = `${Math.min(100, Math.max(0, progress))}%`;
-
-      if(scrollTop > 500){
-        toTopBtn.classList.add('show');
-      }else{
-        toTopBtn.classList.remove('show');
       }
+      return isOpen;
     }
-    window.addEventListener('scroll', updateScrollUI, {passive:true});
-    updateScrollUI();
 
-    toTopBtn.addEventListener('click', ()=>{
-      window.scrollTo({top:0, behavior:'smooth'});
-    });
+    function highlightElement(el){
+      if(!el) return;
+      el.classList.add('highlight');
+      setTimeout(() => el.classList.remove('highlight'), 1800);
+    }
 
-    // ------------------------------
-    // Reveal on scroll
-    // ------------------------------
-    const revealEls = $$('.reveal');
-    const revealObserver = new IntersectionObserver((entries)=>{
-      entries.forEach(entry=>{
-        if(entry.isIntersecting){
-          entry.target.classList.add('show');
-          revealObserver.unobserve(entry.target);
-        }
+    /* =========================================================
+       TOGGLE DOS DETALHES - corrigido/robusto
+    ========================================================= */
+    function bindToggleButtons(){
+      $$('[data-toggle]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const selector = btn.getAttribute('data-toggle');
+          if(!selector) return;
+
+          const panel = document.querySelector(selector);
+          if(!panel){
+            console.warn('Painel não encontrado para:', selector);
+            return;
+          }
+
+          const isOpen = safeToggle(panel, btn);
+          if(isOpen){
+            setTimeout(() => scrollToElement(panel, 110), 40);
+          }
+        });
       });
-    }, {threshold:0.12});
+    }
 
-    revealEls.forEach(el=>revealObserver.observe(el));
+    /* =========================================================
+       ANCORAS / NAVEGAÇÃO SUAVE
+    ========================================================= */
+    function bindAnchorNavigation(){
+      $$('a[href^="#"]').forEach(a => {
+        a.addEventListener('click', e => {
+          const id = a.getAttribute('href');
+          if(!id || id.length <= 1) return;
+          const el = document.querySelector(id);
+          if(!el) return;
+          e.preventDefault();
+          history.pushState(null, '', id);
+          scrollToElement(el, 86);
+        });
+      });
+    }
 
-    // ------------------------------
-    // Search / highlight
-    // ------------------------------
-    const pageSearch = $('#pageSearch');
-    const headerSearch = $('#headerSearch');
-    const searchBtn = $('#searchBtn');
-    const clearSearchBtn = $('#clearSearchBtn');
-    const searchStatus = $('#searchStatus');
-
-    const searchableSelectors = [
-      '#cabos .card',
-      '#topologias .card',
-      '#comparativo',
-      '#aplicacoes .app-card',
-      '#resumo .card',
-      '#inicio .intro',
-      '#explorar .tool-card'
+    /* =========================================================
+       BUSCA RÁPIDA
+    ========================================================= */
+    const searchableItems = [
+      { id: '#cabos', title: 'Cabos Industriais', desc: 'Visão geral dos meios físicos.', keywords: 'cabos rede industrial' },
+      { id: '#topologias', title: 'Topologias de Rede', desc: 'Barramento e estrela.', keywords: 'topologia rede' },
+      { id: '#recomendador', title: 'Gerar recomendação', desc: 'Sistema para sugerir meio físico e topologia.', keywords: 'recomendação escolher cabo' },
+      { id: '#assistente', title: 'IA Assistente', desc: 'Tire dúvidas mais específicas.', keywords: 'ia chat dúvidas' },
+      { id: '#par-details', title: 'Par Trançado', desc: 'Ethernet/Profinet em cobre.', keywords: 'par trançado ethernet profinet cobre clp switch' },
+      { id: '#fibra-details', title: 'Fibra Óptica', desc: 'Longas distâncias e imunidade a EMI.', keywords: 'fibra óptica backbone emi galpão' },
+      { id: '#wifi-details', title: 'Wireless', desc: 'Wi-Fi/rádio industrial para mobilidade.', keywords: 'wireless wifi radio agv empilhadeira' },
+      { id: '#bus-details', title: 'Rede em Barramento', desc: 'Linha compartilhada entre dispositivos.', keywords: 'barramento linha tronco terminador' },
+      { id: '#star-details', title: 'Rede em Estrela', desc: 'Todos ligados ao switch central.', keywords: 'estrela switch painel manutenção' },
+      { id: '#app-1-details', title: 'Aplicação: CLP + supervisão', desc: 'Par trançado no painel/setor.', keywords: 'clp supervisão par trançado' },
+      { id: '#app-2-details', title: 'Aplicação: galpões em fibra', desc: 'Backbone em fibra.', keywords: 'galpões fibra backbone' },
+      { id: '#app-3-details', title: 'Aplicação: AGV / sensores móveis', desc: 'Wireless industrial.', keywords: 'agv wifi wireless sensor móvel' },
+      { id: '#app-4-details', title: 'Aplicação: estrela no painel', desc: 'Switch central para CLPs e IHMs.', keywords: 'estrela switch painel clp ihm' },
+      { id: '#app-5-details', title: 'Aplicação: linha de produção', desc: 'Barramento em sequência.', keywords: 'linha barramento sequência' },
     ];
 
-    function getSearchTargets(){
-      return searchableSelectors.flatMap(sel => $$(sel));
-    }
+    function runSearch(term){
+      const box = $('#searchResults');
+      const q = term.trim().toLowerCase();
 
-    function clearHighlights(){
-      getSearchTargets().forEach(el=>{
-        el.innerHTML = el.innerHTML.replace(/<mark class="search-hit">(.*?)<\/mark>/gi, '$1');
-      });
-      searchStatus.textContent = 'Destaques removidos.';
-    }
-
-    function highlightTerm(term){
-      clearHighlights();
-      if(!term || !term.trim()){
-        searchStatus.textContent = 'Digite um termo para buscar.';
+      if(!q){
+        box.classList.remove('show');
+        box.innerHTML = '';
         return;
       }
 
-      const cleanTerm = term.trim();
-      const regex = new RegExp(`(${cleanTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+      const results = searchableItems.filter(item => {
+        const text = `${item.title} ${item.desc} ${item.keywords}`.toLowerCase();
+        return text.includes(q);
+      }).slice(0, 8);
 
-      let hits = 0;
-      const targets = getSearchTargets();
+      if(results.length === 0){
+        box.innerHTML = `<div class="search-item"><b>Nada encontrado</b><br><small>Tente termos como: fibra, estrela, EMI, wireless, CLP.</small></div>`;
+        box.classList.add('show');
+        return;
+      }
 
-      targets.forEach(el=>{
-        // evita mexer em inputs/labels do quiz
-        if(el.closest('#quiz')) return;
+      box.innerHTML = results.map(item => `
+        <div class="search-item" data-target="${item.id}">
+          <b>${item.title}</b><br>
+          <small>${item.desc}</small>
+        </div>
+      `).join('');
 
-        const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, {
-          acceptNode(node){
-            if(!node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
-            const parent = node.parentNode;
-            if(!parent) return NodeFilter.FILTER_REJECT;
-            const tag = parent.nodeName.toLowerCase();
-            if(['script','style','mark','input','textarea','option'].includes(tag)) return NodeFilter.FILTER_REJECT;
-            return NodeFilter.FILTER_ACCEPT;
+      box.classList.add('show');
+
+      $$('.search-item', box).forEach(item => {
+        item.addEventListener('click', () => {
+          const targetSel = item.getAttribute('data-target');
+          const el = document.querySelector(targetSel);
+          if(!el) return;
+
+          if(el.classList.contains('details') && !el.classList.contains('open')){
+            el.classList.add('open');
+            const btn = document.querySelector(`[data-toggle="${targetSel}"]`);
+            if(btn){
+              btn.setAttribute('aria-expanded', 'true');
+              btn.textContent = 'Ocultar detalhes';
+            }
           }
-        });
 
-        const textNodes = [];
-        while(walker.nextNode()) textNodes.push(walker.currentNode);
-
-        textNodes.forEach(node=>{
-          const text = node.nodeValue;
-          if(regex.test(text)){
-            hits += (text.match(regex) || []).length;
-            const span = document.createElement('span');
-            span.innerHTML = text.replace(regex, '<mark class="search-hit">$1</mark>');
-            node.parentNode.replaceChild(span, node);
-          }
-          regex.lastIndex = 0;
+          scrollToElement(el.closest('section, article, .card, .app-card') || el, 100);
+          highlightElement(el.closest('.card, .app-card, .result-box, .assistant-panel') || el);
+          box.classList.remove('show');
         });
       });
-
-      if(hits > 0){
-        searchStatus.textContent = `Busca por "${cleanTerm}": ${hits} ocorrência(s) destacada(s).`;
-        const firstHit = $('.search-hit');
-        if(firstHit){
-          const y = firstHit.getBoundingClientRect().top + window.scrollY - 120;
-          window.scrollTo({top:y, behavior:'smooth'});
-        }
-      }else{
-        searchStatus.textContent = `Nenhuma ocorrência encontrada para "${cleanTerm}".`;
-      }
     }
 
-    searchBtn.addEventListener('click', ()=> highlightTerm(pageSearch.value));
-    clearSearchBtn.addEventListener('click', clearHighlights);
+    function bindSearch(){
+      const input = $('#quickSearch');
+      const clearBtn = $('#clearSearchBtn');
+      if(!input || !clearBtn) return;
 
-    pageSearch.addEventListener('keydown', e=>{
-      if(e.key === 'Enter'){
-        e.preventDefault();
-        highlightTerm(pageSearch.value);
-      }
-    });
+      input.addEventListener('input', () => runSearch(input.value));
+      clearBtn.addEventListener('click', () => {
+        input.value = '';
+        runSearch('');
+        input.focus();
+      });
 
-    headerSearch.addEventListener('keydown', e=>{
-      if(e.key === 'Enter'){
-        e.preventDefault();
-        pageSearch.value = headerSearch.value;
-        highlightTerm(headerSearch.value);
-      }
-    });
+      document.addEventListener('click', (e) => {
+        const box = $('#searchResults');
+        if(!box) return;
+        if(!box.contains(e.target) && e.target !== input){
+          box.classList.remove('show');
+        }
+      });
+    }
 
-    // ------------------------------
-    // Decision helper
-    // ------------------------------
-    const decisionBtn = $('#decisionBtn');
-    const decisionResult = $('#decisionResult');
+    /* =========================================================
+       RECOMENDADOR
+    ========================================================= */
+    function buildRecommendationHTML(data){
+      const {
+        meio, topologia, motivo, observacoes, score,
+        arquitetura, resumo
+      } = data;
 
-    function getRecommendation({distancia, emi, mobilidade, orcamento}){
+      const tags = [
+        `Meio sugerido: ${meio}`,
+        `Topologia: ${topologia}`,
+        `Arquitetura: ${arquitetura}`
+      ];
+
+      return `
+        <h3>Resultado da recomendação</h3>
+        <p><b>Resumo:</b> ${resumo}</p>
+
+        <div class="rec-tags">
+          ${tags.map(t => `<span class="pill">${t}</span>`).join('')}
+        </div>
+
+        <div class="rec-card">
+          <h4>Por que essa recomendação faz sentido?</h4>
+          <p>${motivo}</p>
+        </div>
+
+        <div class="rec-card">
+          <h4>Observações importantes</h4>
+          <ul class="list">
+            ${observacoes.map(o => `<li>${o}</li>`).join('')}
+          </ul>
+        </div>
+
+        <div class="score-row">
+          <div class="score-box">
+            <strong>${score.custo}</strong>
+            impacto em custo
+          </div>
+          <div class="score-box">
+            <strong>${score.confiabilidade}</strong>
+            confiabilidade esperada
+          </div>
+          <div class="score-box">
+            <strong>${score.manutencao}</strong>
+            facilidade de manutenção
+          </div>
+        </div>
+      `;
+    }
+
+    function generateRecommendation(){
+      const distancia = $('#distancia').value;
+      const emi = $('#emi').value;
+      const mobilidade = $('#mobilidade').value;
+      const prioridade = $('#prioridade').value;
+      const topologiaPreferida = $('#topologiaPreferida').value;
+      const criticidade = $('#criticidade').value;
+
+      let meio = 'Par Trançado';
+      let topologia = 'Estrela';
+      let arquitetura = 'Rede em estrela com switch industrial';
+      let observacoes = [];
+      let score = {
+        custo: 'Médio',
+        confiabilidade: 'Boa',
+        manutencao: 'Boa'
+      };
+
+      // Escolha do meio físico
       if(mobilidade === 'sim'){
-        return {
-          title:'Wireless (Wi-Fi / Rádio Industrial)',
-          text:'Como há necessidade de mobilidade, a melhor tendência é usar <b>wireless</b>. Ele reduz cabeamento e facilita comunicação com sensores móveis, AGVs e equipamentos em movimento. Só cuide bem da cobertura, segurança e estabilidade do sinal.',
-          extra:'Se o sinal for crítico, planeje access points, roaming e segmentação de rede.'
-        };
+        meio = 'Wireless (para a parte móvel) + infraestrutura cabeada de apoio';
+        observacoes.push('Para AGVs, empilhadeiras ou sensores móveis, o wireless costuma ser o melhor para a parte em movimento.');
+        observacoes.push('Mesmo com wireless, geralmente existe uma infraestrutura cabeada de backbone e switches de apoio.');
+        score.custo = 'Médio';
+        score.confiabilidade = emi === 'alta' ? 'Média a boa (depende do projeto)' : 'Boa';
+      } else if(distancia === 'longa' || emi === 'alta'){
+        meio = 'Fibra Óptica';
+        observacoes.push('A fibra é a opção mais segura para longas distâncias e ambientes com muita interferência eletromagnética.');
+        observacoes.push('É especialmente útil para backbone entre galpões, prédios ou áreas com motores e inversores.');
+        score.custo = 'Médio a alto';
+        score.confiabilidade = 'Alta';
+      } else {
+        meio = 'Par Trançado';
+        observacoes.push('Par trançado é uma solução muito boa para painéis, setores locais e distâncias curtas.');
+        observacoes.push('Se houver ruído moderado, vale usar cabo blindado industrial e boa segregação de potência.');
+        score.custo = 'Baixo';
+        score.confiabilidade = emi === 'media' ? 'Boa' : 'Boa';
       }
 
-      if(distancia === 'longa' || emi === 'alta'){
-        return {
-          title:'Fibra Óptica',
-          text:'Para <b>longas distâncias</b> ou ambientes com <b>alta interferência eletromagnética</b>, a melhor escolha é a <b>fibra óptica</b>. Ela oferece grande alcance, alta velocidade e imunidade a EMI.',
-          extra:'É muito indicada para backbone entre galpões, prédios e áreas com motores/inversores.'
-        };
+      // Ajustes por prioridade
+      if(prioridade === 'custo'){
+        if(mobilidade !== 'sim' && distancia !== 'longa' && emi !== 'alta'){
+          meio = 'Par Trançado';
+          score.custo = 'Baixo';
+        }
       }
 
-      if(orcamento === 'baixo' && (distancia === 'curta' || distancia === 'media') && emi !== 'alta'){
-        return {
-          title:'Par Trançado',
-          text:'Como o orçamento é mais limitado e o cenário não exige grandes distâncias nem alta imunidade a EMI, o <b>par trançado</b> tende a ser a melhor solução. É barato, fácil de instalar e muito usado em painéis e redes Ethernet industriais.',
-          extra:'Se houver ruído moderado, use cabo blindado industrial.'
-        };
+      if(prioridade === 'desempenho' && mobilidade !== 'sim'){
+        if(distancia === 'longa' || emi === 'alta'){
+          meio = 'Fibra Óptica';
+        }
       }
 
-      if(distancia === 'media' && emi === 'media'){
-        return {
-          title:'Par Trançado blindado ou Fibra',
-          text:'Nesse cenário, o mais equilibrado costuma ser <b>par trançado blindado</b> para custo menor, ou <b>fibra</b> se a confiabilidade e imunidade forem prioridade.',
-          extra:'A decisão final depende do orçamento e do nível real de ruído da planta.'
-        };
+      // Topologia
+      if(topologiaPreferida === 'estrela'){
+        topologia = 'Estrela';
+      } else if(topologiaPreferida === 'barramento'){
+        topologia = 'Barramento';
+      } else {
+        // Auto
+        if(prioridade === 'facilidade' || prioridade === 'confiabilidade' || criticidade === 'alta'){
+          topologia = 'Estrela';
+        } else if(prioridade === 'custo' && mobilidade === 'nao' && distancia !== 'longa'){
+          topologia = 'Barramento';
+        } else {
+          topologia = 'Estrela';
+        }
       }
+
+      if(topologia === 'Estrela'){
+        arquitetura = 'Switch central no painel/área, com links dedicados para cada equipamento';
+        observacoes.push('A topologia em estrela facilita manutenção, expansão e diagnóstico.');
+        score.manutencao = 'Alta';
+      } else {
+        arquitetura = 'Linha comum com dispositivos em sequência no mesmo segmento';
+        observacoes.push('Barramento pode reduzir cabeamento, mas exige atenção ao segmento comum e à propagação de falhas.');
+        score.manutencao = 'Média';
+      }
+
+      if(criticidade === 'alta'){
+        observacoes.push('Como o processo é crítico, vale considerar switches industriais gerenciáveis, redundância e documentação detalhada da rede.');
+        if(topologia !== 'Estrela'){
+          observacoes.push('Para processo crítico, normalmente estrela tende a ser mais confortável para manutenção e isolamento de falhas.');
+        }
+      }
+
+      let motivo = '';
+      if(meio.includes('Wireless')){
+        motivo = `Como existe mobilidade no processo, o sistema priorizou wireless para a parte móvel. Isso evita cabeamento em equipamentos que se deslocam e aumenta a flexibilidade da instalação. A recomendação continua pedindo infraestrutura cabeada de apoio para backbone, switches e pontos fixos.`;
+      } else if(meio === 'Fibra Óptica'){
+        motivo = `A combinação de ${distancia === 'longa' ? 'longa distância' : 'distância relevante'} e/ou ${emi === 'alta' ? 'alta interferência eletromagnética' : 'necessidade de maior robustez'} favorece fibra óptica. Ela oferece maior imunidade a EMI, bom desempenho e mais segurança para interligar áreas ou galpões.`;
+      } else {
+        motivo = `Como o cenário está mais próximo de distâncias curtas/médias e sem exigência dominante de backbone óptico, o par trançado oferece o melhor equilíbrio entre custo, simplicidade e manutenção. Em ambiente industrial, o ideal é usar cabo adequado ao ambiente e observar blindagem quando necessário.`;
+      }
+
+      if(topologia === 'Estrela'){
+        motivo += ` A topologia em estrela complementa bem esse cenário porque centraliza a rede em um switch e facilita manutenção, expansão e diagnóstico.`;
+      } else {
+        motivo += ` A topologia em barramento foi considerada aceitável porque prioriza economia de cabeamento e pode atender cenários lineares ou mais simples, desde que o segmento comum seja bem cuidado.`;
+      }
+
+      const resumo = `Para este cenário, a recomendação principal é usar <b>${meio}</b> com topologia <b>${topologia}</b>.`;
 
       return {
-        title:'Par Trançado',
-        text:'Para cenários comuns de painel, CLP, IHM e supervisão no mesmo setor, o <b>par trançado</b> geralmente é a solução mais prática e econômica.',
-        extra:'Se o projeto crescer muito ou cruzar áreas com forte EMI, vale considerar fibra no backbone.'
+        meio,
+        topologia,
+        arquitetura,
+        motivo,
+        observacoes,
+        score,
+        resumo
       };
     }
 
-    decisionBtn.addEventListener('click', ()=>{
-      const data = {
-        distancia: $('#distancia').value,
-        emi: $('#emi').value,
-        mobilidade: $('#mobilidade').value,
-        orcamento: $('#orcamento').value
-      };
+    function bindRecommendation(){
+      const resultBox = $('#recommendationResult');
+      const generateBtn = $('#generateRecommendationBtn');
+      const clearBtn = $('#clearRecommendationBtn');
+      const exampleBtn = $('#exampleScenarioBtn');
 
-      const rec = getRecommendation(data);
-      decisionResult.innerHTML = `
-        <strong>Recomendação: ${rec.title}</strong>
-        <p style="margin:.7rem 0 0;">${rec.text}</p>
-        <p class="muted" style="margin:.6rem 0 0;">${rec.extra}</p>
-      `;
-    });
+      if(!resultBox || !generateBtn || !clearBtn || !exampleBtn) return;
 
-    // ------------------------------
-    // Quiz
-    // ------------------------------
-    const quizForm = $('#quizForm');
-    const quizResult = $('#quizResult');
-    const resetQuizBtn = $('#resetQuizBtn');
-
-    const answers = {
-      q1:'b',
-      q2:'b',
-      q3:'b',
-      q4:'b',
-      q5:'a'
-    };
-
-    quizForm.addEventListener('submit', e=>{
-      e.preventDefault();
-
-      let score = 0;
-      const total = Object.keys(answers).length;
-
-      Object.entries(answers).forEach(([key, value])=>{
-        const checked = $(`input[name="${key}"]:checked`);
-        if(checked && checked.value === value) score++;
+      generateBtn.addEventListener('click', () => {
+        const result = generateRecommendation();
+        resultBox.innerHTML = buildRecommendationHTML(result);
+        highlightElement(resultBox);
       });
 
-      let feedback = '';
-      if(score === total){
-        feedback = 'Excelente. Você acertou tudo e está com a base muito boa.';
-      }else if(score >= 4){
-        feedback = 'Muito bom. Você entendeu bem os conceitos principais.';
-      }else if(score >= 2){
-        feedback = 'Bom começo. Vale revisar as diferenças entre os meios físicos e as topologias.';
-      }else{
-        feedback = 'Vale revisar o conteúdo com calma e depois refazer o quiz.';
-      }
+      clearBtn.addEventListener('click', () => {
+        $('#distancia').value = 'curta';
+        $('#emi').value = 'baixa';
+        $('#mobilidade').value = 'nao';
+        $('#prioridade').value = 'custo';
+        $('#topologiaPreferida').value = 'auto';
+        $('#criticidade').value = 'normal';
 
-      quizResult.innerHTML = `
-        <strong style="font-size:20px;">Sua pontuação: ${score}/${total}</strong>
-        <p style="margin:.6rem 0 0;">${feedback}</p>
-        <p class="muted" style="margin:.6rem 0 0;">
-          Gabarito: 1) Fibra óptica · 2) Switch industrial · 3) Mobilidade e redução de cabeamento · 4) Falha no tronco pode afetar a rede · 5) Par trançado com Ethernet/Profinet.
-        </p>
-      `;
-      quizResult.classList.add('show');
-
-      const y = quizResult.getBoundingClientRect().top + window.scrollY - 120;
-      window.scrollTo({top:y, behavior:'smooth'});
-    });
-
-    resetQuizBtn.addEventListener('click', ()=>{
-      quizForm.reset();
-      quizResult.classList.remove('show');
-      quizResult.innerHTML = '';
-    });
-
-    // ------------------------------
-    // Mobile scene fallback
-    // ------------------------------
-    function adaptSceneForMobile(){
-      const scene = $('.network-scene');
-      const stack = scene ? $('.scene-stack', scene) : null;
-      if(!scene || !stack) return;
-
-      if(window.innerWidth <= 560){
-        stack.style.display = 'grid';
-        stack.innerHTML = `
-          <div class="node">CLP</div>
-          <div class="mobile-line"></div>
-          <div class="node center">Switch Industrial</div>
-          <div class="mobile-line"></div>
-          <div class="node">IHM / SCADA / Sensores</div>
+        resultBox.innerHTML = `
+          <h3>Resultado da recomendação</h3>
+          <div class="result-placeholder">
+            Preencha o cenário e clique em <b>“Gerar recomendação”</b>. O sistema vai sugerir o meio físico, a topologia e explicar o motivo.
+          </div>
         `;
-      }else{
-        stack.style.display = 'none';
-        stack.innerHTML = '';
-      }
+      });
+
+      exampleBtn.addEventListener('click', () => {
+        $('#distancia').value = 'longa';
+        $('#emi').value = 'alta';
+        $('#mobilidade').value = 'nao';
+        $('#prioridade').value = 'confiabilidade';
+        $('#topologiaPreferida').value = 'auto';
+        $('#criticidade').value = 'alta';
+        highlightElement($('.card', $('#recomendador')));
+      });
     }
 
-    window.addEventListener('resize', adaptSceneForMobile);
-    adaptSceneForMobile();
+    /* =========================================================
+       IA ASSISTENTE LOCAL
+    ========================================================= */
+    const assistantKnowledge = [
+      {
+        keys: ['fibra', 'fibra óptica', 'backbone', 'longa distância', 'galpão'],
+        answer:
+`A fibra óptica costuma ser a melhor escolha quando você tem:
+• longas distâncias;
+• interligação entre galpões, prédios ou setores distantes;
+• ambiente com muita interferência eletromagnética (motores, inversores, partidas de potência);
+• necessidade de backbone mais robusto.
+
+Pontos fortes:
+• alta imunidade a EMI;
+• ótima capacidade para backbone;
+• bom desempenho em longas distâncias.
+
+Pontos de atenção:
+• custo e conectorização costumam ser mais delicados do que no cobre.`
+      },
+      {
+        keys: ['par trançado', 'ethernet', 'profinet', 'rj45', 'm12', 'cobre'],
+        answer:
+`Par trançado é uma escolha muito comum para:
+• CLP, IHM, switch e supervisório no mesmo painel ou setor;
+• distâncias curtas, normalmente até cerca de 100 m por segmento;
+• cenários em que custo e simplicidade pesam bastante.
+
+Vantagens:
+• menor custo;
+• instalação mais simples;
+• muito comum em Ethernet/Profinet.
+
+Cuidados:
+• se houver EMI, prefira cabo industrial blindado e roteamento longe de cabos de potência.`
+      },
+      {
+        keys: ['wireless', 'wifi', 'wi-fi', 'agv', 'empilhadeira', 'móvel', 'movel', 'mobilidade', 'rádio'],
+        answer:
+`Wireless é especialmente interessante quando existe mobilidade:
+• AGVs;
+• empilhadeiras automatizadas;
+• sensores móveis;
+• pontos em que passar cabo é difícil ou inviável.
+
+Benefícios:
+• flexibilidade;
+• menos cabeamento em partes móveis;
+• facilidade de expansão.
+
+Cuidados:
+• cobertura e canais precisam ser planejados;
+• a latência e a estabilidade do sinal precisam ser compatíveis com o processo;
+• segurança da rede é importante.`
+      },
+      {
+        keys: ['estrela', 'switch', 'topologia em estrela'],
+        answer:
+`A topologia em estrela é a mais confortável para redes industriais Ethernet em muitos cenários.
+
+Como funciona:
+• cada equipamento tem um link dedicado para um ponto central, geralmente um switch.
+
+Vantagens:
+• manutenção e diagnóstico mais fáceis;
+• expansão mais organizada;
+• falha em um cabo ou dispositivo tende a afetar menos a rede como um todo.
+
+Ponto de atenção:
+• existe dependência do equipamento central.`
+      },
+      {
+        keys: ['barramento', 'topologia em barramento', 'linha', 'tronco'],
+        answer:
+`Na topologia em barramento, os dispositivos compartilham uma linha comum.
+
+Vantagens:
+• menos cabeamento;
+• estrutura simples;
+• pode fazer sentido em cenários lineares ou sistemas legados.
+
+Desvantagens:
+• falhas no tronco/segmento comum podem afetar vários equipamentos;
+• manutenção e diagnóstico tendem a ser menos confortáveis que em estrela.`
+      },
+      {
+        keys: ['emi', 'interferência', 'interferencia', 'ruído', 'ruido eletromagnético'],
+        answer:
+`A EMI (interferência eletromagnética) influencia bastante a escolha do meio físico.
+
+Em ambiente com muita EMI:
+• fibra óptica é muito forte porque é imune a esse tipo de interferência;
+• se usar cobre, vale pensar em cabo blindado industrial, aterramento correto e segregação de potência e comunicação.
+
+Quanto maior a presença de motores, inversores e partidas, maior a atenção com EMI.`
+      },
+      {
+        keys: ['clp', 'ihm', 'supervisão', 'supervisao', 'switch industrial'],
+        answer:
+`Em um cenário clássico de automação, com CLP, IHM, switch e supervisório no mesmo painel ou setor, normalmente a combinação mais comum é:
+• par trançado para os enlaces locais;
+• topologia em estrela com switch central.
+
+Isso facilita:
+• organização;
+• manutenção;
+• expansão futura;
+• diagnóstico de falhas.`
+      },
+      {
+        keys: ['qual escolher', 'qual usar', 'recomendação', 'recomendacao'],
+        answer:
+`A escolha depende principalmente de quatro fatores:
+1. Distância;
+2. Interferência eletromagnética;
+3. Mobilidade;
+4. Criticidade/manutenção.
+
+Regra prática:
+• curta distância e custo baixo → par trançado;
+• longa distância ou alta EMI → fibra óptica;
+• mobilidade → wireless para a parte móvel;
+• facilidade de manutenção e confiabilidade → estrela.`
+      }
+    ];
+
+    function normalizeText(text){
+      return (text || '')
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .trim();
+    }
+
+    function addAssistantMessage(text, role = 'assistant'){
+      const container = $('#assistantMessages');
+      if(!container) return;
+
+      const div = document.createElement('div');
+      div.className = `msg ${role}`;
+      div.innerHTML = `
+        ${text}
+        <small>${role === 'assistant' ? 'Assistente' : 'Você'} • ${new Date().toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'})}</small>
+      `;
+      container.appendChild(div);
+      container.scrollTop = container.scrollHeight;
+    }
+
+    function answerQuestion(question){
+      const q = normalizeText(question);
+
+      if(!q){
+        return 'Escreve uma pergunta e eu respondo com base no conteúdo do guia.';
+      }
+
+      // tenta casar com base de conhecimento
+      const matched = assistantKnowledge.filter(item =>
+        item.keys.some(key => q.includes(normalizeText(key)))
+      );
+
+      if(matched.length){
+        // junta até 2 respostas relevantes
+        return matched.slice(0,2).map(item => item.answer).join('\n\n');
+      }
+
+      // heurística simples para perguntas comparativas
+      if(q.includes('fibra') && q.includes('par')){
+        return `Se a comparação é entre fibra e par trançado, pensa assim:
+
+• <b>Par trançado</b>: melhor quando a distância é curta, o custo precisa ser menor e os equipamentos estão no mesmo painel/setor.
+• <b>Fibra óptica</b>: melhor para backbone, longas distâncias e ambientes com alta EMI.
+
+Se você quiser, me descreve o cenário em 1 frase e eu te digo qual faz mais sentido.`;
+      }
+
+      if(q.includes('estrela') && q.includes('barramento')){
+        return `Resumo rápido:
+• <b>Estrela</b> → mais organizada, mais fácil de manter, mais comum em Ethernet industrial.
+• <b>Barramento</b> → menos cabeamento e menor custo inicial, mas mais sensível a problemas no segmento comum.
+
+Se o processo é crítico e você quer manutenção mais tranquila, estrela normalmente é a aposta mais segura.`;
+      }
+
+      if(q.includes('clp') || q.includes('ihm') || q.includes('switch')){
+        return `Para CLP, IHM e switch no mesmo painel ou setor, a solução mais comum é:
+• <b>par trançado</b> nos enlaces locais;
+• <b>topologia em estrela</b> com switch central.
+
+Se houver muito ruído eletromagnético, vale reforçar a escolha do cabo e a blindagem.`;
+      }
+
+      return `Ainda não encontrei uma resposta específica para essa pergunta dentro da base local do guia, mas posso te orientar se você descrever o cenário de forma objetiva.
+
+Exemplo de pergunta boa:
+“Tenho um CLP e uma IHM no mesmo painel, com distância curta e pouca EMI. Qual cabo e topologia usar?”`;
+    }
+
+    function askAssistant(question){
+      const q = question.trim();
+      if(!q) return;
+      addAssistantMessage(q, 'user');
+
+      const answer = answerQuestion(q);
+      setTimeout(() => addAssistantMessage(answer, 'assistant'), 180);
+    }
+
+    function bindAssistant(){
+      const sendBtn = $('#assistantSendBtn');
+      const clearBtn = $('#assistantClearBtn');
+      const textarea = $('#assistantQuestion');
+      const suggestions = $$('.sugg');
+
+      if(sendBtn && textarea){
+        sendBtn.addEventListener('click', () => {
+          askAssistant(textarea.value);
+          textarea.value = '';
+          textarea.focus();
+        });
+
+        textarea.addEventListener('keydown', e => {
+          if(e.key === 'Enter' && !e.shiftKey){
+            e.preventDefault();
+            askAssistant(textarea.value);
+            textarea.value = '';
+          }
+        });
+      }
+
+      if(clearBtn){
+        clearBtn.addEventListener('click', () => {
+          const container = $('#assistantMessages');
+          container.innerHTML = `
+            <div class="msg assistant">
+              Conversa reiniciada. Pode mandar outra dúvida sobre redes industriais, cabos, topologias ou cenários de aplicação.
+              <small>Assistente • pronto para responder</small>
+            </div>
+          `;
+        });
+      }
+
+      suggestions.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const text = btn.textContent.trim();
+          $('#assistantQuestion').value = text;
+          askAssistant(text);
+          $('#assistantQuestion').value = '';
+        });
+      });
+    }
+
+    /* =========================================================
+       INIT
+    ========================================================= */
+    document.addEventListener('DOMContentLoaded', () => {
+      bindToggleButtons();
+      bindAnchorNavigation();
+      bindSearch();
+      bindRecommendation();
+      bindAssistant();
+    });
   </script>
 </body>
 </html>
